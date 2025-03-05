@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Web", "Armoniza.Web\Armoniza.Web.csproj", "{8247178E-1713-495A-9DCD-FCD401316459}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Application", "Armoniza.Application\Armoniza.Application.csproj", "{FDF72F10-91BA-4421-AC73-7A20473933AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Domain", "Armoniza.Domain\Armoniza.Domain.csproj", "{21BC158C-B63F-4025-9ABD-67D1397CBE37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Infrastructure", "Armoniza.Infrastructure\Armoniza.Infrastructure.csproj", "{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8247178E-1713-495A-9DCD-FCD401316459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8247178E-1713-495A-9DCD-FCD401316459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8247178E-1713-495A-9DCD-FCD401316459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8247178E-1713-495A-9DCD-FCD401316459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF72F10-91BA-4421-AC73-7A20473933AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF72F10-91BA-4421-AC73-7A20473933AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF72F10-91BA-4421-AC73-7A20473933AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF72F10-91BA-4421-AC73-7A20473933AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21BC158C-B63F-4025-9ABD-67D1397CBE37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21BC158C-B63F-4025-9ABD-67D1397CBE37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21BC158C-B63F-4025-9ABD-67D1397CBE37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21BC158C-B63F-4025-9ABD-67D1397CBE37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

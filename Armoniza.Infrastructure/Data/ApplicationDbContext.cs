@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Armoniza.Infrastructure.Data
@@ -11,5 +8,8 @@ namespace Armoniza.Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {}
+
+        public DbSet<Admin> Admin { get; set; } = null!;
+
     }
 }

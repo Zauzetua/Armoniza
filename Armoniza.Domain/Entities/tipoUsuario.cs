@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 /// <summary>
 /// Representa los tipos de usuario (director, instructor, aspirantes y alumno grupo artistico (IGA))
@@ -19,5 +19,5 @@ public partial class tipoUsuario
     /// </summary>
     public int capacidadInstrumentos { get; set; }
 
-    public virtual ICollection<usuario> usuarios { get; set; } = new List<usuario>();
+    public virtual ICollection<usuario> usuario { get; set; } = new List<usuario>();
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
 
 public partial class Admin
 {

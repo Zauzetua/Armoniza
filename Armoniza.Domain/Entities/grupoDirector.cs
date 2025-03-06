@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 /// <summary>
 /// Tabla que relaciona a un grupo con su respectivo director, un director puede tener mas de un grupo (No ha pasado, pero es posible)

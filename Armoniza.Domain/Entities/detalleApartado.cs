@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 public partial class detalleApartado
 {

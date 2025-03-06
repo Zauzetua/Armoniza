@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 /// <summary>
 /// Tabla de usuarios,  hay 4 tipos de usuarios, aspirantes, alumnos grupo artístico, instructores y directores. Cada uno tiene un idTipoUsuario. El campo de grupoId es opcional para algunos tipos de usuarios, por lo que es nulo. 
@@ -34,13 +34,13 @@ public partial class usuario
 
     public bool eliminado { get; set; }
 
-    public virtual ICollection<apartado> apartados { get; set; } = new List<apartado>();
+    public virtual ICollection<apartado> apartado { get; set; } = new List<apartado>();
 
-    public virtual ICollection<detalleUsuario> detalleUsuarioidAspiranteNavigations { get; set; } = new List<detalleUsuario>();
+    public virtual ICollection<detalleUsuario> detalleUsuarioidAspiranteNavigation { get; set; } = new List<detalleUsuario>();
 
-    public virtual ICollection<detalleUsuario> detalleUsuarioidDirectorNavigations { get; set; } = new List<detalleUsuario>();
+    public virtual ICollection<detalleUsuario> detalleUsuarioidDirectorNavigation { get; set; } = new List<detalleUsuario>();
 
-    public virtual ICollection<grupoDirector> grupoDirectors { get; set; } = new List<grupoDirector>();
+    public virtual ICollection<grupoDirector> grupoDirector { get; set; } = new List<grupoDirector>();
 
     public virtual grupo? idGrupoNavigation { get; set; }
 

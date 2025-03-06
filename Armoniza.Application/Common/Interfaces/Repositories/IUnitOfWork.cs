@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Armoniza.Application.Common.Interfaces.Repositories
 {
-    public class IUnitOfWork
+    public interface IUnitOfWork
     {
     }
 }

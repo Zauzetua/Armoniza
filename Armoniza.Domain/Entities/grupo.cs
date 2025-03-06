@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 /// <summary>
 /// Grupos artisticos
@@ -17,7 +17,7 @@ public partial class grupo
     /// </summary>
     public bool eliminado { get; set; }
 
-    public virtual ICollection<grupoDirector> grupoDirectors { get; set; } = new List<grupoDirector>();
+    public virtual ICollection<grupoDirector> grupoDirector { get; set; } = new List<grupoDirector>();
 
-    public virtual ICollection<usuario> usuarios { get; set; } = new List<usuario>();
+    public virtual ICollection<usuario> usuario { get; set; } = new List<usuario>();
 }

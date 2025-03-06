@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 public partial class apartado
 {
@@ -29,7 +29,7 @@ public partial class apartado
 
     public DateTime? fechaRetornado { get; set; }
 
-    public virtual ICollection<detalleApartado> detalleApartados { get; set; } = new List<detalleApartado>();
+    public virtual ICollection<detalleApartado> detalleApartado { get; set; } = new List<detalleApartado>();
 
     public virtual usuario idUsuarioNavigation { get; set; } = null!;
 }

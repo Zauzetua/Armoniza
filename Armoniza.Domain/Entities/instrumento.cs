@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Armoniza.Infrastructure.Infrastructure.Data;
+namespace Armoniza.Domain.Entities;
 
 /// <summary>
 /// Tabla de instrumentos, tiene fk con categoría de instrumentos
@@ -40,7 +40,7 @@ public partial class instrumento
 
     public string nombre { get; set; } = null!;
 
-    public virtual ICollection<detalleApartado> detalleApartados { get; set; } = new List<detalleApartado>();
+    public virtual ICollection<detalleApartado> detalleApartado { get; set; } = new List<detalleApartado>();
 
-    public virtual categorium idCategoriaNavigation { get; set; } = null!;
+    public virtual categoria idCategoriaNavigation { get; set; } = null!;
 }

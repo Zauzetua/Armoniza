@@ -1,20 +1,24 @@
 ﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Login";
 }
 
-<h2>Iniciar Sesión</h2>
+<div class="d-flex justify-content-center align-items-center vh-100 bg-primary">
+    <div class="d-flex justify-content-center align-items-center bg-info rounded-3 p-3 w-75 h-75">
+        <form class="d-flex flex-column justify-content-center align-items-center bg-white rounded-3 p-4 w-100 h-50" action="/Account/Login" method="post">
+            <img class="img-fluid rounded-circle mb-3" src="~/IMG/Logo armoniza.jpg" alt="Logo De ITSON" style="max-width: 70%; max-height: 50%;">
 
-@if (ViewBag.Error != null)
-{
-    <div style="color: red">@ViewBag.Error</div>
-}
+            <div class="mb-3 w-100">
+                <label for="username" class="form-label">Usuario</label>
+                <input class="form-control" id="username" name="username" type="text" required>
+            </div>
 
-<form method="post">
-    <label>Usuario:</label>
-    <input type="text" name="username" required />
-    <br />
-    <label>Contraseña:</label>
-    <input type="password" name="password" required />
-    <br />
-    <button type="submit">Ingresar</button>
-</form>
+            <div class="mb-3 w-100">
+                <label for="password" class="form-label">Contraseña</label>
+                <input class="form-control" id="password" name="password" type="password" required>
+            </div>
+
+            <button class="btn btn-secondary w-70 mt-3" type="submit">Ingresar</button>
+        </form>
+    </div>
+</div>

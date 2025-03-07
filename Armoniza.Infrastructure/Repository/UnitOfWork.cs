@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Armoniza.Application.Common.Interfaces.Repositories;
-using Armoniza.Infrastructure.Data;
+using Armoniza.Infrastructure.Infrastructure.Data;
 
 namespace Armoniza.Infrastructure.Repository
 {

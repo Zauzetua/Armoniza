@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Armoniza.Application.Common.Interfaces.Repositories;
-using Armoniza.Infrastructure.Data;
+using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Armoniza.Infrastructure.Repository

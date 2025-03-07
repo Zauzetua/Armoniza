@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Armoniza.Domain.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Armoniza.Infrastructure.Infrastructure.Data;

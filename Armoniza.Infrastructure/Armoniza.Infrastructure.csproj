@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Armoniza.Application\Armoniza.Application.csproj" />
+    <ProjectReference Include="..\Armoniza.Domain\Armoniza.Domain.csproj" />
   </ItemGroup>
 
 </Project>

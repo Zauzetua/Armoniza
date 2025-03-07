@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Armoniza.Infrastructure.Data;
+using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,16 +16,17 @@ namespace Armoniza.Web.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]  // 🔹 Evita que se requiera autenticación para esta vista
+        [AllowAnonymous]  // Evita que se requiera autenticación para esta vista
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]  // 🔹 Permite acceder al método sin autenticación
+        [AllowAnonymous]  //Permite acceder al método sin autenticación
         public async Task<IActionResult> Login(string username, string password)
         {
+           Console.WriteLine("We are hereeeee");
             var admin = _context.Admin.SingleOrDefault(a => a.username == username);
 
             if (admin == null || !BCrypt.Net.BCrypt.Verify(password, admin.password))

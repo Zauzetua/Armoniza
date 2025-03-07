@@ -1,6 +1,6 @@
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Services;
-using Armoniza.Infrastructure.Data;
+using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;

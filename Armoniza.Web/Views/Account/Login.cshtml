@@ -1,20 +1,122 @@
 ﻿@{
     ViewData["Title"] = "Login";
 }
+<body style="
+color:black;
+height:100vh;
+margin:0;
+padding:0;
+background: linear-gradient(160deg, #006db6 , #3d87b9);
+background-color:#3744a6;
+align-items:center;
+justify-content:center;
+flex-wrap:wrap;
+text-align:center;
+font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+font-weight: bolder;
+"></body>
 
-<h2>Iniciar Sesión</h2>
+
+<h2 style="margin:auto; color: white; margin-top:6%; " >Iniciar Sesión</h2>
 
 @if (ViewBag.Error != null)
 {
     <div style="color: red">@ViewBag.Error</div>
 }
 
-<form method="post">
+<img src="../Views/NewFolder/Logo ITSON.png" asp-append-version="true" alt="Logo ITSON">
+
+
+<nav style="
+
+width:100%;
+
+"></nav>
+
+<form style="
+background: rgba(255, 255, 255, 0.7294117647058823);
+position:absolute;
+top:40%;
+left:50%;
+transform:translate(-50%,-30%);
+margin:auto;
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-bottom:20px;
+justify-content:center;
+height:400px;
+width:400px;
+flex-wrap:wrap;
+border-radius:10px;
+box-shadow: 0px 5px 20px black;
+letter-spacing:2px;
+"  
+       
+    
+    method="post">
     <label>Usuario:</label>
-    <input type="text" name="username" required />
+    <input class="username" type="text" name="username" required placeholder="Username" maxlength="10" minlength="3"/>
     <br />
     <label>Contraseña:</label>
-    <input type="password" name="password" required />
+    <input class="password"  type="password" name="password" required placeholder="Password"  maxlength="6" min="4" />
     <br />
     <button type="submit">Ingresar</button>
 </form>
+
+<!--Esta etiqueta se encarga de dar estilo-->
+<style>
+
+    label{
+        
+    color:black;
+    margin-bottom:15px;
+  
+    }
+
+   
+    .container{
+    
+        color:white;
+    
+    }
+
+    .username{
+   
+        margin-bottom:20px;
+    
+    }
+
+    input{
+    width:85%;
+    flex-wrap:wrap;
+    border:none;
+    height:8%;
+    border-bottom:2px solid black;
+    
+    }
+
+    button{
+    
+        
+        height:8%;
+        width:30%;
+        box-shadow:2px 2px 5px 1px black;
+        background: #09F;
+        color: white;
+        border:none;
+        margin-top: 5%;
+    }
+
+    button:hover{
+    
+        color:white;
+        background-color:orange;
+        
+    
+    }
+    
+    
+
+
+</style>

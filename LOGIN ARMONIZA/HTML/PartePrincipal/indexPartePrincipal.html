@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/PartePrincipal/stylePartePrincipal.css">
+    <link rel="stylesheet" href="/CSS/Tipografias/Tipografia.css">
+    <title>PartePrincipal</title>
+</head>
+
+<body>
+
+    
+    
+
+
+    <!--la etiqueta nav agrupa enlaces de navegación o menús que permiten a los usuarios desplazarse por las paginas o secciones de un sitio web.-->
+
+    <nav class="nav">
+
+        <ul class="list">
+
+            <!--Este es el list item del inicio-->
+            <li class="list__item">
+
+                <div class="list__button">
+
+                    <img class="list__img" src="/IMG/dashboard.svg" alt="dashboard">
+
+                    <a class="nav__link" href="#">Inicio</a> <!--El # te deja en la misma pagina-->
+
+                </div>
+
+            </li>
+
+            <!--Este es un list item dentro del mismo ul-->
+            <li class="list__item  list__item--click"> 
+
+                <div class="list__button list__button--click">
+
+                    <img class="list__img" src="/IMG/server.svg" alt="Lupa">
+                    <a href="#" class="nav__link">Servicios</a>
+                    <img class="list__arrow" src="/IMG/arrow-right.svg" alt="Flecha-submenus">
+
+                </div>
+
+                <!--Estos son submenus-->
+
+                <ul class="list__show">
+                    <li class="list__inside">
+                        <a href="#" class="nav__link   nav__link--inside">Estoy dentro</a>
+                    </li>
+
+                    <li class="list__inside">
+                        <a href="#" class="nav__link  nav__link--inside">Estoy dentro</a>
+                    </li>
+
+                    <li class="list__inside">
+                        <a href="#" class="nav__link  nav__link--inside">Estoy dentro</a>
+                    </li>
+
+                </ul>
+
+            </li>
+
+            
+            <li class="list__item ">
+
+                <div class="list__button">
+
+                    <img class="list__img" src="/IMG/assets.svg" alt="assets">
+
+                    <a class="nav__link" href="#">Estadisticas</a> 
+
+                </div>
+
+            </li>
+
+            <!--Este es el li que tiene un ul con submenus-->
+            <li class="list__item  list__item--click">
+
+                <div class="list__button list__button--click">
+
+                    <img class="list__img" src="/IMG/notificaciones.svg" alt="notificaciones">
+
+                    <a href="#" class="nav__link">Notificaciones</a>
+
+                    <img class="list__arrow" src="/IMG/arrow-right.svg" alt="Flecha-submenus">
+
+                </div>
+
+                <!--Estos son submenus-->
+
+                <ul class="list__show">
+                    <li class="list__inside">
+                        <a href="#" class="nav__link   nav__link--inside">Estoy dentro</a>
+                    </li>
+
+                    <li class="list__inside">
+                        <a href="#" class="nav__link   nav__link--inside">Estoy dentro</a>
+                    </li>
+
+                    <li class="list__inside">
+                        <a href="#" class="nav__link   nav__link--inside">Estoy dentro</a>
+                    </li>
+
+                </ul>
+
+            </li>
+
+            <li class="list__item">
+
+            <div class="list__button">
+
+                <img src="/IMG/Contacto.svg" alt="Contacto">
+                <a class="nav__link" href="#"> Contacto</a>
+            </div>
+
+            </li>
+
+
+        </ul>
+
+    </nav>
+
+    <!--Esta etiqueta vincula al JavaScript-->
+    <script src="/JS/jsPartePrincipal.js"></script>
+
+</body>
+
+</html>

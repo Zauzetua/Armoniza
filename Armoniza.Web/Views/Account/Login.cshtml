@@ -1,7 +1,11 @@
-﻿@{
+﻿
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Login";
+    
 }
+
+
 <body style="
 color:black;
 height:100vh;
@@ -15,26 +19,12 @@ flex-wrap:wrap;
 text-align:center;
 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 font-weight: bolder;
-"></body>
+">
+</body>
 
 
 
-<h2 style="margin:auto; color: white; margin-top:6%; " >Iniciar Sesión</h2>
-
-
-
-            <div class="mb-3 w-100">
-                <label for="username" class="form-label">Usuario</label>
-                <input class="form-control" id="username" name="username" type="text" required>
-            </div>
-
-            <div class="mb-3 w-100">
-                <label for="password" class="form-label">Contraseña</label>
-                <input class="form-control" id="password" name="password" type="password" required>
-            </div>
-
-<img src="../Views/NewFolder/Logo ITSON.png" asp-append-version="true" alt="Logo ITSON">
-
+<h2 style="margin:auto; color: white; margin-top:6%;">Iniciar Sesión</h2>
 
 <nav style="
 
@@ -60,15 +50,13 @@ flex-wrap:wrap;
 border-radius:10px;
 box-shadow: 0px 5px 20px black;
 letter-spacing:2px;
-"  
-       
-    
-    method="post">
+"
+      method="post">
     <label>Usuario:</label>
-    <input class="username" type="text" name="username" required placeholder="Username" maxlength="10" minlength="3"/>
+    <input class="username" type="text" name="username" required placeholder="Usuario" maxlength="30" minlength="3" />
     <br />
     <label>Contraseña:</label>
-    <input class="password"  type="password" name="password" required placeholder="Password"  maxlength="6" min="4" />
+    <input class="password" type="password" name="password" required placeholder="Contraseña" maxlength="30" min="4" />
     <br />
     <button type="submit">Ingresar</button>
 </form>
@@ -76,57 +64,44 @@ letter-spacing:2px;
 <!--Esta etiqueta se encarga de dar estilo-->
 <style>
 
-    label{
-        
-    color:black;
-    margin-bottom:15px;
-  
+    label {
+        color: black;
+        margin-bottom: 15px;
     }
 
-   
-    .container{
-    
-        color:white;
-    
+
+    .container {
+        color: white;
     }
 
-    .username{
-   
-        margin-bottom:20px;
-    
+    .username {
+        margin-bottom: 20px;
     }
 
-    input{
-    width:85%;
-    flex-wrap:wrap;
-    border:none;
-    height:8%;
-    border-bottom:2px solid black;
-    
+    input {
+        width: 85%;
+        flex-wrap: wrap;
+        border: none;
+        height: 8%;
+        border-bottom: 2px solid black;
     }
 
-    button{
-    
-        
-        height:8%;
-        width:30%;
-        box-shadow:2px 2px 5px 1px black;
+    button {
+        height: 8%;
+        width: 30%;
+        box-shadow: 2px 2px 5px 1px black;
         background: #09F;
         color: white;
-        border:none;
+        border: none;
         margin-top: 5%;
     }
 
-    button:hover{
-    
-        color:white;
-        background-color:orange;
-        
-    
-    }
-    
-    
-
-
+        button:hover {
+            color: white;
+            background-color: orange;
+        }
 </style>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

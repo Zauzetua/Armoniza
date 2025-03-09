@@ -23,7 +23,8 @@ namespace Armoniza.Web.Controllers
         // GET: categorias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.categoria.ToListAsync());
+            var categorias = await _context.categoria.Where(c => c.eliminado == false).ToListAsync();
+            return View(categorias);
         }
 
         // GET: categorias/Details/5
@@ -50,19 +51,21 @@ namespace Armoniza.Web.Controllers
             return View();
         }
 
-        // POST: categorias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("categoria1,eliminado,id")] categoria categoria)
         {
             if (ModelState.IsValid)
             {
+                categoria.eliminado = false;
                 _context.Add(categoria);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "¡Categoria creada exitosamente!";
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["error"] = "¡Error al crear la categoria!";
             return View(categoria);
         }
 
@@ -98,8 +101,10 @@ namespace Armoniza.Web.Controllers
             {
                 try
                 {
+                    categoria.eliminado = false;
                     _context.Update(categoria);
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "¡Categoria actualizada exitosamente!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -114,6 +119,7 @@ namespace Armoniza.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            TempData["error"] = "¡Error al actualizar la categoria!";
             return View(categoria);
         }
 
@@ -143,7 +149,9 @@ namespace Armoniza.Web.Controllers
             var categoria = await _context.categoria.FindAsync(id);
             if (categoria != null)
             {
-                _context.categoria.Remove(categoria);
+                categoria.eliminado = true;
+                _context.categoria.Update(categoria);
+                TempData["success"] = "¡Categoria eliminada exitosamente!";
             }
 
             await _context.SaveChangesAsync();

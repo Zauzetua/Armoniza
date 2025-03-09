@@ -31,7 +31,7 @@ namespace Armoniza.Web.Controllers
 
             if (admin == null || !BCrypt.Net.BCrypt.Verify(password, admin.password))
             {
-                ViewBag.Error = "Usuario o contraseña incorrectos.";
+                TempData["error"] = "Usuario o contraseña incorrectos."; // Se puede usar TempData para enviar mensajes entre vistas
                 return View();
             }
 
@@ -45,7 +45,11 @@ namespace Armoniza.Web.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
+            TempData["success"] = "¡Inicio sesion exitosamente!"; // Se puede usar TempData para enviar mensajes entre vistas
+            
             return RedirectToAction("Index", "Home");
+
+
         }
 
         public async Task<IActionResult> Logout()

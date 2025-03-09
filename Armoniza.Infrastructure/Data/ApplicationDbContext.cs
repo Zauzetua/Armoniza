@@ -7,9 +7,6 @@ namespace Armoniza.Infrastructure.Infrastructure.Data;
 
 public partial class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext()
-    {
-    }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -19,8 +16,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Admin> Admin { get; set; }
 
     public virtual DbSet<apartado> apartados { get; set; }
-
-    public virtual DbSet<categorium> categoria { get; set; }
+    
+    public virtual DbSet<categoria> categoria { get; set; }
 
     public virtual DbSet<detalleApartado> detalleApartados { get; set; }
 
@@ -79,13 +76,13 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("fk_apartado_usuario");
         });
 
-        modelBuilder.Entity<categorium>(entity =>
+        modelBuilder.Entity<categoria>(entity =>
         {
             entity.HasKey(e => e.id).HasName("categoria_pkey");
 
             entity.ToTable("categoria", "catalogo", tb => tb.HasComment("Categoria para instrumentos, viento, percursion, etc"));
 
-            entity.Property(e => e.categoria).HasMaxLength(50);
+            entity.Property(e => e.categoria1).HasMaxLength(50);
             entity.Property(e => e.eliminado).HasDefaultValue(false);
         });
 

@@ -26,7 +26,7 @@ namespace Armoniza.Web.Controllers
         [AllowAnonymous]  //Permite acceder al método sin autenticación
         public async Task<IActionResult> Login(string username, string password)
         {
-           Console.WriteLine("We are hereeeee");
+           
             var admin = _context.Admin.SingleOrDefault(a => a.username == username);
 
             if (admin == null || !BCrypt.Net.BCrypt.Verify(password, admin.password))

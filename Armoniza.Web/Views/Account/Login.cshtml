@@ -1,4 +1,5 @@
 ﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Login";
 }
 <body style="
@@ -17,12 +18,20 @@ font-weight: bolder;
 "></body>
 
 
+
 <h2 style="margin:auto; color: white; margin-top:6%; " >Iniciar Sesión</h2>
 
-@if (ViewBag.Error != null)
-{
-    <div style="color: red">@ViewBag.Error</div>
-}
+
+
+            <div class="mb-3 w-100">
+                <label for="username" class="form-label">Usuario</label>
+                <input class="form-control" id="username" name="username" type="text" required>
+            </div>
+
+            <div class="mb-3 w-100">
+                <label for="password" class="form-label">Contraseña</label>
+                <input class="form-control" id="password" name="password" type="password" required>
+            </div>
 
 <img src="../Views/NewFolder/Logo ITSON.png" asp-append-version="true" alt="Logo ITSON">
 
@@ -120,3 +129,4 @@ letter-spacing:2px;
 
 
 </style>
+

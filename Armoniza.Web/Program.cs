@@ -1,5 +1,4 @@
-using Armoniza.Application.Common.Interfaces.Services;
-using Armoniza.Application.Services;
+
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +29,7 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 var app = builder.Build();
 

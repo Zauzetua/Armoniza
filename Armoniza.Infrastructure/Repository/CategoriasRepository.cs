@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Armoniza.Infrastructure.Repository
 {
-    public class CategoriasRepository : Repository<categoria>, ICategoriasRepository<categoria>
+    public class CategoriasRepository : Repository<categoria>, ICategoriasRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -17,6 +17,7 @@ namespace Armoniza.Infrastructure.Repository
         {
             _context = context;
         }
+
         public async Task<bool> Delete(categoria categoria)
         {
             var categoriaEliminar = await _context.categoria.FindAsync(categoria.id);

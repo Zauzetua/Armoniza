@@ -17,6 +17,13 @@ namespace Armoniza.Infrastructure.Repository
             _context = context;
         }
 
+        public void FindByCondition(Func<Admin, bool> func)
+        {
+            
+            var admin = _context.Admin.FirstOrDefault(func);
+
+        }
+
         public  Admin Get(string username)
         {
             var admin =  _context.Admin.FirstOrDefault(x => x.username == username);
@@ -26,6 +33,12 @@ namespace Armoniza.Infrastructure.Repository
             }
             return admin;
         }
+
+        public List<Admin> GetAll()
+        {
+            return _context.Admin.ToList();
+        }
+
     }   
     
     

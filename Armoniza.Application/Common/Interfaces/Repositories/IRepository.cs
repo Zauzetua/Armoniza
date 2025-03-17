@@ -16,6 +16,9 @@ namespace Armoniza.Application.Common.Interfaces.Repositories
         void Update(T entity);
 
         bool Any(Expression<Func<T, bool>> filter, string? includePropierties = null);
+        void save();
+
+        
 
     }
 }

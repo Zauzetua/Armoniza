@@ -1,26 +1,30 @@
 ﻿using Armoniza.Application.Common.Interfaces.Repositories;
 using Armoniza.Application.Common.Interfaces.Services;
+using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
+
 namespace Armoniza.Application.Services
 {
     public class AccountService : IAccountService<Admin>
     {
-        private readonly IAccountRepository<Admin> _accountRepository;
+        
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ApplicationDbContext _context;
 
-
-        public AccountService(IAccountRepository<Admin> accountRepository, IHttpContextAccessor httpContextAccessor)
+        public AccountService(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
         {
-            _accountRepository = accountRepository;
+            
             _httpContextAccessor = httpContextAccessor;
+            _context = context;
         }
         public async Task<bool> Login(string username, string password)
         {
-            var admin = _accountRepository.Get(username);
+            var admin = _context.Admin.FirstOrDefault(x => x.username == username);
+
             if (admin == null || !BCrypt.Net.BCrypt.Verify(password, admin.password))
             {
                 return false;

@@ -5,6 +5,7 @@ using Armoniza.Application.Services;
 using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Armoniza.Infrastructure.Repository;
+using Armoniza.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -19,9 +20,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //Servicios para el login y tal
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<ICategoriasRepository<categoria>, CategoriasRepository>();
+builder.Services.AddScoped<ICategoriasRepository, CategoriasRepository>();
 builder.Services.AddScoped<IAccountService<Admin>, AccountService>();
 builder.Services.AddScoped<IAccountRepository<Admin>, AccountRepository>();
+builder.Services.AddScoped<ICategoriasService<categoria>, CategoriasService>();
+
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

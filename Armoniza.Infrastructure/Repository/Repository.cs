@@ -50,5 +50,12 @@ namespace Armoniza.Infrastructure.Repository
         {
             dbSet.Update(entity);
         }
+
+        public void save()
+        {
+            _db.SaveChanges();
+        }
+
+
     }
 }

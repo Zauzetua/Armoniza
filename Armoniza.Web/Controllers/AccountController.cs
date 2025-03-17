@@ -30,10 +30,8 @@ namespace Armoniza.Web.Controllers
         [AllowAnonymous]  
         public async Task<IActionResult> Login(string username, string password)
         {
-           
-            var admin = _context.Admin.SingleOrDefault(a => a.username == username);
-
-            if (admin == null || !BCrypt.Net.BCrypt.Verify(password, admin.password))
+            var result =  await _accountService.Login(username, password);
+            if (result)
             {
                 TempData["Success"] = "Inicio de sesion correcto";
                 return RedirectToAction("Index", "Home");

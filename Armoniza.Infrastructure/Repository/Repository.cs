@@ -36,6 +36,11 @@ namespace Armoniza.Infrastructure.Repository
             return dbSet.ToList();
         }
 
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter)
+        {
+            return dbSet.Where(filter).ToList();
+        }
+
         public T Get(Expression<Func<T, bool>> filter)
         {
             return dbSet.FirstOrDefault(filter);

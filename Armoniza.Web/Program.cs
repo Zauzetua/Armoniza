@@ -1,9 +1,14 @@
 
+using Armoniza.Application.Common.Interfaces.Repositories;
+using Armoniza.Application.Common.Interfaces.Services;
+using Armoniza.Application.Services;
+using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
+using Armoniza.Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore; // Add this using directive
+using Microsoft.EntityFrameworkCore; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +16,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+//Servicios para el login y tal
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<ICategoriasRepository<categoria>, CategoriasRepository>();
+builder.Services.AddScoped<IAccountService<Admin>, AccountService>();
+builder.Services.AddScoped<IAccountRepository<Admin>, AccountRepository>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

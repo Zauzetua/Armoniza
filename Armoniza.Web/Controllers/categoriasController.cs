@@ -104,7 +104,7 @@ namespace Armoniza.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await categoriaExists(categoria.id))
+                    if (!await _categoriasService.Any(e => e.id == id))
                     {
                         return NotFound();
                     }

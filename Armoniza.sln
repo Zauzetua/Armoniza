@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Web", "Armoniza.Web\Armoniza.Web.csproj", "{8247178E-1713-495A-9DCD-FCD401316459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armoniza.Web", "Armoniza.Web\Armoniza.Web.csproj", "{8247178E-1713-495A-9DCD-FCD401316459}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Application", "Armoniza.Application\Armoniza.Application.csproj", "{FDF72F10-91BA-4421-AC73-7A20473933AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armoniza.Application", "Armoniza.Application\Armoniza.Application.csproj", "{FDF72F10-91BA-4421-AC73-7A20473933AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Domain", "Armoniza.Domain\Armoniza.Domain.csproj", "{21BC158C-B63F-4025-9ABD-67D1397CBE37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armoniza.Domain", "Armoniza.Domain\Armoniza.Domain.csproj", "{21BC158C-B63F-4025-9ABD-67D1397CBE37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Infrastructure", "Armoniza.Infrastructure\Armoniza.Infrastructure.csproj", "{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Armoniza.Infrastructure", "Armoniza.Infrastructure\Armoniza.Infrastructure.csproj", "{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Armoniza.Tests", "Armoniza.Tests\Armoniza.Tests.csproj", "{A6BD8E49-0FD6-4BB3-BC19-F14A8482D568}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779BCFF0-87BF-4C36-9AF8-14A7FB52E7A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6BD8E49-0FD6-4BB3-BC19-F14A8482D568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6BD8E49-0FD6-4BB3-BC19-F14A8482D568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6BD8E49-0FD6-4BB3-BC19-F14A8482D568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6BD8E49-0FD6-4BB3-BC19-F14A8482D568}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC939181-70B5-4C0E-8793-7005356FE97C}
 	EndGlobalSection
 EndGlobal

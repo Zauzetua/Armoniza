@@ -7,35 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
+using Armoniza.Application.Common.Interfaces.Repositories;
+using Armoniza.Application.Common.Interfaces.Services;
 
 namespace Armoniza.Web.Controllers
 {
     public class categoriasController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICategoriasService<categoria> _categoriasService;
 
-
-        public categoriasController(ApplicationDbContext context)
+        public categoriasController(ICategoriasService<categoria> _categoriasService)
         {
-            _context = context;
+            this._categoriasService = _categoriasService;
         }
 
         // GET: categorias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.categoria.ToListAsync());
+            var categorias =  await _categoriasService.GetAll(u => u.eliminado ==false);
+            return View(categorias);
         }
 
         // GET: categorias/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.categoria
-                .FirstOrDefaultAsync(m => m.id == id);
+            var categoria =  await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
                 return NotFound();
@@ -50,19 +51,19 @@ namespace Armoniza.Web.Controllers
             return View();
         }
 
-        // POST: categorias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("categoria1,eliminado,id")] categoria categoria)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categoria);
-                await _context.SaveChangesAsync();
+                await _categoriasService.Add(categoria);
+                TempData["success"] = "¡Categoria creada exitosamente!";
                 return RedirectToAction(nameof(Index));
             }
+
+            TempData["error"] = "¡Error al crear la categoria!";
             return View(categoria);
         }
 
@@ -74,7 +75,7 @@ namespace Armoniza.Web.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.categoria.FindAsync(id);
+            var categoria = await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
                 return NotFound();
@@ -98,12 +99,12 @@ namespace Armoniza.Web.Controllers
             {
                 try
                 {
-                    _context.Update(categoria);
-                    await _context.SaveChangesAsync();
+                    await _categoriasService.Update(categoria);
+                    TempData["success"] = "¡Categoria actualizada exitosamente!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!categoriaExists(categoria.id))
+                    if (!await _categoriasService.Any(e => e.id == id))
                     {
                         return NotFound();
                     }
@@ -114,6 +115,7 @@ namespace Armoniza.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            TempData["error"] = "¡Error al actualizar la categoria!";
             return View(categoria);
         }
 
@@ -125,8 +127,7 @@ namespace Armoniza.Web.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.categoria
-                .FirstOrDefaultAsync(m => m.id == id);
+            var categoria = await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
                 return NotFound();
@@ -140,19 +141,21 @@ namespace Armoniza.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoria = await _context.categoria.FindAsync(id);
-            if (categoria != null)
+            var resultado = await _categoriasService.Delete(id);
+            if (resultado)
             {
-                _context.categoria.Remove(categoria);
+                TempData["success"] = "¡Categoria eliminada exitosamente!";
             }
-
-            await _context.SaveChangesAsync();
+            else
+            {
+                TempData["error"] = "¡Error al eliminar la categoria!";
+            }
             return RedirectToAction(nameof(Index));
         }
 
-        private bool categoriaExists(int id)
+        private async Task<bool> categoriaExists(int id)
         {
-            return _context.categoria.Any(e => e.id == id);
+            return await _categoriasService.Any(e => e.id == id);
         }
     }
 }

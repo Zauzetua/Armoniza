@@ -11,10 +11,14 @@ namespace Armoniza.Application.Common.Interfaces.Repositories
     {
         IEnumerable<T> GetAll();
         public T Get(Expression<Func<T, bool>> filter);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter);
         void Add(T entity);
         void Update(T entity);
 
         bool Any(Expression<Func<T, bool>> filter, string? includePropierties = null);
+        void save();
+
+        
 
     }
 }

@@ -9,9 +9,11 @@ using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Armoniza.Application.Common.Interfaces.Repositories;
 using Armoniza.Application.Common.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Armoniza.Web.Controllers
 {
+    
     public class categoriasController : Controller
     {
         private readonly ICategoriasService<categoria> _categoriasService;
@@ -39,7 +41,8 @@ namespace Armoniza.Web.Controllers
             var categoria =  await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
-                return NotFound();
+                TempData["error"] = "¡Error al obtener la categoria!";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(categoria);
@@ -78,7 +81,8 @@ namespace Armoniza.Web.Controllers
             var categoria = await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
-                return NotFound();
+                TempData["error"] = "¡Error al obtener la categoria!";
+                return RedirectToAction(nameof(Index));
             }
             return View(categoria);
         }
@@ -130,7 +134,9 @@ namespace Armoniza.Web.Controllers
             var categoria = await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
-                return NotFound();
+                TempData["error"] = "¡Error al obtener la categoria!";
+                
+                return RedirectToAction(nameof(Index));
             }
 
             return View(categoria);

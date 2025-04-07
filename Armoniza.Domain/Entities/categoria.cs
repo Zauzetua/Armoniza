@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Armoniza.Domain.Entities;
@@ -10,6 +12,8 @@ namespace Armoniza.Domain.Entities;
 [Table("categoria")]
 public partial class categoria
 {
+    [Required(ErrorMessage ="El nombre de la categoria es requerido")]
+    [DisplayName("Nombre de la Categoria")]
     public string categoria1 { get; set; } = null!;
 
     public bool eliminado { get; set; }

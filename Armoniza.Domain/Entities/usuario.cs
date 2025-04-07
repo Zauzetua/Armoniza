@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Armoniza.Domain.Entities;
 
@@ -13,23 +15,31 @@ public partial class usuario
     /// <summary>
     /// Nombre completo, todo minusculas
     /// </summary>
+    [Required(ErrorMessage = "El Nombre Completo es obligatorio.")]
+    [DisplayName("Nombre:")]
     public string nombreCompleto { get; set; } = null!;
 
     /// <summary>
     /// opcional
     /// </summary>
+    [DisplayName("Telefono:")]
     public string? telefono { get; set; }
 
     /// <summary>
     /// Obligatorio, por este medio se mandaran avisos para que regrese el instrumento
     /// </summary>
+    [Required(ErrorMessage = "El Correo es obligatorio.")]
+    [DisplayName("Correo electronico:")]
     public string correo { get; set; } = null!;
 
+   
     public int idTipo { get; set; }
 
     /// <summary>
     /// Opcional, ya que los aspirantes no tienen grupo, asimismo, los directores no están dentro, sino que los dirigen, pero esa relación se hace en la tabla GrupoDirector, del esquema catalogo. 
     /// </summary>
+
+    [DisplayName("Grupo artistico:")]
     public int? idGrupo { get; set; }
 
     public bool eliminado { get; set; }
@@ -42,7 +52,10 @@ public partial class usuario
 
     public virtual ICollection<grupoDirector> grupoDirector { get; set; } = new List<grupoDirector>();
 
+
+    [DisplayName("Grupo artistico:")]
     public virtual grupo? idGrupoNavigation { get; set; }
 
-    public virtual tipoUsuario idTipoNavigation { get; set; } = null!;
+    [DisplayName("Tipo de usuario:")]
+    public virtual tipoUsuario? idTipoNavigation { get; set; }
 }

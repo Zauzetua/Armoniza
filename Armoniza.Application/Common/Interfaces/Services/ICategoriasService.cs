@@ -11,7 +11,7 @@ namespace Armoniza.Application.Common.Interfaces.Services
     public interface ICategoriasService<T> where T : class
     {
         Task<bool> Delete(int id);
-        Task<bool> Edit(int id);
+        
         Task<bool> Add(categoria categoria);
        
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter);

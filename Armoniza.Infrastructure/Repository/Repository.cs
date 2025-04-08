@@ -24,6 +24,7 @@ namespace Armoniza.Infrastructure.Repository
         public void Add(T entity)
         {
             dbSet.Add(entity);
+            save();
         }
 
         public bool Any(Expression<Func<T, bool>> filter, string? includePropierties = null)
@@ -49,6 +50,7 @@ namespace Armoniza.Infrastructure.Repository
         public void Update(T entity)
         {
             dbSet.Update(entity);
+            save();
         }
 
         public void save()

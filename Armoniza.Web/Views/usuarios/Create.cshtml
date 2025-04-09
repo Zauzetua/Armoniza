@@ -1,49 +1,73 @@
 ﻿@model Armoniza.Domain.Entities.usuario
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Usuario";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-person-plus"></i> Crear Nuevo Usuario</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
 
-<h4>usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="nombreCompleto" class="control-label"></label>
-                <input asp-for="nombreCompleto" class="form-control" />
-                <span asp-validation-for="nombreCompleto" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="nombreCompleto" class="form-label fw-bold">
+                                <i class="bi bi-person"></i> Nombre Completo
+                            </label>
+                            <input asp-for="nombreCompleto" class="form-control" placeholder="Ingrese el nombre completo..." maxlength="100" />
+                            <span asp-validation-for="nombreCompleto" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="telefono" class="form-label fw-bold">
+                                <i class="bi bi-telephone"></i> Teléfono
+                            </label>
+                            <input asp-for="telefono" class="form-control" placeholder="Ingrese el número de teléfono..." />
+                            <span asp-validation-for="telefono" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="correo" class="form-label fw-bold">
+                                <i class="bi bi-envelope"></i> Correo Electrónico
+                            </label>
+                            <input asp-for="correo" class="form-control" placeholder="Ingrese el correo electrónico..." />
+                            <span asp-validation-for="correo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="idTipo" class="form-label fw-bold">
+                                <i class="bi bi-person-badge"></i> Tipo de Usuario
+                            </label>
+                            <select asp-for="idTipo" class="form-select" asp-items="ViewBag.idTipo"></select>
+                            <span asp-validation-for="idTipo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="idGrupo" class="form-label fw-bold">
+                                <i class="bi bi-people"></i> Grupo
+                            </label>
+                            <select asp-for="idGrupo" class="form-select" asp-items="ViewBag.idGrupo"></select>
+                            <span asp-validation-for="idGrupo" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-animado">
+                                <i class="bi bi-check-circle"></i> Guardar
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-animado">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="telefono" class="control-label"></label>
-                <input asp-for="telefono" class="form-control" />
-                <span asp-validation-for="telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="correo" class="control-label"></label>
-                <input asp-for="correo" class="form-control" />
-                <span asp-validation-for="correo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="idTipo" class="control-label"></label>
-                <select asp-for="idTipo" class ="form-control" asp-items="ViewBag.idTipo"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="idGrupo" class="control-label"></label>
-                <select asp-for="idGrupo" class ="form-control" asp-items="ViewBag.idGrupo"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -59,14 +83,13 @@
                 const selectedTipo = $(this).val();
 
                 if (selectedTipo == directorId) {
-                    $('#idGrupo').val(''); // Limpia la selección
-                    $('#idGrupo').prop('disabled', true); // Desactiva el select
+                    $('#idGrupo').val('');
+                    $('#idGrupo').prop('disabled', true);
                 } else {
-                    $('#idGrupo').prop('disabled', false); // Lo activa si no es Director
+                    $('#idGrupo').prop('disabled', false);
                 }
             });
 
-            // Disparar cambio inicial en caso de que ya venga seleccionado
             $('#idTipo').trigger('change');
         });
     </script>

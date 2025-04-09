@@ -1,33 +1,39 @@
 ﻿@model Armoniza.Domain.Entities.grupo
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Grupo";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-folder-plus"></i> Crear Nuevo Grupo</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
 
-<h4>grupo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="grupo1" class="control-label"></label>
-                <input asp-for="grupo1" class="form-control" />
-                <span asp-validation-for="grupo1" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="grupo1" class="form-label fw-bold"><i class="bi bi-tag"></i> Nombre</label>
+                            <input asp-for="grupo1" class="form-control" placeholder="Ingrese el nombre del grupo..." maxlength="50" />
+                            <span asp-validation-for="grupo1" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-animado"><i class="bi bi-check-circle"></i> Guardar</button>
+                            <a asp-action="Index" class="btn btn-secondary btn-animado"><i class="bi bi-arrow-left"></i> Volver</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

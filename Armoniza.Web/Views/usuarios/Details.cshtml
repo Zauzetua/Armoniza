@@ -1,49 +1,43 @@
 ﻿@model Armoniza.Domain.Entities.usuario
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Usuario";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-eye"></i> Detalles del Usuario</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-person"></i> Nombre Completo</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.nombreCompleto)</dd>
 
-<div>
-    <h4>usuario</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.nombreCompleto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.nombreCompleto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.telefono)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.correo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.correo)
-        </dd>
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.idGrupoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.idGrupoNavigation.grupo1)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.idTipoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.idTipoNavigation.tipo)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-telephone"></i> Teléfono</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.telefono)</dd>
+
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-envelope"></i> Correo Electrónico</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.correo)</dd>
+
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-people"></i> Grupo</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.idGrupoNavigation.grupo1)</dd>
+
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-person-badge"></i> Tipo de Usuario</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.idTipoNavigation.tipo)</dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model?.id" class="btn btn-warning btn-animado">
+                        <i class="bi bi-pencil"></i> Editar
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary btn-animado">
+                        <i class="bi bi-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

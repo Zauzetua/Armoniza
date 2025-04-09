@@ -20,3 +20,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.btn-animado {
+    transition: transform 0.2s ease;
+}
+
+    .btn-animado:hover {
+        transform: scale(1.1);
+    }
+

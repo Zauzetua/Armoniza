@@ -5,56 +5,72 @@
 }
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-primary"><i class="bi bi-pencil"></i> Editar Usuario</h2>
-        <a asp-action="Index" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Volver a la Lista</a>
-    </div>
-
-    <div class="card shadow-lg">
-        <div class="card-body">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                <input type="hidden" asp-for="id" />
-
-                <div class="mb-3">
-                    <label asp-for="nombreCompleto" class="form-label fw-bold"></label>
-                    <input asp-for="nombreCompleto" class="form-control" />
-                    <span asp-validation-for="nombreCompleto" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Editar Usuario</h4>
                 </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
+                        <input type="hidden" asp-for="id" />
 
-                <div class="mb-3">
-                    <label asp-for="telefono" class="form-label fw-bold"></label>
-                    <input asp-for="telefono" class="form-control" />
-                    <span asp-validation-for="telefono" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="nombreCompleto" class="form-label fw-bold">
+                                <i class="bi bi-person"></i> Nombre Completo
+                            </label>
+                            <input asp-for="nombreCompleto" class="form-control" />
+                            <span asp-validation-for="nombreCompleto" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="telefono" class="form-label fw-bold">
+                                <i class="bi bi-telephone"></i> Teléfono
+                            </label>
+                            <input asp-for="telefono" class="form-control" />
+                            <span asp-validation-for="telefono" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="correo" class="form-label fw-bold">
+                                <i class="bi bi-envelope"></i> Correo Electrónico
+                            </label>
+                            <input asp-for="correo" class="form-control" />
+                            <span asp-validation-for="correo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="idTipoNavigation" class="form-label fw-bold">
+                                <i class="bi bi-person-badge"></i> Tipo de Usuario
+                            </label>
+                            <select asp-for="idTipo" class="form-select" asp-items="ViewBag.idTipo"></select>
+                            <span asp-validation-for="idTipoNavigation" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="idGrupo" class="form-label fw-bold">
+                                <i class="bi bi-people"></i> Grupo
+                            </label>
+                            <select asp-for="idGrupo" class="form-select" asp-items="ViewBag.idGrupo"></select>
+                            <span asp-validation-for="idGrupo" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-animado">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-animado">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-3">
-                    <label asp-for="correo" class="form-label fw-bold"></label>
-                    <input asp-for="correo" class="form-control" />
-                    <span asp-validation-for="correo" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="idTipoNavigation" class="form-label fw-bold"></label>
-                    <select asp-for="idTipo" class="form-select" asp-items="ViewBag.idTipo"></select>
-                    <span asp-validation-for="idTipoNavigation" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="idGrupo" class="form-label fw-bold"></label>
-                    <select asp-for="idGrupo" class="form-select" asp-items="ViewBag.idGrupo"></select>
-                    <span asp-validation-for="idGrupo" class="text-danger"></span>
-                </div>
-
-               
-
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
@@ -62,7 +78,7 @@
 
     <script>
         $(document).ready(function () {
-            const directorId = 14; // <-- Ajusta este valor si es necesario
+            const directorId = 14;
 
             function handleTipoChange() {
                 const selectedTipo = $('#idTipo').val();
@@ -72,8 +88,6 @@
                     $('#idGrupo').prop('disabled', true);
                 } else {
                     $('#idGrupo').prop('disabled', false);
-
-                    // Si no hay nada seleccionado en idGrupo, selecciona la primera opción válida (no vacía)
                     if (!$('#idGrupo').val()) {
                         const firstOption = $('#idGrupo option[value]:not([value=""])').first().val();
                         $('#idGrupo').val(firstOption);
@@ -82,10 +96,8 @@
             }
 
             $('#idTipo').change(handleTipoChange);
-
-            // Disparar una vez al cargar por si ya está preseleccionado
             handleTipoChange();
         });
     </script>
 }
-
+``

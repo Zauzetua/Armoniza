@@ -47,5 +47,27 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            const directorId = 14;
+
+            $('#idTipo').change(function () {
+                const selectedTipo = $(this).val();
+
+                if (selectedTipo == directorId) {
+                    $('#idGrupo').val(''); // Limpia la selección
+                    $('#idGrupo').prop('disabled', true); // Desactiva el select
+                } else {
+                    $('#idGrupo').prop('disabled', false); // Lo activa si no es Director
+                }
+            });
+
+            // Disparar cambio inicial en caso de que ya venga seleccionado
+            $('#idTipo').trigger('change');
+        });
+    </script>
 }

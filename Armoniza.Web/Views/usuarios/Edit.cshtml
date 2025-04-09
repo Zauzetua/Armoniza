@@ -55,7 +55,37 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            const directorId = 14; // <-- Ajusta este valor si es necesario
+
+            function handleTipoChange() {
+                const selectedTipo = $('#idTipo').val();
+
+                if (selectedTipo == directorId) {
+                    $('#idGrupo').val('');
+                    $('#idGrupo').prop('disabled', true);
+                } else {
+                    $('#idGrupo').prop('disabled', false);
+
+                    // Si no hay nada seleccionado en idGrupo, selecciona la primera opción válida (no vacía)
+                    if (!$('#idGrupo').val()) {
+                        const firstOption = $('#idGrupo option[value]:not([value=""])').first().val();
+                        $('#idGrupo').val(firstOption);
+                    }
+                }
+            }
+
+            $('#idTipo').change(handleTipoChange);
+
+            // Disparar una vez al cargar por si ya está preseleccionado
+            handleTipoChange();
+        });
+    </script>
 }
+

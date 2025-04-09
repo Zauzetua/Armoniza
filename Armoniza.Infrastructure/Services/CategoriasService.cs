@@ -44,20 +44,6 @@ namespace Armoniza.Infrastructure.Services
         }
 
 
-        public Task<bool> Edit(int id)
-        {
-
-            var categoria = _categoriasRepository.Get(x => x.id == id);
-            if (categoria is not null)
-            {
-                categoria.eliminado = false;
-                _categoriasRepository.Update(categoria);
-                _categoriasRepository.save();
-                return Task.FromResult(true);
-            }
-            return Task.FromResult(false);
-        }
-
         public Task<IEnumerable<categoria>> GetAll(System.Linq.Expressions.Expression<Func<categoria, bool>> filter)
         {
             var categorias = _categoriasRepository.GetAll(filter);

@@ -41,10 +41,11 @@ namespace Armoniza.Web.Controllers
             var categoria =  await _categoriasService.Get(u => u.id == id);
             if (categoria == null)
             {
-                TempData["error"] = "¡Error al obtener la categoria!";
+                //Redirige al index si no encuentra la categoria
+                TempData["error"] = "¡No se encontro esta categoria!";
                 return RedirectToAction(nameof(Index));
             }
-
+            TempData["success"] = "¡Categoria encontrada exitosamente!";
             return View(categoria);
         }
 

@@ -7,144 +7,159 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
+using Armoniza.Application.Common.Interfaces.Services;
 
 namespace Armoniza.Web.Controllers
 {
     public class usuariosController : Controller
     {
+        private readonly IUsuarioService _usuarioService;
+        private readonly IGrupoService _grupoService;
+        //Uso provisional del context
         private readonly ApplicationDbContext _context;
 
-        public usuariosController(ApplicationDbContext context)
+        public usuariosController(IUsuarioService usuarioService, IGrupoService grupoService, ApplicationDbContext context)
         {
+            _usuarioService = usuarioService;
+            _grupoService = grupoService;
             _context = context;
         }
 
         // GET: usuarios
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.usuarios.Include(u => u.idGrupoNavigation).Include(u => u.idTipoNavigation);
-            return View(await applicationDbContext.ToListAsync());
+            var usuarios = _usuarioService.GetAll(u => u.eliminado == false);
+            ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            return View(usuarios.Data);
+
         }
 
         // GET: usuarios/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
 
-            var usuario = await _context.usuarios
-                .Include(u => u.idGrupoNavigation)
-                .Include(u => u.idTipoNavigation)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (usuario == null)
+            var usuario = _usuarioService.Get(u => u.id == id);
+            if (usuario.Data == null)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(usuario);
+            TempData["Success"] = "¡Usuario encontrado!";
+            ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            return View(usuario.Data);
         }
 
         // GET: usuarios/Create
         public IActionResult Create()
         {
-            ViewData["idGrupo"] = new SelectList(_context.grupos, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios, "id", "tipo");
+            var grupos = _grupoService.GetAll(g => g.eliminado == false).Data
+    .Select(g => new { g.id, g.grupo1 });
+
+
+
+
+            ViewData["idGrupo"] = new SelectList(grupos, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
             return View();
         }
 
-        // POST: usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,nombreCompleto,telefono,correo,idTipo,idGrupo,eliminado")] usuario usuario)
+        public IActionResult Create([Bind("id,nombreCompleto,telefono,correo,idTipo,idGrupo,eliminado")] usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var response = _usuarioService.Add(usuario);
+                if (response.Success)
+                {
+                    TempData["Success"] = "¡Usuario agregado exitosamente!";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Error"] = response.Message;
+                }
             }
-            ViewData["idGrupo"] = new SelectList(_context.grupos, "id", "grupo1", usuario.idGrupo);
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios, "id", "tipo", usuario.idTipo);
+            ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_usuarioService.GetAll(u => u.eliminado == false).Data, "id", "tipo");
             return View(usuario);
         }
 
         // GET: usuarios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
 
-            var usuario = await _context.usuarios.FindAsync(id);
-            if (usuario == null)
+            var usuario = _usuarioService.Get(u => u.id == id);
+            if (usuario.Data == null)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["idGrupo"] = new SelectList(_context.grupos, "id", "grupo1", usuario.idGrupo);
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios, "id", "tipo", usuario.idTipo);
-            return View(usuario);
+            ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            return View(usuario.Data);
         }
 
-        // POST: usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, usuario usuario)
+        public IActionResult Edit(int id, usuario usuario)
         {
             if (id != usuario.id)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var response = _usuarioService.Update(usuario);
+                if (response.Success)
                 {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "¡Usuario actualizado exitosamente!";
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!usuarioExists(usuario.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    TempData["Error"] = response.Message;
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["idGrupo"] = new SelectList(_context.grupos, "id", "grupo1", usuario.idGrupo);
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios, "id", "tipo", usuario.idTipo);
+            ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_usuarioService.GetAll(u => u.eliminado == false).Data, "id", "tipo");
             return View(usuario);
         }
 
         // GET: usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
 
-            var usuario = await _context.usuarios
-                .Include(u => u.idGrupoNavigation)
-                .Include(u => u.idTipoNavigation)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (usuario == null)
+            var usuario = _usuarioService.Get(u => u.id == id);
+            if (usuario.Data == null)
             {
-                return NotFound();
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(usuario);
+            TempData["Success"] = "¡Usuario encontrado!";
+            ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            return View(usuario.Data);
         }
 
         // POST: usuarios/Delete/5
@@ -152,19 +167,26 @@ namespace Armoniza.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuario = await _context.usuarios.FindAsync(id);
-            if (usuario != null)
+            var usuario = _usuarioService.Get(u => u.id == id);
+            if (usuario == null)
             {
-                _context.usuarios.Remove(usuario);
+                TempData["Error"] = "¡Usuario no encontrado!";
+                return RedirectToAction(nameof(Index));
             }
+            var response = await _usuarioService.Delete(id);
+            if (response.Success)
+            {
+                TempData["Success"] = "¡Usuario eliminado exitosamente!";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["Error"] = response.Message;
+            }
+            return View(usuario.Data);
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
-        private bool usuarioExists(int id)
-        {
-            return _context.usuarios.Any(e => e.id == id);
-        }
+
     }
 }

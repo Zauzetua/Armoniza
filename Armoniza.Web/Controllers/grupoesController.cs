@@ -1,46 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Armoniza.Domain.Entities;
-using Armoniza.Infrastructure.Infrastructure.Data;
+using Armoniza.Application.Common.Interfaces.Services;
 
 namespace Armoniza.Web.Controllers
 {
     public class grupoesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IGrupoService _grupoService;
 
-        public grupoesController(ApplicationDbContext context)
+        public grupoesController(IGrupoService grupoService)
         {
-            _context = context;
+            _grupoService = grupoService;
         }
 
         // GET: grupoes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.grupos.ToListAsync());
+            var grupos = _grupoService.GetAll(u => u.eliminado == false);
+            return View(grupos.Data);
         }
 
         // GET: grupoes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["error"] = "¡No se encontro este grupo!";
+                return RedirectToAction(nameof(Index));
             }
-
-            var grupo = await _context.grupos
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (grupo == null)
+            var grupo = _grupoService.Get(u => u.id == id);
+            if (grupo.Success)
             {
-                return NotFound();
+                TempData["success"] = grupo.Message;
+                return View(grupo.Data);
+                
             }
-
-            return View(grupo);
+            TempData["error"] = "¡No se encontro este grupo!";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: grupoes/Create
@@ -54,14 +50,16 @@ namespace Armoniza.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,grupo1,eliminado")] grupo grupo)
+        public IActionResult Create([Bind("id,grupo1,eliminado")] grupo grupo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(grupo);
-                await _context.SaveChangesAsync();
+                _grupoService.Add(grupo);
+                TempData["success"] = "¡Grupo agregado exitosamente!";
                 return RedirectToAction(nameof(Index));
+
             }
+            TempData["error"] = "¡Error al agregar el grupo!";
             return View(grupo);
         }
 
@@ -70,15 +68,17 @@ namespace Armoniza.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["error"] = "¡No se encontro este grupo!";
+                return RedirectToAction(nameof(Index));
             }
 
-            var grupo = await _context.grupos.FindAsync(id);
-            if (grupo == null)
+            var grupo = _grupoService.Get(u => u.id == id);
+            if (grupo.Data == null)
             {
-                return NotFound();
+                TempData["error"] = grupo.Message;
+                return RedirectToAction(nameof(Index));
             }
-            return View(grupo);
+            return View(grupo.Data);
         }
 
         // POST: grupoes/Edit/5
@@ -90,29 +90,24 @@ namespace Armoniza.Web.Controllers
         {
             if (id != grupo.id)
             {
-                return NotFound();
+                TempData["error"] = "¡Error al obtener el grupo!";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var grupoExistente = _grupoService.Get(u => u.id == id);
+                if (grupoExistente.Data == null)
                 {
-                    _context.Update(grupo);
-                    await _context.SaveChangesAsync();
+                    TempData["error"] = grupoExistente.Message;
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!grupoExists(grupo.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _grupoService.Update(grupo);
+                TempData["success"] = "¡Grupo editado exitosamente!";
                 return RedirectToAction(nameof(Index));
+
             }
+            TempData["error"] = "¡Error al editar el grupo!";
             return View(grupo);
         }
 
@@ -121,17 +116,17 @@ namespace Armoniza.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["error"] = "¡No se encontro este grupo!";
+                return RedirectToAction(nameof(Index));
             }
 
-            var grupo = await _context.grupos
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (grupo == null)
+            var grupo = _grupoService.Get(u => u.id == id);
+            if (grupo.Data == null)
             {
-                return NotFound();
+                TempData["error"] = grupo.Message;
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(grupo);
+            return View(grupo.Data);
         }
 
         // POST: grupoes/Delete/5
@@ -139,19 +134,23 @@ namespace Armoniza.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var grupo = await _context.grupos.FindAsync(id);
-            if (grupo != null)
+            var grupo = _grupoService.Get(u => u.id == id);
+            if (!grupo.Success)
             {
-                _context.grupos.Remove(grupo);
+                TempData["error"] = grupo.Message;
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
+            var grupoEliminado = await _grupoService.Delete(id);
+            if (!grupoEliminado.Success)
+            {
+                TempData["error"] = grupoEliminado.Message;
+                return RedirectToAction(nameof(Index));
+            }
+            TempData["success"] = "¡Grupo eliminado exitosamente!";
             return RedirectToAction(nameof(Index));
+
         }
 
-        private bool grupoExists(int id)
-        {
-            return _context.grupos.Any(e => e.id == id);
-        }
+       
     }
 }

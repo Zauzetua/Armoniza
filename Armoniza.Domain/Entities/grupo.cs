@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Armoniza.Domain.Entities;
 
@@ -10,6 +11,7 @@ public partial class grupo
 {
     public int id { get; set; }
 
+    [Required(ErrorMessage = "El nombre del grupo es requerido")]
     public string grupo1 { get; set; } = null!;
 
     /// <summary>

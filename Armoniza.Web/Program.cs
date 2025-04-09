@@ -24,6 +24,17 @@ builder.Services.AddScoped<ICategoriasRepository, CategoriasRepository>();
 builder.Services.AddScoped<IAccountService<Admin>, AccountService>();
 builder.Services.AddScoped<IAccountRepository<Admin>, AccountRepository>();
 builder.Services.AddScoped<ICategoriasService<categoria>, CategoriasService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAccountRepository<Admin>, AccountRepository>();
+builder.Services.AddScoped<IAccountService<Admin>, AccountService>();
+builder.Services.AddScoped<ICategoriasService<categoria>, CategoriasService>();
+builder.Services.AddScoped<ICategoriasRepository, CategoriasRepository>();
+builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
+builder.Services.AddScoped<IGrupoService, GrupoService>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+
 
 
 

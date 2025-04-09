@@ -15,9 +15,9 @@ namespace Armoniza.Application.Common.Interfaces.Services
         ServiceResponse<grupo> Add(grupo grupo);
         ServiceResponse<IEnumerable<grupo>> GetAll(Expression<Func<grupo, bool>> filter);
         ServiceResponse<IEnumerable<grupo>> GetAll();
-        Task<ServiceResponse<grupo>> Get(Expression<Func<grupo, bool>> filter);
-        Task<ServiceResponse<grupo>> Update(grupo grupo);
-        Task<ServiceResponse<grupo>> Any(Expression<Func<grupo, bool>> filter, string? includePropierties = null);
+        ServiceResponse<grupo> Get(Expression<Func<grupo, bool>> filter);
+        ServiceResponse<bool> Update(grupo grupo);
+        ServiceResponse<bool> Any(Expression<Func<grupo, bool>> filter, string? includePropierties = null);
 
 
     }

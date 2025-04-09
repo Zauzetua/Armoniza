@@ -21,10 +21,15 @@ namespace Armoniza.Infrastructure.Repository
             dbSet = _db.Set<T>();
         }
 
-        public void Add(T entity)
+        public bool Add(T entity)
         {
+            if (entity is null)
+            {
+               return false;
+            }
             dbSet.Add(entity);
             save();
+            return true;
         }
 
         public bool Any(Expression<Func<T, bool>> filter, string? includePropierties = null)
@@ -47,10 +52,15 @@ namespace Armoniza.Infrastructure.Repository
             return dbSet.FirstOrDefault(filter);
         }
 
-        public void Update(T entity)
+        public bool Update(T entity)
         {
+            if (entity is null)
+            {
+                return false;
+            }
             dbSet.Update(entity);
             save();
+            return true;
         }
 
         public void save()

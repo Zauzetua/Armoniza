@@ -50,7 +50,7 @@ namespace Armoniza.Web.Controllers
                 TempData["Error"] = "¡Usuario no encontrado!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["Success"] = "¡Usuario encontrado!";
+
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
             ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
             return View(usuario.Data);
@@ -86,10 +86,12 @@ namespace Armoniza.Web.Controllers
                 else
                 {
                     TempData["Error"] = response.Message;
+                    return View(usuario);
                 }
             }
+            TempData["Error"] = "Error: ¡Datos no validos!";
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_usuarioService.GetAll(u => u.eliminado == false).Data, "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
             return View(usuario);
         }
 
@@ -133,11 +135,13 @@ namespace Armoniza.Web.Controllers
                 }
                 else
                 {
-                    TempData["Error"] = response.Message;
+                    TempData["Error"] = "Error: ¡Datos incorrectos!";
+                    return View(usuario);
                 }
             }
+            TempData["Error"] = "Error: ¡Datos incorrectos!";
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_usuarioService.GetAll(u => u.eliminado == false).Data, "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
             return View(usuario);
         }
 
@@ -156,7 +160,7 @@ namespace Armoniza.Web.Controllers
                 TempData["Error"] = "¡Usuario no encontrado!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["Success"] = "¡Usuario encontrado!";
+
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
             ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
             return View(usuario.Data);

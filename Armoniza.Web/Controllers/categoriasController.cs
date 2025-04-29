@@ -45,7 +45,6 @@ namespace Armoniza.Web.Controllers
                 TempData["error"] = "¡No se encontro esta categoria!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["success"] = "¡Categoria encontrada exitosamente!";
             return View(categoria);
         }
 

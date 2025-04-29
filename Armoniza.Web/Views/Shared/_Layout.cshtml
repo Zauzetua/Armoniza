@@ -13,16 +13,17 @@
     <link rel="stylesheet" href="~/Armoniza.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="~/css/styleLayout.css" rel="stylesheet" />
 </head>
 <body>                         
     @if (!isLoginPage)
     {
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-white border-bottom box-shadow mb-3 shadow-lg">
+            <nav style="background-color:#3d87b9;" class="navbar navbar-expand-sm navbar-toggleable-sm  border-bottom box-shadow mb-3 shadow-lg">
                 
                 
                 <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/home.png" alt="Alternate Text" /></a>
+                    <a style="border-radius:5px; transform: translateX(1%); " class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/house.png" alt="Alternate Text" /></a>
 
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -40,8 +41,8 @@
 
                                 <div class="dropdown-content">
 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="categorias" asp-action="Index">Categorias</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="grupoes" asp-action="Index">Instrumentos</a>
+                                <a class="ancla nav-link text-dark" asp-area="" asp-controller="categorias" asp-action="Index">Categorias</a>
+                                <a class="ancla nav-link text-dark" asp-area="" asp-controller="grupoes" asp-action="Index">Instrumentos</a>
 
                                 </div>
 
@@ -53,13 +54,13 @@
                                     
                             
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="usuarios" asp-action="Index">Registrar usuarios</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="usuarios" asp-action="Index">Registrar usuarios</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="grupoes" asp-action="Index">Gestionar Grupos Musicales</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="grupoes" asp-action="Index">Gestionar Grupos Musicales</a>
                             </li>
                             <li class="nav-item cerrar">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">Cerrar Sesion</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="LogOut">Cerrar Sesion</a>
                             </li>
                         </ul>
                     </div>
@@ -87,74 +88,5 @@
 </html>
 
 
-<style>
 
-   
-
-
-
-    .nav-item{
-    
-        margin-left:12%;
-        font-weight:500;
-        transition: all 0.3s ease;
-        letter-spacing: 1px;
-       
-    }
-     /* Aqui esta la logia de los recuadros desplegables de Categorias */
-
-    .dropdown{
-
-        position:relative;
-        display:inline-block;
-
-    }
-
-    .dropdown-content{
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background: white;
-        border: 1px solid #ddd;
-    
-    }
-    .dropdown:hover .dropdown-content {
-        display: block;
-        
-    }
-
-    span{
-    
-        cursor:default;
-    }
-
-    /*Aqui se termina*/
-
-    .nav-item:hover {
-        margin-left: 13%;
-        font-weight: 500px;
-        transform: scale(1.2);
-            box-shadow: 1px 2px 15px #7cd7cf;
-    }
-
-
-    
-    img{
-    
-        width:40px;
-        height:40px;
-    
-    }
-   
-
-    .container-fluid{
-        
-        margin-left:4%;
-        padding:6px;
-
-    }
-
-
-
-</style>
+  

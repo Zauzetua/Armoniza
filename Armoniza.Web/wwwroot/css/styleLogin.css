@@ -26,7 +26,7 @@ form {
     top: 40%;
     left: 50%;
     transform: translate(-50%,-20%);
-    margin: auto;
+  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,6 +56,7 @@ img {
     margin-top: 30px;
     background-color: none;
     border-radius: 60%;
+    box-shadow: 1px 1px 50px #539dc5;
 }
 
 

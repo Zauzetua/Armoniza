@@ -67,6 +67,8 @@ span {
         border-bottom: 1px solid white;
     }
 
+   
+
 /*Aqui se termina*/
 
 
@@ -85,4 +87,20 @@ img {
 .container-fluid {
     margin-left: 4%;
     padding: 5px;
+}
+
+
+.navbar-nav .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+    .navbar-nav .nav-item.active .nav-link {
+        font-weight: bold;
+    }
+
+/* Estilos para el dropdown activo */
+.nav-item.active .dropdown span {
+    font-weight: bold;
+    color: white !important;
 }

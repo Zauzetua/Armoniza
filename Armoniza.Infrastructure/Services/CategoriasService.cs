@@ -12,10 +12,12 @@ namespace Armoniza.Infrastructure.Services
     public class CategoriasService : ICategoriasService<categoria>
     {
         private readonly ICategoriasRepository _categoriasRepository;
+        private readonly IInstrumentoRepository _instrumentoRepository;
 
-        public CategoriasService(ICategoriasRepository categoriasRepository)
+        public CategoriasService(ICategoriasRepository categoriasRepository, IInstrumentoRepository instrumentoRepository)
         {
             _categoriasRepository = categoriasRepository;
+            _instrumentoRepository = instrumentoRepository;
         }
         public Task<bool> Add(categoria categoria)
         {
@@ -33,6 +35,11 @@ namespace Armoniza.Infrastructure.Services
         {
 
             var categoria = _categoriasRepository.Get(x => x.id == id);
+            var enUso = _instrumentoRepository.Any(x => x.idCategoria == id);
+            if (enUso)
+            {
+                return Task.FromResult(false);
+            }
             if (categoria is not null)
             {
                 categoria.eliminado = true;

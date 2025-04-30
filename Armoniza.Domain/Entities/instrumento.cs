@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Armoniza.Domain.Entities;
 
@@ -42,5 +43,6 @@ public partial class instrumento
 
     public virtual ICollection<detalleApartado> detalleApartado { get; set; } = new List<detalleApartado>();
 
-    public virtual categoria idCategoriaNavigation { get; set; } = null!;
+    [DisplayName("Categoria:")]
+    public virtual categoria? idCategoriaNavigation { get; set; }
 }

@@ -15,9 +15,11 @@ namespace Armoniza.Infrastructure.Services
     public class InstrumentoService : IInstrumentoService
     {
         private readonly IInstrumentoRepository _instrumentoRepository;
-        public InstrumentoService(IInstrumentoRepository instrumentoRepository)
+        private readonly ICategoriasRepository _categoriasRepository;
+        public InstrumentoService(IInstrumentoRepository instrumentoRepository, ICategoriasRepository categoriasRepository)
         {
             _instrumentoRepository = instrumentoRepository;
+            _categoriasRepository = categoriasRepository;
         }
 
         public async Task<ServiceResponse<instrumento>> Add(instrumento instrumento)
@@ -31,16 +33,16 @@ namespace Armoniza.Infrastructure.Services
                 };
             }
 
-
-            if (instrumento.idCategoria == 0)
+            var categoria = _categoriasRepository.Get(c => c.id == instrumento.idCategoria);
+            if (categoria == null)
             {
                 return new ServiceResponse<instrumento>
                 {
                     Success = false,
-                    Message = "Categoria invalida"
+                    Message = "La categoria no existe"
                 };
-
             }
+
 
             if (instrumento.codigo <=0)
             {
@@ -61,13 +63,12 @@ namespace Armoniza.Infrastructure.Services
                 };
             }
 
-
-
             instrumento.eliminado = false;
             instrumento.funcional = true;
             instrumento.ocupado = false;
 
             var resultado = _instrumentoRepository.Add(instrumento);
+
             if (resultado == false)
             {
                 return new ServiceResponse<instrumento>
@@ -82,7 +83,6 @@ namespace Armoniza.Infrastructure.Services
                 Message = "Instrumento agregado correctamente",
                 Data = instrumento
             };
-
 
         }
 
@@ -138,7 +138,7 @@ namespace Armoniza.Infrastructure.Services
 
         public ServiceResponse<IEnumerable<instrumento>> GetAll(Expression<Func<instrumento, bool>> filter)
         {
-            var instrumentos = _instrumentoRepository.GetAll(filter);
+            var instrumentos = _instrumentoRepository.GetAll(filter,includeProperties: "idCategoriaNavigation");
             if (instrumentos == null) return ServiceResponse<IEnumerable<instrumento>>.Fail("No se encontraron instrumentos");
             return ServiceResponse<IEnumerable<instrumento>>.Ok(instrumentos);
         }
@@ -178,10 +178,12 @@ namespace Armoniza.Infrastructure.Services
             var instrumentoExistente = _instrumentoRepository.Get(i => i.codigo == instrumento.codigo);
             if (instrumentoExistente == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
 
-            if (instrumento.idCategoria <= 0)
+            var categoria = _categoriasRepository.Get(c => c.id == instrumento.idCategoria);
+            if (categoria == null)
             {
-                return ServiceResponse<bool>.Fail("Categoria invalida");
+                return ServiceResponse<bool>.Fail("La categoria no existe");
             }
+
 
             if (instrumento.codigo <= 0)
             {

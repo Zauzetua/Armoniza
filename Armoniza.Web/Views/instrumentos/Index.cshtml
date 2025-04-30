@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Armoniza.Domain.Entities.instrumento>
+
+@{
+    ViewData["Title"] = "Instrumentos";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary"><i class="bi bi-music-note-list"></i> Instrumentos</h2>
+        <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Nuevo Instrumento</a>
+    </div>
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="bi bi-check-circle"></i> Ocupado</th>
+                        <th><i class="bi bi-tools"></i> Funcional</th>
+                        <th><i class="bi bi-music-note-beamed"></i> Nombre</th>
+                        <th><i class="bi bi-tags"></i> Categoría</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (item.ocupado)
+                                {
+                                    <i class="bi bi-check-circle text-success"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                }
+                            </td>
+                            <td>
+                                @if (item.funcional)
+                                {
+                                    <i class="bi bi-check-circle text-success"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.idCategoriaNavigation.categoria1)</td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.codigo" class="btn btn-warning btn-sm btn-animado">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.codigo" class="btn btn-info btn-sm text-white btn-animado">
+                                    <i class="bi bi-eye"></i> Ver
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.codigo" class="btn btn-danger btn-sm btn-animado">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

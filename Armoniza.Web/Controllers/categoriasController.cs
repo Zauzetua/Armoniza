@@ -18,6 +18,7 @@ namespace Armoniza.Web.Controllers
     {
         private readonly ICategoriasService<categoria> _categoriasService;
 
+
         public categoriasController(ICategoriasService<categoria> _categoriasService)
         {
             this._categoriasService = _categoriasService;

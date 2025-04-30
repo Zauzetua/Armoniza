@@ -1,0 +1,54 @@
+﻿@model Armoniza.Domain.Entities.instrumento
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>instrumento</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.estuche)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.estuche)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ocupado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ocupado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.funcional)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.funcional)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.eliminado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.eliminado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idCategoriaNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idCategoriaNavigation.categoria1)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.codigo">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

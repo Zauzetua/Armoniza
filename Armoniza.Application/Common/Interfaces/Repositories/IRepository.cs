@@ -10,8 +10,8 @@ namespace Armoniza.Application.Common.Interfaces.Repositories
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-        public T Get(Expression<Func<T, bool>> filter);
-        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter);
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
         bool Add(T entity);
         bool Update(T entity);
 

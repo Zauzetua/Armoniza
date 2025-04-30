@@ -35,7 +35,7 @@ namespace Armoniza.Infrastructure.Services
         {
 
             var categoria = _categoriasRepository.Get(x => x.id == id);
-            var enUso = _instrumentoRepository.Any(x => x.idCategoria == id);
+            var enUso = _instrumentoRepository.Any(x => x.idCategoria == id && x.eliminado == false);
             if (enUso)
             {
                 return Task.FromResult(false);

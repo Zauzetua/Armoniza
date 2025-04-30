@@ -93,17 +93,6 @@ namespace Armoniza.Infrastructure.Services
             return ServiceResponse<bool>.Ok(true);
         }
 
-        public ServiceResponse<bool> Arreglado(int codigo)
-        {
-            var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
-            if (instrumento == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
-            if (instrumento.funcional == true) return ServiceResponse<bool>.Fail("El instrumento ya esta funcional");
-            instrumento.funcional = true;
-            var resultado = _instrumentoRepository.Update(instrumento);
-            if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
-            return ServiceResponse<bool>.Ok(true, "Instrumento actualizado correctamente");
-
-        }
 
         public async Task<ServiceResponse<bool>> Delete(int codigo)
         {
@@ -116,6 +105,10 @@ namespace Armoniza.Infrastructure.Services
             return ServiceResponse<bool>.Ok(true, "Instrumento eliminado correctamente");
 
         }
+
+
+
+
 
         public ServiceResponse<bool> Desocupar(int codigo)
         {
@@ -131,7 +124,7 @@ namespace Armoniza.Infrastructure.Services
 
         public ServiceResponse<instrumento> Get(Expression<Func<instrumento, bool>> filter)
         {
-            var instrumento = _instrumentoRepository.Get(filter);
+            var instrumento = _instrumentoRepository.Get(filter,includeProperties: "idCategoriaNavigation");
             if (instrumento == null) return ServiceResponse<instrumento>.Fail("No se encontro el instrumento");
             return ServiceResponse<instrumento>.Ok(instrumento);
         }
@@ -161,18 +154,6 @@ namespace Armoniza.Infrastructure.Services
             return ServiceResponse<bool>.Ok(true, "Instrumento apartado correctamente");
         }
 
-        public ServiceResponse<bool> Roto(int codigo)
-        {
-            var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
-            if (instrumento == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
-            if (instrumento.funcional == false) return ServiceResponse<bool>.Fail("El instrumento ya esta roto");
-            instrumento.funcional = false;
-            var resultado = _instrumentoRepository.Update(instrumento);
-            if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
-            return ServiceResponse<bool>.Ok(true, "Instrumento actualizado correctamente");
-
-        }
-
         public ServiceResponse<bool> Update(instrumento instrumento)
         {
             var instrumentoExistente = _instrumentoRepository.Get(i => i.codigo == instrumento.codigo);
@@ -184,10 +165,24 @@ namespace Armoniza.Infrastructure.Services
                 return ServiceResponse<bool>.Fail("La categoria no existe");
             }
 
-
             if (instrumento.codigo <= 0)
             {
                 return ServiceResponse<bool>.Fail("El codigo no es valido");
+            }
+
+            if (instrumento.eliminado)
+            {
+                return ServiceResponse<bool>.Fail("No se puede editar un instrumento eliminado");
+            }
+
+            if (instrumento.ocupado)
+            {
+                if (instrumentoExistente.funcional != instrumento.funcional)
+                {
+                    return ServiceResponse<bool>.Fail("No se puede editar el estado de  un instrumento ocupado");
+
+                }
+
             }
 
             var existe = _instrumentoRepository.Any(x => x.codigo == instrumento.codigo && x.codigo != instrumentoExistente.codigo);
@@ -200,9 +195,30 @@ namespace Armoniza.Infrastructure.Services
             instrumentoExistente.nombre = instrumento.nombre;
             instrumentoExistente.estuche = instrumento.estuche;
             instrumentoExistente.idCategoria = instrumento.idCategoria;
+            instrumentoExistente.funcional = instrumento.funcional;
             var resultado = _instrumentoRepository.Update(instrumentoExistente);
             if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
             return ServiceResponse<bool>.Ok(true, "Instrumento actualizado correctamente");
+        }
+
+        public ServiceResponse<bool> CambiarEstado(int codigo)
+        {
+            var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
+
+            if (instrumento.funcional)
+            {
+                instrumento.funcional = false;
+                var resultado = _instrumentoRepository.Update(instrumento);
+                if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
+                return ServiceResponse<bool>.Ok(true, "Instrumento configurado como roto correctamente");
+            }
+            else
+            {
+                instrumento.funcional = true;
+                var resultado = _instrumentoRepository.Update(instrumento);
+                if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
+                return ServiceResponse<bool>.Ok(true, "Instrumento configurado como arreglado correctamente");
+            }
         }
 
     }

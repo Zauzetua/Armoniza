@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Armoniza.Application.Common.Interfaces.Services;
+using Armoniza.Application.Common.Models;
 
 namespace Armoniza.Web.Controllers
 {
@@ -25,12 +26,39 @@ namespace Armoniza.Web.Controllers
         // GET: instrumentos
         public IActionResult Index()
         {
-            var instrumentos =  _instrumentoService.GetAll(i => i.eliminado == false);
-            var categorias =  _categoriasService.GetAll(c => c.eliminado == false).Result;
-            ViewData["idCategoria"] = new SelectList(categorias.ToList(), "id", "categoria1");
-            return View(instrumentos.Data);
+            // Traemos todos los instrumentos no eliminados
+            var instrumentos = _instrumentoService.GetAll(i => !i.eliminado).Data;
 
+            // Traemos todas las categorías no eliminadas
+            var categorias = _categoriasService.GetAll(c => !c.eliminado).Result;
+
+            // Creamos una lista para agrupar
+            List<InstrumentosViewModel> modelo = new List<InstrumentosViewModel>();
+
+            // Recorremos las categorías
+            foreach (var categoria in categorias)
+            {
+                // Filtramos los instrumentos de esta categoría
+                var instrumentosDeCategoria = instrumentos
+                    .Where(i => i.idCategoria == categoria.id)
+                    .ToList();
+
+                // Si tiene al menos un instrumento, lo agregamos al modelo
+
+                modelo.Add(new InstrumentosViewModel
+                {
+                    IdCategoria = categoria.id,
+                    NombreCategoria = categoria.categoria1,
+                    Instrumentos = instrumentosDeCategoria
+                });
+
+            }
+
+            // Enviamos la lista final a la vista
+            return View(modelo);
         }
+
+
 
         // GET: instrumentos/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -41,17 +69,19 @@ namespace Armoniza.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var instrumento =  _instrumentoService.Get(i => i.codigo == id);
+            var instrumento = _instrumentoService.Get(i => i.codigo == id);
             if (instrumento.Data == null)
             {
                 TempData["error"] = "¡No se encontro este instrumento!";
                 return RedirectToAction(nameof(Index));
             }
+            var categorias = _categoriasService.GetAll(c => c.eliminado == false).Result;
+            ViewData["idCategoria"] = new SelectList(categorias.ToList(), "id", "categoria1");
             return View(instrumento.Data);
         }
 
         // GET: instrumentos/Create
-        public async Task <IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
             var categorias = await _categoriasService.GetAll(c => c.eliminado == false);
             ViewData["idCategoria"] = new SelectList(categorias, "id", "categoria1");
@@ -94,7 +124,7 @@ namespace Armoniza.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var instrumento =  _instrumentoService.Get(i => i.codigo == id);
+            var instrumento = _instrumentoService.Get(i => i.codigo == id);
             if (instrumento.Data == null)
             {
                 TempData["error"] = "¡No se encontro este instrumento!";
@@ -120,7 +150,7 @@ namespace Armoniza.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var response =  _instrumentoService.Update(instrumento);
+                var response = _instrumentoService.Update(instrumento);
                 if (response.Success)
                 {
                     TempData["success"] = "¡Instrumento editado correctamente!";
@@ -153,6 +183,8 @@ namespace Armoniza.Web.Controllers
                 TempData["error"] = "¡No se encontro este instrumento!";
                 return RedirectToAction(nameof(Index));
             }
+            var categorias = _categoriasService.GetAll(c => c.eliminado == false).Result;
+            ViewData["idCategoria"] = new SelectList(categorias.ToList(), "id", "categoria1");
             return View(instrumento.Data);
         }
 
@@ -179,6 +211,9 @@ namespace Armoniza.Web.Controllers
                 return RedirectToAction(nameof(Delete), new { id });
             }
         }
+
+
+
 
     }
 }

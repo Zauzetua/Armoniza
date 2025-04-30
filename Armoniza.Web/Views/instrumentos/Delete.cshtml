@@ -1,57 +1,58 @@
 ﻿@model Armoniza.Domain.Entities.instrumento
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Instrumento";
 }
 
-<h1>Delete</h1>
+@functions {
+    string DisplayBoolBadge(bool value)
+    {
+        return value
+            ? "<span class='badge bg-success'><i class='bi bi-check-circle-fill'></i> Sí</span>"
+            : "<span class='badge bg-secondary'><i class='bi bi-x-circle-fill'></i> No</span>";
+    }
+}
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>instrumento</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.estuche)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.estuche)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ocupado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ocupado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.funcional)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.funcional)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.eliminado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.eliminado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.idCategoriaNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.idCategoriaNavigation.categoria1)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="codigo" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="bi bi-trash3-fill"></i> Eliminar Instrumento</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="text-black mb-4"><i class="bi bi-exclamation-triangle-fill"></i> ¿Estás seguro que deseas eliminar este instrumento?</h5>
+
+                    <dl class="row">
+                        <dt class="col-sm-4">Con Estuche</dt>
+                        <dd class="col-sm-8">@Html.Raw(DisplayBoolBadge(Model.estuche))</dd>
+
+                        <dt class="col-sm-4">Ocupado</dt>
+                        <dd class="col-sm-8">@Html.Raw(DisplayBoolBadge(Model.ocupado))</dd>
+
+                        <dt class="col-sm-4">Funcional</dt>
+                        <dd class="col-sm-8">@Html.Raw(DisplayBoolBadge(Model.funcional))</dd>
+
+                        <dt class="col-sm-4">Nombre</dt>
+                        <dd class="col-sm-8">@Model.nombre</dd>
+
+                        <dt class="col-sm-4">Categoría</dt>
+                        <dd class="col-sm-8">@Model.idCategoriaNavigation?.categoria1</dd>
+                    </dl>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="codigo" />
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash3-fill"></i> Eliminar
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

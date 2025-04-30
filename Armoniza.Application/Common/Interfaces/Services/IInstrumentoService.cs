@@ -20,8 +20,7 @@ namespace Armoniza.Application.Common.Interfaces.Services
         ServiceResponse<bool> Any(Expression<Func<instrumento, bool>> filter, string? includePropierties = null);
         ServiceResponse<bool> Ocupar(int codigo);
         ServiceResponse<bool> Desocupar(int codigo);
-        ServiceResponse<bool> Roto(int codigo);
-        ServiceResponse<bool> Arreglado(int codigo);
+        ServiceResponse<bool> CambiarEstado(int codigo);
 
 
     }

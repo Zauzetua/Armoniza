@@ -1,59 +1,75 @@
 ﻿@model Armoniza.Domain.Entities.instrumento
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Instrumento";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-music-note-list"></i> Editar Instrumento</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
+                        <input type="hidden" asp-for="codigo" />
 
-<h4>instrumento</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="codigo" />
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="estuche" /> @Html.DisplayNameFor(model => model.estuche)
-                </label>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="estuche" id="estuche" />
+                            <label class="form-check-label fw-bold" for="estuche">
+                                <i class="bi bi-box-seam"></i> Con Estuche
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" checked="@(Model.ocupado)" disabled />
+                            <label class="form-check-label fw-bold" for="ocupado">
+                                <i class="bi bi-person-fill-lock"></i> Actualmente Ocupado
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="funcional" id="funcional" />
+                            <label class="form-check-label fw-bold" for="funcional">
+                                <i class="bi bi-tools"></i> Funcional
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="idCategoria" class="form-label fw-bold">
+                                <i class="bi bi-tags"></i> Categoría
+                            </label>
+                            <select asp-for="idCategoria" class="form-select" asp-items="ViewBag.idCategoria"></select>
+                            <span asp-validation-for="idCategoria" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="nombre" class="form-label fw-bold">
+                                <i class="bi bi-music-note"></i> Nombre del Instrumento
+                            </label>
+                            <input asp-for="nombre" class="form-control" />
+                            <span asp-validation-for="nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-animado">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-animado">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ocupado" /> @Html.DisplayNameFor(model => model.ocupado)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="funcional" /> @Html.DisplayNameFor(model => model.funcional)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="eliminado" /> @Html.DisplayNameFor(model => model.eliminado)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="idCategoria" class="control-label"></label>
-                <select asp-for="idCategoria" class="form-control" asp-items="ViewBag.idCategoria"></select>
-                <span asp-validation-for="idCategoria" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
-                <input asp-for="nombre" class="form-control" />
-                <span asp-validation-for="nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

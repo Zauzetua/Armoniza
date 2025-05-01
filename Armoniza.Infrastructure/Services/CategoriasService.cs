@@ -54,6 +54,7 @@ namespace Armoniza.Infrastructure.Services
         public Task<IEnumerable<categoria>> GetAll(System.Linq.Expressions.Expression<Func<categoria, bool>> filter)
         {
             var categorias = _categoriasRepository.GetAll(filter);
+            categorias = categorias.OrderBy(categorias => categorias.categoria1);
             return Task.FromResult(categorias);
         }
 

@@ -9,9 +9,11 @@ using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Armoniza.Web.Controllers
 {
+    
     public class instrumentosController : Controller
     {
         private readonly IInstrumentoService _instrumentoService;
@@ -26,24 +28,24 @@ namespace Armoniza.Web.Controllers
         // GET: instrumentos
         public IActionResult Index()
         {
-            // Traemos todos los instrumentos no eliminados
+            
             var instrumentos = _instrumentoService.GetAll(i => !i.eliminado).Data;
 
-            // Traemos todas las categorías no eliminadas
+            
             var categorias = _categoriasService.GetAll(c => !c.eliminado).Result;
 
-            // Creamos una lista para agrupar
+            
             List<InstrumentosViewModel> modelo = new List<InstrumentosViewModel>();
 
-            // Recorremos las categorías
+            
             foreach (var categoria in categorias)
             {
-                // Filtramos los instrumentos de esta categoría
+                
                 var instrumentosDeCategoria = instrumentos
                     .Where(i => i.idCategoria == categoria.id)
                     .ToList();
 
-                // Si tiene al menos un instrumento, lo agregamos al modelo
+               
 
                 modelo.Add(new InstrumentosViewModel
                 {
@@ -54,14 +56,14 @@ namespace Armoniza.Web.Controllers
 
             }
 
-            // Enviamos la lista final a la vista
+            
             return View(modelo);
         }
 
 
 
         // GET: instrumentos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public  IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -88,9 +90,7 @@ namespace Armoniza.Web.Controllers
             return View();
         }
 
-        // POST: instrumentos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("codigo,estuche,ocupado,funcional,eliminado,idCategoria,nombre")] instrumento instrumento)

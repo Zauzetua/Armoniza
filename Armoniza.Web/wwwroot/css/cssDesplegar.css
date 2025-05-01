@@ -1,0 +1,21 @@
+﻿.custom-accordion .section-header {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.custom-accordion .section-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+    .custom-accordion .section-content.active {
+        max-height: 500px; /* Adjust based on expected content height */
+        padding: 10px;
+    }

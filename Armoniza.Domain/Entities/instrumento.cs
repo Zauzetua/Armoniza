@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Armoniza.Domain.Entities;
 
@@ -12,6 +13,7 @@ public partial class instrumento
     /// <summary>
     /// Es el &quot;id&quot; del instrumento, pero debe llamarse codigo por como se manejan los codigos del instrumento en itson centro. No debe der autoincremental, porque los instrumentos ya tienen un codigo
     /// </summary>
+    [Required(ErrorMessage = "El codigo del instrumento es requerido")]
     public int codigo { get; set; }
 
     /// <summary>
@@ -39,10 +41,13 @@ public partial class instrumento
     /// </summary>
     public int idCategoria { get; set; }
 
+    [DisplayName("Instrumento:")]
+    [Required(ErrorMessage = "El nombre del instrumento es requerido")]
     public string nombre { get; set; } = null!;
 
     public virtual ICollection<detalleApartado> detalleApartado { get; set; } = new List<detalleApartado>();
 
     [DisplayName("Categoria:")]
+    
     public virtual categoria? idCategoriaNavigation { get; set; }
 }

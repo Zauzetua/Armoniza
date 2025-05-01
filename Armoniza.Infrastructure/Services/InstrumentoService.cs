@@ -132,8 +132,9 @@ namespace Armoniza.Infrastructure.Services
         public ServiceResponse<IEnumerable<instrumento>> GetAll(Expression<Func<instrumento, bool>> filter)
         {
             var instrumentos = _instrumentoRepository.GetAll(filter,includeProperties: "idCategoriaNavigation");
+            instrumentos = instrumentos.OrderBy(i => i.nombre);
             if (instrumentos == null) return ServiceResponse<IEnumerable<instrumento>>.Fail("No se encontraron instrumentos");
-            return ServiceResponse<IEnumerable<instrumento>>.Ok(instrumentos);
+            return ServiceResponse<IEnumerable<instrumento>>.Ok(instrumentos.OrderBy(u=> u.nombre));
         }
 
         public ServiceResponse<IEnumerable<instrumento>> GetAll()

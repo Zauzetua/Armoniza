@@ -58,6 +58,7 @@ namespace Armoniza.Infrastructure.Services
         public  ServiceResponse<IEnumerable<grupo>> GetAll(Expression<Func<grupo, bool>> filter)
         {
             var grupos =  _grupoRepository.GetAll(filter);
+            grupos = grupos.OrderBy(g => g.grupo1);
             if (grupos == null) return ServiceResponse<IEnumerable<grupo>>.Fail("No se encontraron grupos");
             return ServiceResponse<IEnumerable<grupo>>.Ok(grupos);
         }

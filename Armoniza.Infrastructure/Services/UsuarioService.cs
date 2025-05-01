@@ -56,6 +56,7 @@ namespace Armoniza.Infrastructure.Services
             {
                 return ServiceResponse<IEnumerable<usuario>>.Fail("¡No se encontraron usuarios!");
             }
+            usuarios = usuarios.OrderBy(u => u.nombreCompleto);
             return ServiceResponse<IEnumerable<usuario>>.Ok(usuarios);
         }
 

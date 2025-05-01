@@ -1,0 +1,54 @@
+﻿@model Armoniza.Domain.Entities.apartado
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>apartado</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="fechadado" class="control-label"></label>
+                <input asp-for="fechadado" class="form-control" />
+                <span asp-validation-for="fechadado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fecharegreso" class="control-label"></label>
+                <input asp-for="fecharegreso" class="form-control" />
+                <span asp-validation-for="fecharegreso" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="activo" /> @Html.DisplayNameFor(model => model.activo)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="idusuario" class="control-label"></label>
+                <select asp-for="idusuario" class="form-control" asp-items="ViewBag.idUsuario"></select>
+                <span asp-validation-for="idusuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fecharetornado" class="control-label"></label>
+                <input asp-for="fecharetornado" class="form-control" />
+                <span asp-validation-for="fecharetornado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

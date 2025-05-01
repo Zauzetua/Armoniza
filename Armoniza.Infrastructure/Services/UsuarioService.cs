@@ -14,14 +14,33 @@ namespace Armoniza.Infrastructure.Services
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ITipoUsuarioService _tipoUsuarioService;
 
 
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ITipoUsuarioService tipoUsuarioService)
         {
             _usuarioRepository = usuarioRepository;
-           
+            _tipoUsuarioService = tipoUsuarioService;
         }
 
+        public async Task<ServiceResponse<int>> ObtenerMaximoInstrumentos(int id)
+        {
+            var usuario = _usuarioRepository.Get(u => u.id == id);
+            var tipos = _tipoUsuarioService.GetAll(t => t.eliminado == false);
+            if (usuario == null)
+            {
+                return ServiceResponse<int>.Fail("¡Usuario no encontrado!");
+            }
+            var maximoInstrumentos = tipos.Data.FirstOrDefault(t => t.id == usuario.idTipo).capacidadInstrumentos;
+
+            if (maximoInstrumentos == 0)
+            {
+                return ServiceResponse<int>.Fail("¡Tipo de usuario no encontrado!");
+            }
+
+            return ServiceResponse<int>.Ok(maximoInstrumentos);
+
+        }
         public async Task<ServiceResponse<usuario>> Delete(int id)
         {
             var usuario = _usuarioRepository.Get(u => u.id == id);

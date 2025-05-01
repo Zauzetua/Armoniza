@@ -10,12 +10,12 @@ public partial class apartado
     /// <summary>
     /// Fecha en la que se entrego el instrumento
     /// </summary>
-    public DateTime fechaDado { get; set; }
+    public DateTime fechadado { get; set; }
 
     /// <summary>
     /// fecha estipulada para devolver el instrumento, máximo un semestre
     /// </summary>
-    public DateTime fechaRegreso { get; set; }
+    public DateTime fecharegreso { get; set; }
 
     /// <summary>
     /// Si el apartado esta activo (Aun no devuelto) o ya se libero
@@ -25,11 +25,11 @@ public partial class apartado
     /// <summary>
     /// Id del usuario que pidió el apartado
     /// </summary>
-    public int idUsuario { get; set; }
+    public int idusuario { get; set; }
 
-    public DateTime? fechaRetornado { get; set; }
+    public DateTime? fecharetornado { get; set; }
 
     public virtual ICollection<detalleApartado> detalleApartado { get; set; } = new List<detalleApartado>();
 
-    public virtual usuario idUsuarioNavigation { get; set; } = null!;
+    public virtual usuario? idUsuarioNavigation { get; set; }
 }

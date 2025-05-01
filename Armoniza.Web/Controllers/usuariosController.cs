@@ -15,22 +15,23 @@ namespace Armoniza.Web.Controllers
     {
         private readonly IUsuarioService _usuarioService;
         private readonly IGrupoService _grupoService;
-        //Uso provisional del context
-        private readonly ApplicationDbContext _context;
+        private readonly ITipoUsuarioService _tipoUsuarioService;
 
-        public usuariosController(IUsuarioService usuarioService, IGrupoService grupoService, ApplicationDbContext context)
+        public usuariosController(IUsuarioService usuarioService, IGrupoService grupoService, ITipoUsuarioService tipoUsuarioService)
         {
             _usuarioService = usuarioService;
             _grupoService = grupoService;
-            _context = context;
+            _tipoUsuarioService = tipoUsuarioService;
+
         }
 
         // GET: usuarios
         public IActionResult Index()
         {
             var usuarios = _usuarioService.GetAll(u => u.eliminado == false);
+
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View(usuarios.Data);
 
         }
@@ -52,7 +53,7 @@ namespace Armoniza.Web.Controllers
             }
 
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View(usuario.Data);
         }
 
@@ -66,7 +67,7 @@ namespace Armoniza.Web.Controllers
 
 
             ViewData["idGrupo"] = new SelectList(grupos, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View();
         }
 
@@ -91,7 +92,7 @@ namespace Armoniza.Web.Controllers
             }
             TempData["Error"] = "Error: ¡Datos no validos!";
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View(usuario);
         }
 
@@ -111,7 +112,7 @@ namespace Armoniza.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View(usuario.Data);
         }
 
@@ -141,7 +142,7 @@ namespace Armoniza.Web.Controllers
             }
             TempData["Error"] = "Error: ¡Datos incorrectos!";
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View(usuario);
         }
 
@@ -162,7 +163,7 @@ namespace Armoniza.Web.Controllers
             }
 
             ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
-            ViewData["idTipo"] = new SelectList(_context.tipoUsuarios.ToList(), "id", "tipo");
+            ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View(usuario.Data);
         }
 

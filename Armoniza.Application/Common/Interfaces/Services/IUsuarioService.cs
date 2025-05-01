@@ -12,6 +12,7 @@ namespace Armoniza.Application.Common.Interfaces.Services
     public interface IUsuarioService 
     {
         Task<ServiceResponse<usuario>> Delete(int id);
+        Task<ServiceResponse<int>> ObtenerMaximoInstrumentos(int id);
         ServiceResponse<usuario> Add(usuario usuario);
         ServiceResponse<IEnumerable<usuario>> GetAll(Expression<Func<usuario, bool>> filter);
         ServiceResponse<IEnumerable<usuario>> GetAll();

@@ -55,15 +55,33 @@ namespace Armoniza.Web.Controllers
             return View(apartado.Data);
         }
 
-        // GET: apartadoes/Create
         public IActionResult Create()
         {
             var usuarios = _usuarioService.GetAll(x => x.eliminado == false);
             ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto");
-            var instrumentos = _instrumentoService.GetAll(x => x.eliminado == false);
-            ViewData["instrumentos"] = new SelectList(instrumentos.Data, "codigo", "nombre");
-            return View();
+            // VM vacío: sin sección de instrumentos aún
+            return View(new ApartadoViewModel());
+        }
 
+        // GET: apartadoes/Create
+        // GET: Create?idUsuario=…
+        [HttpGet]
+        public IActionResult Create(int idUsuario)
+        {
+            // 1) Cargo usuarios para el dropdown (el modal volverá a usar ViewData)
+            var usuarios = _usuarioService.GetAll(x => x.eliminado == false);
+            ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto", idUsuario);
+
+            // 2) Creo el VM y precargo:
+            var vm = new ApartadoViewModel
+            {
+                apartado = new apartado { idusuario = idUsuario },
+                instrumentos = _instrumentoService.GetAll(x => !x.eliminado).Data,
+                MaxInstrumentos = _usuarioService.ObtenerMaximoInstrumentos(idUsuario).Result.Data
+
+            };
+
+            return View(vm);
         }
 
         // POST: apartadoes/Create
@@ -71,31 +89,31 @@ namespace Armoniza.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ApartadoViewModel ApartadoModelo)
+
+        public async Task<IActionResult> Create(ApartadoViewModel vm)
         {
-            var instrumentoDummy = _instrumentoService.GetAll(x => x.eliminado == false);
-            ApartadoModelo.instrumentos = instrumentoDummy.Data;
+            // re-subimos instrumentos completo para redisplay si falla
+            vm.instrumentos = _instrumentoService.GetAll(x => !x.eliminado).Data;
+            // y re-calculamos el límite
+            vm.MaxInstrumentos = _usuarioService.ObtenerMaximoInstrumentos(vm.apartado.idusuario).Result.Data;
+
+            vm.instrumentosSeleccionados = vm.instrumentosSeleccionados.Where(i => i > 0).ToList();
+
             if (ModelState.IsValid)
             {
-                var result = await _apartadoService.CrearApartado(ApartadoModelo);
+                var result = await _apartadoService.CrearApartado(vm);
                 if (result.Success)
-                {
-                    TempData["Success"] = "El apartado se ha creado correctamente.";
                     return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    TempData["Error"] = result.Message;
-                    ModelState.AddModelError("", result.Message);
-                }
+                TempData["Error"] = result.Message;
+                ModelState.AddModelError("", result.Message);
             }
-            // Si el modelo no es válido, volvemos a cargar la lista de usuarios
-            TempData["Error"] = "Error al crear el apartado.";
-            var usuarios = _usuarioService.GetAll(x => x.eliminado == false);
-            ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto", ApartadoModelo.apartado.idusuario);
-            var instrumentos = _instrumentoService.GetAll(x => x.eliminado == false);
-            ViewData["instrumentos"] = new SelectList(instrumentos.Data, "codigo", "nombre");
-            return View(ApartadoModelo);
+
+            ViewData["idUsuario"] = new SelectList(
+                _usuarioService.GetAll(x => !x.eliminado).Data,
+                "id", "nombreCompleto",
+                vm.apartado.idusuario);
+
+            return View(vm);
         }
 
         // GET: apartadoes/Edit/5

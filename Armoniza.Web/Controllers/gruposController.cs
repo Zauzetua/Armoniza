@@ -28,7 +28,7 @@ namespace Armoniza.Web.Controllers
                 TempData["error"] = "¡No se encontro este grupo!";
                 return RedirectToAction(nameof(Index));
             }
-            var grupo = _grupoService.Get(u => u.id == id);
+            var grupo = _grupoService.GetConUsuarios(u => u.id == id);
             if (grupo.Success)
             {
                 return View(grupo.Data);

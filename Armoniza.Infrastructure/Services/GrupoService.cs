@@ -63,6 +63,16 @@ namespace Armoniza.Infrastructure.Services
             return ServiceResponse<IEnumerable<grupo>>.Ok(grupos);
         }
 
+        public ServiceResponse<grupo> GetConUsuarios(Expression<Func<grupo, bool>> filter)
+        {
+            var grupo = _grupoRepository.Get(filter, "usuario");
+            
+            if (grupo == null) return ServiceResponse<grupo>.Fail("No se encontraron grupos");
+            return ServiceResponse<grupo>.Ok(grupo);
+
+        }
+
+
         public  ServiceResponse<IEnumerable<grupo>> GetAll()
         {
             var grupos =  _grupoRepository.GetAll();

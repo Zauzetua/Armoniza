@@ -46,13 +46,24 @@ namespace Armoniza.Infrastructure.Services
                 };
 
             }
-            if (apartado.instrumentos.Count() == 0)
+            if (apartado.instrumentosSeleccionados.Count() == 0)
             {
                 return new ServiceResponse<apartado>
                 {
                     Data = null,
                     Success = false,
                     Message = "No se han seleccionado instrumentos"
+                };
+            }
+            //Verificar que no se repitan los instrumentos
+            var instrumentosRepetidos = apartado.instrumentosSeleccionados.GroupBy(x => x).Where(g => g.Count() > 1).Select(g => g.Key);
+            if (instrumentosRepetidos.Any())
+            {
+                return new ServiceResponse<apartado>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "Los instrumentos no pueden estar repetidos"
                 };
             }
             //Verificar que no exceda su limite de instrumentos
@@ -85,7 +96,7 @@ namespace Armoniza.Infrastructure.Services
                     Message = "Usuario no valido"
                 };
             }
-            if (apartado.instrumentos.Count() > maximoInstrumentos.Data)
+            if (apartado.instrumentosSeleccionados.Count() > maximoInstrumentos.Data)
             {
                 return new ServiceResponse<apartado>
                 {
@@ -95,11 +106,33 @@ namespace Armoniza.Infrastructure.Services
                 };
             }
 
+            //verificar que la fecha de regreso no sea menor a la fecha actual
+            if (apartado.apartado.fecharegreso < DateTime.Now)
+            {
+                return new ServiceResponse<apartado>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "La fecha de regreso no puede ser menor a la fecha actual"
+                };
+            }
+
+            //verificar que el usuario no tenga un apartado activo
+            var apartadoActivo = _apartadosRepository.Get(x => x.idusuario == apartado.apartado.idusuario && x.activo == true);
+            if (apartadoActivo != null)
+            {
+                return new ServiceResponse<apartado>
+                {
+                    Data = null,
+                    Success = false,
+                    Message = "El usuario ya tiene un apartado activo"
+                };
+            }
 
             //Verificar que los instrumentos no esten ocupados
-            foreach (var item in apartado.instrumentos)
+            foreach (var item in apartado.instrumentosSeleccionados)
             {
-                var instrumento = _instrumentoRepository.Get(x => x.codigo == item.codigo);
+                var instrumento = _instrumentoRepository.Get(x => x.codigo == item);
                 if (instrumento is null)
                 {
                     return new ServiceResponse<apartado>
@@ -129,7 +162,7 @@ namespace Armoniza.Infrastructure.Services
                 }
             }
             //Crear el apartado
-            var instrumentosId = apartado.instrumentos.Select(x => x.codigo).ToList();
+            var instrumentosId = apartado.instrumentosSeleccionados.ToList();
             var resultado = await _apartadosRepository.CrearApartado(instrumentosId, apartado.apartado.fecharegreso, apartado.apartado.idusuario);
             if (resultado == 0)
             {

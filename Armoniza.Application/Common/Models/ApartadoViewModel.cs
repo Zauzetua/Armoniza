@@ -10,7 +10,8 @@ namespace Armoniza.Application.Common.Models
     public class ApartadoViewModel
     {
         public apartado? apartado { get; set; }
-        public IEnumerable<instrumento> instrumentos{ get; set; } = null!;
+        public IEnumerable<instrumento>? instrumentos{ get; set; }
         public List<int> instrumentosSeleccionados { get; set; } = new();
+        public int MaxInstrumentos { get; set; } = 0;
     }
 }

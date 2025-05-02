@@ -1,0 +1,53 @@
+﻿@model List<Armoniza.Domain.Entities.Vistas.Reporte>
+
+@{
+    ViewData["Title"] = "Reportes de Apartados";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary">Reportes de Apartados</h2>
+
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["error"]
+        </div>
+    }
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Grupo</th>
+                <th>Fecha de Apartado</th>
+                <th>Fecha de Regreso</th>
+                <th>Retornado</th>
+                <th>Instrumento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.id</td>
+                    <td>@r.usuario</td>
+                    <td>@(string.IsNullOrEmpty(r.grupo) ? "—" : r.grupo)</td>
+                    <td>@r.fecha_dado</td>
+                    <td>@r.fecha_regreso</td>
+                    <td>
+                        @if (r.retornado.ToLower() == "sí" || r.retornado.ToLower() == "si")
+                        {
+                            <span class="badge bg-success">Sí</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">No</span>
+                        }
+                    </td>
+                    <td>@r.instrumento</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

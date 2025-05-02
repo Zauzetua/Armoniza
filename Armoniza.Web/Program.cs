@@ -39,6 +39,8 @@ builder.Services.AddScoped<IApartadosRepository, ApartadosRepository>();
 builder.Services.AddScoped<IApartadosService, ApartadosService>();
 builder.Services.AddScoped<ITipoUsuarioRepository, TipoUsuarioRepository>();
 builder.Services.AddScoped<ITipoUsuarioService, TipoUsuarioService>();
+builder.Services.AddScoped<IReportesRepository, ReportesRepository>();
+builder.Services.AddScoped<IReportesService, ReportesService>();
 
 
 

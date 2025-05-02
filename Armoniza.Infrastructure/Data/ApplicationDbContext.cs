@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Armoniza.Application.Common.Models;
 using Armoniza.Domain.Entities;
+using Armoniza.Domain.Entities.Vistas;
 using Microsoft.EntityFrameworkCore;
 
 namespace Armoniza.Infrastructure.Infrastructure.Data;
@@ -35,6 +36,7 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<tipoUsuario> tipoUsuarios { get; set; }
 
     public virtual DbSet<usuario> usuarios { get; set; }
+    public virtual DbSet<Reporte> Reportes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -42,6 +44,13 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Reporte>(entity =>
+        {
+            entity.HasNoKey();
+            entity.ToView("reportes");
+
+        });
+
         modelBuilder.Entity<ApartadoCreadoResult>().HasNoKey();
         modelBuilder.Entity<LiberarApartadoResult>().HasNoKey();
         modelBuilder.Entity<Admin>(entity =>

@@ -75,22 +75,4 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script>
-        $(document).ready(function () {
-            const directorId = 14;
-
-            $('#idTipo').change(function () {
-                const selectedTipo = $(this).val();
-
-                if (selectedTipo == directorId) {
-                    $('#idGrupo').val('');
-                    $('#idGrupo').prop('disabled', true);
-                } else {
-                    $('#idGrupo').prop('disabled', false);
-                }
-            });
-
-            $('#idTipo').trigger('change');
-        });
-    </script>
 }

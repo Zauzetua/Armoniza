@@ -1,115 +1,140 @@
 ﻿@model Armoniza.Application.Common.Models.ApartadoViewModel
 
 @{
-    ViewData["Title"] = "Crear Apartado";
+	ViewData["Title"] = "Crear Apartado";
 }
 
 <h1 class="mb-4"><i class="bi bi-calendar-plus me-2"></i>Crear Apartado</h1>
 <hr />
 
 <form asp-action="Create" class="needs-validation" novalidate>
-    <div class="mb-3">
-        <label asp-for="apartado.fecharegreso" class="form-label"></label>
-        <input asp-for="apartado.fecharegreso" class="form-control w-100" />
-        <span asp-validation-for="apartado.fecharegreso" class="text-danger"></span>
-    </div>
 
-    <div class="mb-3">
-        <label asp-for="apartado.idusuario" class="form-label"></label>
-        <select asp-for="apartado.idusuario"
-                class="form-select"
-                asp-items="ViewBag.idUsuario"
-                onchange="if(this.value) window.location='?idUsuario='+this.value;">
-            <option value="">-- Selecciona un usuario --</option>
-        </select>
-        <span asp-validation-for="apartado.idusuario" class="text-danger"></span>
-    </div>
 
-    @if (Model.MaxInstrumentos > 0)
-    {
-        <div class="mb-4">
-            <label class="form-label">Instrumentos (máx. @Model.MaxInstrumentos):</label>
-            <div class="d-flex flex-wrap gap-3" id="instrument-slots">
-                @for (int i = 0; i < Model.MaxInstrumentos; i++)
-                {
-                    <div class="text-center">
-                        <div id="slot-name-@i" class="mb-1 text-truncate text-muted" style="width:150px;">
-                            <em>Ninguno</em>
-                        </div>
-                        <input type="hidden" name="instrumentosSeleccionados" id="slot-input-@i" value="0" />
-                        <div class="btn-group">
-                            <button type="button"
-                                    class="btn btn-outline-primary slot-btn"
-                                    data-index="@i">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
-                            <button type="button"
-                                    class="btn btn-outline-danger clear-slot-btn"
-                                    data-index="@i"
-                                    title="Quitar instrumento">
-                                <i class="bi bi-x-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    }
+	<div class="mb-3">
+		<label asp-for="apartado.idusuario" class="form-label"></label>
+		<select asp-for="apartado.idusuario"
+				class="form-select"
+				asp-items="ViewBag.idUsuario"
+				onchange="if(this.value) window.location='?idUsuario='+this.value;">
+			<option value="">-- Selecciona un usuario --</option>
+		</select>
+		<span asp-validation-for="apartado.idusuario" class="text-danger"></span>
+	</div>
 
-    <div class="d-flex gap-3">
-        <button type="submit" class="btn btn-success">
-            <i class="bi bi-check-circle me-1"></i> Crear
-        </button>
-        <a asp-action="Index" class="btn btn-secondary">
-            <i class="bi bi-arrow-left-circle me-1"></i> Cancelar
-        </a>
-    </div>
+	<div class="mb-3">
+		<label asp-for="apartado.fecharegreso" class="form-label"></label>
+		<input asp-for="apartado.fecharegreso" class="form-control w-100" />
+		<span asp-validation-for="apartado.fecharegreso" class="text-danger"></span>
+	</div>
+
+	@if (Model.MaxInstrumentos > 0)
+	{
+		<div class="mb-4">
+			<label class="form-label">Instrumentos (máx. @Model.MaxInstrumentos):</label>
+			<div class="d-flex flex-wrap gap-3" id="instrument-slots">
+				@for (int i = 0; i < Model.MaxInstrumentos; i++)
+				{
+					<div class="text-center">
+						<div id="slot-name-@i" class="mb-1 text-truncate text-muted" style="width:150px;">
+							<em>Ninguno</em>
+						</div>
+						<input type="hidden" name="instrumentosSeleccionados" id="slot-input-@i" value="0" />
+						<div class="btn-group">
+							<button type="button"
+									class="btn btn-outline-primary slot-btn"
+									data-index="@i">
+								<i class="bi bi-plus-lg"></i>
+							</button>
+							<button type="button"
+									class="btn btn-outline-danger clear-slot-btn"
+									data-index="@i"
+									title="Quitar instrumento">
+								<i class="bi bi-x-lg"></i>
+							</button>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	}
+
+	<div class="d-flex gap-3">
+		<button type="submit" class="btn btn-success">
+			<i class="bi bi-check-circle me-1"></i> Crear
+		</button>
+		<a asp-action="Index" class="btn btn-secondary">
+			<i class="bi bi-arrow-left-circle me-1"></i> Cancelar
+		</a>
+	</div>
 </form>
 
 <!-- Modal de selección -->
 <div class="modal fade" id="instrumentModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-music-note-list me-2"></i>Selecciona un instrumento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    @foreach (var inst in Model.instrumentos!)
-                    {
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-music-note-beamed me-2 text-primary"></i>@inst.nombre</span>
-                            <button type="button"
-                                    class="btn btn-sm btn-outline-success select-inst-btn"
-                                    data-inst-id="@inst.codigo"
-                                    data-inst-name="@inst.nombre">
-                                <i class="bi bi-check-circle"></i> Seleccionar
-                            </button>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><i class="bi bi-music-note-list me-2"></i>Selecciona un instrumento</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="mb-3">
+					<input type="text"
+						   id="instrumentSearch"
+						   class="form-control"
+						   placeholder="Buscar por nombre o código..." />
+				</div>
+
+				<ul class="list-group">
+					@foreach (var inst in Model.instrumentos!)
+					{
+						<li class="list-group-item d-flex justify-content-between align-items-center inst-item"
+							data-nombre="@inst.nombre.ToLower()"
+							data-codigo="@inst.codigo.ToString().ToLower()"
+							data-id="@inst.codigo">
+							<span><i class="bi bi-music-note-beamed me-2 text-primary"></i>@inst.nombre</span>
+							<span> Codigo: @inst.codigo</span>
+							<button type="button"
+									class="btn btn-sm btn-outline-success select-inst-btn"
+									data-inst-id="@inst.codigo"
+									data-inst-name="@inst.nombre">
+								<i class="bi bi-check-circle"></i> Seleccionar
+							</button>
+						</li>
+					}
+				</ul>
+			</div>
+
+		</div>
+	</div>
 </div>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+	@await Html.PartialAsync("_ValidationScriptsPartial")
 
-    <script src="~/js/ApartadosModal.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            flatpickr('[name="apartado.fecharegreso"]', {
-                enableTime: true,
-                time_24hr: true,
-                dateFormat: 'Y-m-d H:i',
-                minDate: 'today',
-                defaultDate: 'today',
-                locale: 'es'
-            });
-        });
+	<script src="~/js/ApartadosModal.js"></script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			flatpickr('[name="apartado.fecharegreso"]', {
+				enableTime: true,
+				time_24hr: true,
+				dateFormat: 'Y-m-d H:i',
+				minDate: 'today',
+				defaultDate: 'today',
+				locale: 'es'
+			});
+		});
 
-    </script>
+	</script>
+
+	<script>
+		
+
+
+
+	</script>
 }
 

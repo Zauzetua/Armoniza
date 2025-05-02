@@ -148,7 +148,7 @@ namespace Armoniza.Infrastructure.Services
                     {
                         Data = null,
                         Success = false,
-                        Message = "El instrumento no existe"
+                        Message = "Un instrumento seleccionado no existe"
                     };
                 }
                 if (instrumento.ocupado == true)
@@ -157,7 +157,16 @@ namespace Armoniza.Infrastructure.Services
                     {
                         Data = null,
                         Success = false,
-                        Message = "El instrumento ya esta ocupado"
+                        Message = $"El instrumento  {instrumento.nombre} ya esta ocupado"
+                    };
+                }
+                if (instrumento.funcional == false)
+                {
+                    return new ServiceResponse<apartado>
+                    {
+                        Data = null,
+                        Success = false,
+                        Message = $"El instrumento {instrumento.nombre} esta roto."
                     };
                 }
             }

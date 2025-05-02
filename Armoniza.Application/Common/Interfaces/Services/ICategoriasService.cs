@@ -18,6 +18,7 @@ namespace Armoniza.Application.Common.Interfaces.Services
         Task<IEnumerable<T>> GetAll();
 
         Task<T> Get(Expression<Func<T, bool>> filter);
+        Task<T> GetConInstrumentos(System.Linq.Expressions.Expression<Func<T, bool>> filter);
 
         Task<bool> Update(categoria categoria);
 

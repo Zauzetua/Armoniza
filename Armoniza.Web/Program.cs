@@ -33,6 +33,12 @@ builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
 builder.Services.AddScoped<IGrupoService, GrupoService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IInstrumentoRepository, InstrumentoRepository>();
+builder.Services.AddScoped<IInstrumentoService, InstrumentoService>();
+builder.Services.AddScoped<IApartadosRepository, ApartadosRepository>();
+builder.Services.AddScoped<IApartadosService, ApartadosService>();
+builder.Services.AddScoped<ITipoUsuarioRepository, TipoUsuarioRepository>();
+builder.Services.AddScoped<ITipoUsuarioService, TipoUsuarioService>();
 
 
 

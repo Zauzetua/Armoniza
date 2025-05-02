@@ -1,0 +1,106 @@
+﻿
+
+/* Aqui esta la logia de los recuadros desplegables de Categorias */
+
+.dropdown {
+    margin-top: 10%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    transform: translateX(-12%) translateY(2%);
+    width:130%;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: 2px 2px 5px black;
+    border-radius:6px;
+    border-top: none;
+}
+
+    .dropdown-content:hover {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+span {
+    cursor: default;
+    cursor: pointer;
+    padding-bottom: 10%;
+}
+
+.nav-item {
+    margin: auto;
+    font-weight: 500;
+    color:white;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+/*    border-radius: 15px;*/
+    padding-left: 20px;
+    padding-right: 20px;
+    min-width: 160px;
+    min-height: 30px;
+
+}
+
+
+    .nav-item:hover {
+        margin: auto;
+        font-weight: 500px;
+        transform: scale(1.1);
+        background-color: #539dc5;
+        /*        border-radius: 30px;*/
+        border-bottom: 1px solid white;
+    }
+
+   
+
+/*Aqui se termina*/
+
+
+.ancla:hover {
+    background-color: #dafee7;
+}
+
+
+
+img {
+    width: 40px;
+    height: 40px;
+}
+
+
+.container-fluid {
+    margin-left: 4%;
+    padding: 5px;
+}
+
+
+.navbar-nav .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+    .navbar-nav .nav-item.active .nav-link {
+        font-weight: bold;
+    }
+
+/* Estilos para el dropdown activo */
+.nav-item.active .dropdown span {
+    font-weight: bold;
+    color: white !important;
+}

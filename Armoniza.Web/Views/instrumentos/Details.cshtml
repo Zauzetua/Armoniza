@@ -1,0 +1,70 @@
+﻿
+@model Armoniza.Domain.Entities.instrumento
+
+                      @functions {
+    string DisplayBoolBadge(bool value)
+    {
+        return value
+            ? "<span class='badge bg-success'><i class='bi bi-check-circle-fill'></i> Sí</span>"
+            : "<span class='badge bg-secondary'><i class='bi bi-x-circle-fill'></i> No</span>";
+    }
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-music-note-beamed"></i> Detalles del Instrumento</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold">
+                            <i class="bi bi-box-seam"></i> Estuche
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.Raw(DisplayBoolBadge(Model.estuche))
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold">
+                            <i class="bi bi-person-fill-lock"></i> Ocupado
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.Raw(DisplayBoolBadge(Model.ocupado))
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold">
+                            <i class="bi bi-tools"></i> Funcional
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.Raw(DisplayBoolBadge(Model.funcional))
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold">
+                            <i class="bi bi-music-note"></i> Nombre
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.nombre)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold">
+                            <i class="bi bi-tags"></i> Categoría
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.idCategoriaNavigation.categoria1)
+                        </dd>
+                    </dl>
+
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model?.codigo" class="btn btn-warning">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

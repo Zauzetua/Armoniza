@@ -1,0 +1,75 @@
+﻿@model Armoniza.Domain.Entities.instrumento
+
+@{
+    ViewData["Title"] = "Editar Instrumento";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-warning text-white">
+                    <h4 class="mb-0"><i class="bi bi-music-note-list"></i> Editar Instrumento</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
+                        <input type="hidden" asp-for="codigo" />
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="estuche" id="estuche" />
+                            <label class="form-check-label fw-bold" for="estuche">
+                                <i class="bi bi-box-seam"></i> Con Estuche
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" checked="@(Model.ocupado)" disabled />
+                            <label class="form-check-label fw-bold" for="ocupado">
+                                <i class="bi bi-person-fill-lock"></i> Actualmente Ocupado
+                            </label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="funcional" id="funcional" />
+                            <label class="form-check-label fw-bold" for="funcional">
+                                <i class="bi bi-tools"></i> Funcional
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="idCategoria" class="form-label fw-bold">
+                                <i class="bi bi-tags"></i> Categoría
+                            </label>
+                            <select asp-for="idCategoria" class="form-select" asp-items="ViewBag.idCategoria"></select>
+                            <span asp-validation-for="idCategoria" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="nombre" class="form-label fw-bold">
+                                <i class="bi bi-music-note"></i> Nombre del Instrumento
+                            </label>
+                            <input asp-for="nombre" class="form-control" />
+                            <span asp-validation-for="nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-animado">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-animado">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

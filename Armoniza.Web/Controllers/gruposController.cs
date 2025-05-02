@@ -4,11 +4,11 @@ using Armoniza.Application.Common.Interfaces.Services;
 
 namespace Armoniza.Web.Controllers
 {
-    public class grupoesController : Controller
+    public class gruposController : Controller
     {
         private readonly IGrupoService _grupoService;
 
-        public grupoesController(IGrupoService grupoService)
+        public gruposController(IGrupoService grupoService)
         {
             _grupoService = grupoService;
         }
@@ -28,10 +28,9 @@ namespace Armoniza.Web.Controllers
                 TempData["error"] = "¡No se encontro este grupo!";
                 return RedirectToAction(nameof(Index));
             }
-            var grupo = _grupoService.Get(u => u.id == id);
+            var grupo = _grupoService.GetConUsuarios(u => u.id == id);
             if (grupo.Success)
             {
-                TempData["success"] = grupo.Message;
                 return View(grupo.Data);
                 
             }

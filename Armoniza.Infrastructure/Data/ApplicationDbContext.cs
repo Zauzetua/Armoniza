@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Armoniza.Application.Common.Models;
 using Armoniza.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +42,8 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ApartadoCreadoResult>().HasNoKey();
+        modelBuilder.Entity<LiberarApartadoResult>().HasNoKey();
         modelBuilder.Entity<Admin>(entity =>
         {
             entity.HasKey(e => e.id).HasName("Admin_pkey");
@@ -62,18 +65,18 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.activo)
                 .HasDefaultValue(true)
                 .HasComment("Si el apartado esta activo (Aun no devuelto) o ya se libero");
-            entity.Property(e => e.fechaDado)
+            entity.Property(e => e.fechadado)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasComment("Fecha en la que se entrego el instrumento")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.fechaRegreso)
+            entity.Property(e => e.fecharegreso)
                 .HasComment("fecha estipulada para devolver el instrumento, máximo un semestre")
                 .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.fechaRetornado).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.idUsuario).HasComment("Id del usuario que pidió el apartado");
+            entity.Property(e => e.fecharetornado).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.idusuario).HasComment("Id del usuario que pidió el apartado");
 
             entity.HasOne(d => d.idUsuarioNavigation).WithMany(p => p.apartado)
-                .HasForeignKey(d => d.idUsuario)
+                .HasForeignKey(d => d.idusuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_apartado_usuario");
         });

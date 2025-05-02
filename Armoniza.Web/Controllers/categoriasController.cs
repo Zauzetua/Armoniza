@@ -18,6 +18,7 @@ namespace Armoniza.Web.Controllers
     {
         private readonly ICategoriasService<categoria> _categoriasService;
 
+
         public categoriasController(ICategoriasService<categoria> _categoriasService)
         {
             this._categoriasService = _categoriasService;
@@ -45,7 +46,6 @@ namespace Armoniza.Web.Controllers
                 TempData["error"] = "¡No se encontro esta categoria!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["success"] = "¡Categoria encontrada exitosamente!";
             return View(categoria);
         }
 

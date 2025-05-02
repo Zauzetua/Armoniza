@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Armoniza.Domain.Entities.grupo>
+
+@{
+    ViewData["Title"] = "Grupos";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary"><i class="bi bi-people-fill"></i> Grupos</h2>
+        <a asp-action="Create" class="btn btn-success btn-animado"><i class="bi bi-plus-circle"></i> Nuevo Grupo</a>
+    </div>
+
+    <!--Barra de busqueda y selector de items por pagina -->
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar Grupo Musical" />
+        </div>
+        <div class="col-md-4">
+            <select class="form-select" id="itemsPerPageSelect">
+                <option value="5" selected>5 por pagina</option>
+                <option value="10">10 por pagina</option>
+                <option value="20">20 por pagina</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="bi bi-tag"></i> Nombre</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="gruposTableBody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.grupo1)</td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning btn-sm btn-animado"><i class="bi bi-pencil"></i> Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info btn-sm text-white btn-animado"><i class="bi bi-eye"></i> Ver</a>
+                                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger btn-sm btn-animado"><i class="bi bi-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <!--Controles de Paginacion-->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center" id="paginationControls"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const searchInput = document.getElementById('searchInput');
+                const itemsPerPageSelect = document.getElementById('itemsPerPageSelect');
+                const tableBody = document.getElementById('gruposTableBody');
+                const paginationControls = document.getElementById('paginationControls');
+                const rows = Array.from(tableBody.querySelectorAll('tr'));
+                let currentPage = 1;
+                let itemsPerPage = parseInt(itemsPerPageSelect.value);
+
+                const renderTable = () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const filteredRows = rows.filter(row =>
+                        row.querySelector('td:first-child').textContent.toLowerCase().includes(searchTerm)
+                    );
+
+                    const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+                    currentPage = Math.min(currentPage, totalPages) || 1;
+
+                    rows.forEach(row => row.style.display = 'none');
+                    filteredRows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                                .forEach(row => row.style.display = '');
+
+                    renderPaginationControls(totalPages);
+                };
+
+                const renderPaginationControls = (totalPages) => {
+                    paginationControls.innerHTML = '';
+                    if (totalPages <= 1) return;
+
+                    const createPageItem = (page, text, disabled = false, active = false) => {
+                        const li = document.createElement('li');
+                        li.className = `page-item ${disabled ? 'disabled' : ''} ${active ? 'active' : ''}`;
+                        li.innerHTML = `<a class="page-link" href="#">${text}</a>`;
+                        if (!disabled) li.addEventListener('click', () => { currentPage = page; renderTable(); });
+                        return li;
+                    };
+
+                    paginationControls.appendChild(createPageItem(currentPage - 1, '&laquo;', currentPage === 1));
+                    for (let i = 1; i <= totalPages; i++) {
+                        paginationControls.appendChild(createPageItem(i, i, false, i === currentPage));
+                    }
+                    paginationControls.appendChild(createPageItem(currentPage + 1, '&raquo;', currentPage === totalPages));
+                };
+
+                searchInput.addEventListener('input', renderTable);
+                itemsPerPageSelect.addEventListener('change', () => {
+                    itemsPerPage = parseInt(itemsPerPageSelect.value);
+                    currentPage = 1;
+                    renderTable();
+                });
+
+                renderTable();
+            });
+        </script>
+}

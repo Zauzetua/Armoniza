@@ -1,0 +1,36 @@
+﻿@model Armoniza.Domain.Entities.apartado
+
+@{
+    ViewData["Title"] = "Liberar Apartado";
+}
+
+<h1>Liberar Apartado</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="LiberarApartadoConfirmed" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Liberar" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver a la Lista</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

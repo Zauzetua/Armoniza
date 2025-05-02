@@ -1,0 +1,25 @@
+﻿/* Aumentar alto del popup cuando hay hora */
+.flatpickr-calendar.hasTime {
+    height: auto !important;
+    min-height: 380px; /* más espacio para horas */
+}
+
+/* Evitar que se corten días */
+.flatpickr-weekdays {
+    overflow: visible !important;
+    height: auto;
+}
+
+/* Mejorar separación entre calendario y selector de hora */
+.flatpickr-time {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* Separar bien los nombres de días */
+.flatpickr-weekday {
+    font-size: 14px;
+    padding: 5px 0;
+}

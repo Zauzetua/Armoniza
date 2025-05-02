@@ -14,6 +14,7 @@ namespace Armoniza.Application.Common.Interfaces.Services
         Task<ServiceResponse<grupo>> Delete(int id);
         ServiceResponse<grupo> Add(grupo grupo);
         ServiceResponse<IEnumerable<grupo>> GetAll(Expression<Func<grupo, bool>> filter);
+        ServiceResponse<grupo> GetConUsuarios(Expression<Func<grupo, bool>> filter);
         ServiceResponse<IEnumerable<grupo>> GetAll();
         ServiceResponse<grupo> Get(Expression<Func<grupo, bool>> filter);
         ServiceResponse<bool> Update(grupo grupo);

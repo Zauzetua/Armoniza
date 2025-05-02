@@ -98,6 +98,11 @@ namespace Armoniza.Infrastructure.Services
         {
             //Actualizar cuando tenga el servicio de apartados
             var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
+            if (instrumento.ocupado)
+            {
+                return ServiceResponse<bool>.Fail("No se puede eliminar un instrumento ocupado");
+
+            }
             if (instrumento == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
             instrumento.eliminado = true;
             var resultado = await _instrumentoRepository.Delete(instrumento.codigo);

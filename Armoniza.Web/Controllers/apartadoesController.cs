@@ -76,7 +76,7 @@ namespace Armoniza.Web.Controllers
             var vm = new ApartadoViewModel
             {
                 apartado = new apartado { idusuario = idUsuario },
-                instrumentos = _instrumentoService.GetAll(x => !x.eliminado).Data,
+                instrumentos = _instrumentoService.GetAll(x => !x.eliminado && !x.ocupado).Data,
                 MaxInstrumentos = _usuarioService.ObtenerMaximoInstrumentos(idUsuario).Result.Data
 
             };

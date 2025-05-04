@@ -64,20 +64,20 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item cerrar">
-                                <a class="nav-link text-white d-flex align-items-center gap-2" asp-controller="apartadoes" asp-action="Index">
+                            <li class="nav-item cerrar @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "apartadoes" ? "active" : "")">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "apartadoes" ? "active" : "")" asp-controller="apartadoes" asp-action="Index">
                                     <i class="bi bi-calendar2-check"></i> Apartados
                                 </a>
                             </li>
 
-                            <li class="nav-item cerrar">
-                                <a class="nav-link text-white d-flex align-items-center gap-2" asp-controller="reportes" asp-action="Index">
+                            <li class="nav-item cerrar @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "reportes" ? "active" : "")">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "reportes" ? "active" : "")" asp-controller="reportes" asp-action="Index">
                                     <i class="bi bi-bar-chart-line"></i> Reportes
                                 </a>
                             </li>
 
-                            <li class="nav-item cerrar">
-                                <a class="nav-link text-white d-flex align-items-center gap-2" asp-controller="Account" asp-action="LogOut">
+                            <li class="nav-item cerrar @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "account" ? "active" : "")">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "account" ? "active" : "")" asp-controller="Account" asp-action="LogOut">
                                     <i class="bi bi-box-arrow-right"></i> Cerrar sesión
                                 </a>
                             </li>

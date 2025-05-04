@@ -1,4 +1,6 @@
-﻿@model List<Armoniza.Domain.Entities.Vistas.Reporte>
+﻿@using Armoniza.Application.Common.Models
+@model ReporteViewModel
+
 
 @{
     ViewData["Title"] = "Reportes de Apartados";
@@ -14,6 +16,56 @@
         </div>
     }
 
+    <form method="get" class="row g-2 mb-4">
+        <!-- Filtros -->
+        <div class="col-md-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" class="form-control" name="filtroUsuario" value="@Model.FiltroUsuario" placeholder="Buscar por usuario" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Grupo</label>
+            <input type="text" class="form-control" name="filtroGrupo" value="@Model.FiltroGrupo" placeholder="Buscar por grupo" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Retornado</label>
+            <select class="form-select" name="filtroRetornado">
+                <option value="">Todos</option>
+                <option value="sí" selected="@(Model.FiltroRetornado == "sí")">Sí</option>
+                <option value="pendiente" selected="@(Model.FiltroRetornado == "pendiente")">No</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Instrumento</label>
+            <input type="text" class="form-control" name="filtroInstrumento" value="@Model.FiltroInstrumento" placeholder="Buscar por instrumento" />
+        </div>
+
+        <!-- Ordenamiento -->
+        <div class="col-md-4">
+            <label class="form-label">Ordenar por</label>
+            <select class="form-select" name="ordenarPor">
+                <option value="usuario" selected="@(Model.OrdenarPor == "usuario")">Usuario</option>
+                <option value="fecha_dado" selected="@(Model.OrdenarPor == "fecha_dado")">Fecha de Apartado</option>
+                <option value="fecha_regreso" selected="@(Model.OrdenarPor == "fecha_regreso")">Fecha de Regreso</option>
+                <option value="retornado" selected="@(Model.OrdenarPor == "retornado")">Retornado</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Dirección</label>
+            <select class="form-select" name="direccion">
+                <option value="asc" selected="@(Model.Direccion == "asc")">Ascendente</option>
+                <option value="desc" selected="@(Model.Direccion == "desc")">Descendente</option>
+            </select>
+        </div>
+
+        <!-- Botones -->
+        <div class="col-md-4 d-flex align-items-end justify-content-between">
+            <button type="submit" class="btn btn-success w-50 me-2">Aplicar</button>
+            <a href="@Url.Action("Index", "Reportes")" class="btn btn-secondary w-50">Limpiar</a>
+        </div>
+    </form>
+
+
+
     <table class="table table-striped table-bordered table-hover">
         <thead class="table-dark">
             <tr>
@@ -27,7 +79,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var r in Model)
+            @foreach (var r in Model.Reportes)
             {
                 <tr>
                     <td>@r.id</td>
@@ -36,7 +88,7 @@
                     <td>@r.fecha_dado</td>
                     <td>@r.fecha_regreso</td>
                     <td>
-                        @if (r.retornado.ToLower() == "sí" || r.retornado.ToLower() == "si")
+                        @if (r.retornado.ToLower() != "pendiente")
                         {
                             <span class="badge bg-success">Sí</span>
                         }

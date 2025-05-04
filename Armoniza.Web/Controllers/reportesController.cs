@@ -1,6 +1,7 @@
 ﻿using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 namespace Armoniza.Web.Controllers
 {
@@ -11,14 +12,24 @@ namespace Armoniza.Web.Controllers
         {
             _reportesService = reportesService;
         }
+
+
         public IActionResult Index(
-    string ordenarPor = "fecha_dado",
-    string direccion = "asc",
-    string? filtroUsuario = null,
-    string? filtroGrupo = null,
-    string? filtroRetornado = null,
-    string? filtroInstrumento = null)
+        string ordenarPor = "fecha_dado",
+        string direccion = "asc",
+        string? filtroUsuario = null,
+        string? filtroGrupo = null,
+        string? filtroRetornado = null,
+        string? filtroInstrumento = null,
+        string? fechaDesde = null,
+        string? fechaHasta = null,
+        string? filtroDevuelto = null,
+        int pagina = 1,
+        int tamanoPagina = 10)
         {
+            ExcelPackage.License.SetNonCommercialPersonal("Armoniza");
+            // O LicenseContext.NonCommercial si es una versión no comercial
+
             var reportes = _reportesService.ObtenerRegistros().Result;
 
             if (reportes is null)
@@ -27,7 +38,7 @@ namespace Armoniza.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Aplicar filtros
+            // Filtrar
             if (!string.IsNullOrWhiteSpace(filtroUsuario))
                 reportes = reportes.Where(r => r.usuario.Contains(filtroUsuario, StringComparison.OrdinalIgnoreCase)).ToList();
 
@@ -40,6 +51,21 @@ namespace Armoniza.Web.Controllers
             if (!string.IsNullOrWhiteSpace(filtroInstrumento))
                 reportes = reportes.Where(r => r.instrumento.Contains(filtroInstrumento, StringComparison.OrdinalIgnoreCase)).ToList();
 
+            // Filtrar por rango de fechas (fecha_dado)
+            if (DateTime.TryParse(fechaDesde, out DateTime desde))
+                reportes = reportes.Where(r => DateTime.TryParse(r.fecha_dado, out var f) && f >= desde).ToList();
+
+            if (DateTime.TryParse(fechaHasta, out DateTime hasta))
+                reportes = reportes.Where(r => DateTime.TryParse(r.fecha_dado, out var f) && f <= hasta).ToList();
+
+            // Filtrar por devueltos o no
+            if (!string.IsNullOrEmpty(filtroDevuelto))
+            {
+                if (filtroDevuelto == "Sí")
+                    reportes = reportes.Where(r => !r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
+                else if (filtroDevuelto == "No")
+                    reportes = reportes.Where(r => r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
+            }
             // Ordenar
             reportes = ordenarPor switch
             {
@@ -50,20 +76,49 @@ namespace Armoniza.Web.Controllers
                 _ => reportes
             };
 
+            int totalRegistros = reportes.Count;
+            int totalPaginas = (int)Math.Ceiling((double)totalRegistros / tamanoPagina);
+
+            var reportesPaginados = reportes
+                .Skip((pagina - 1) * tamanoPagina)
+                .Take(tamanoPagina)
+                .ToList();
+
             var vm = new ReporteViewModel
             {
-                Reportes = reportes,
+                Reportes = reportesPaginados,
                 OrdenarPor = ordenarPor,
                 Direccion = direccion,
                 FiltroUsuario = filtroUsuario,
                 FiltroGrupo = filtroGrupo,
                 FiltroRetornado = filtroRetornado,
-                FiltroInstrumento = filtroInstrumento
+                FiltroInstrumento = filtroInstrumento,
+                PaginaActual = pagina,
+                TotalPaginas = totalPaginas,
+                FechaDesde = fechaDesde,
+                FechaHasta = fechaHasta,
+                FiltroDevuelto = filtroDevuelto
             };
 
             return View(vm);
         }
 
+        public async Task<IActionResult> ExportarExcel(
+        string ordenarPor = "fecha_dado",
+        string direccion = "asc",
+        string? filtroUsuario = null,
+        string? filtroGrupo = null,
+        string? filtroRetornado = null,
+        string? filtroInstrumento = null,
+        string? fechaDesde = null,
+        string? fechaHasta = null,
+        string? filtroDevuelto = null)
+        {
+            var excelFile = await _reportesService.GenerarExcel(
+                ordenarPor, direccion, filtroUsuario, filtroGrupo, filtroRetornado, filtroInstrumento, fechaDesde, fechaHasta, filtroDevuelto);
+
+            return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reportes.xlsx");
+        }
 
     }
 }

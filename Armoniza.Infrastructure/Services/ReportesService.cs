@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Armoniza.Application.Common.Interfaces.Repositories;
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Domain.Entities.Vistas;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
 
 namespace Armoniza.Infrastructure.Services
 {
@@ -45,7 +48,99 @@ namespace Armoniza.Infrastructure.Services
             return reportesAgrupados;
         }
 
+        public async Task<byte[]> GenerarExcel(
+           string ordenarPor,
+           string direccion,
+           string? filtroUsuario,
+           string? filtroGrupo,
+           string? filtroRetornado,
+           string? filtroInstrumento, 
+           string? fechaDesde,
+            string? fechaHasta,
+            string? filtroDevuelto)
+        {
+            var reportes = await ObtenerRegistros();
+
+            // Aplicar filtros
+            if (!string.IsNullOrWhiteSpace(filtroUsuario))
+                reportes = reportes.Where(r => r.usuario.Contains(filtroUsuario, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filtroGrupo))
+                reportes = reportes.Where(r => r.grupo != null && r.grupo.Contains(filtroGrupo, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filtroRetornado))
+                reportes = reportes.Where(r => r.retornado.Equals(filtroRetornado, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(filtroInstrumento))
+                reportes = reportes.Where(r => r.instrumento.Contains(filtroInstrumento, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // Filtrar por rango de fechas (fecha_dado)
+            if (DateTime.TryParse(fechaDesde, out DateTime desde))
+                reportes = reportes.Where(r => DateTime.TryParse(r.fecha_dado, out var f) && f >= desde).ToList();
+            if (DateTime.TryParse(fechaHasta, out DateTime hasta))
+                reportes = reportes.Where(r => DateTime.TryParse(r.fecha_dado, out var f) && f <= hasta).ToList();
+            // Filtrar por devueltos o no
+            if (!string.IsNullOrEmpty(filtroDevuelto))
+            {
+                if (filtroDevuelto == "Sí")
+                    reportes = reportes.Where(r => !r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
+                else if (filtroDevuelto == "No")
+                    reportes = reportes.Where(r => r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            // Aplicar ordenamiento
+            reportes = ordenarPor switch
+            {
+                "usuario" => direccion == "asc" ? reportes.OrderBy(r => r.usuario).ToList() : reportes.OrderByDescending(r => r.usuario).ToList(),
+                "fecha_dado" => direccion == "asc" ? reportes.OrderBy(r => r.fecha_dado).ToList() : reportes.OrderByDescending(r => r.fecha_dado).ToList(),
+                "fecha_regreso" => direccion == "asc" ? reportes.OrderBy(r => r.fecha_regreso).ToList() : reportes.OrderByDescending(r => r.fecha_regreso).ToList(),
+                "retornado" => direccion == "asc" ? reportes.OrderBy(r => r.retornado).ToList() : reportes.OrderByDescending(r => r.retornado).ToList(),
+                _ => reportes
+            };
+
+            // Crear el archivo Excel en memoria
+            ExcelPackage.License.SetNonCommercialPersonal("Armoniza");
+
+            using var package = new ExcelPackage();
+            var ws = package.Workbook.Worksheets.Add("Reportes");
+
+            // Cabeceras
+            ws.Cells["A1"].Value = "ID";
+            ws.Cells["B1"].Value = "Usuario";
+            ws.Cells["C1"].Value = "Grupo";
+            ws.Cells["D1"].Value = "Fecha de Apartado";
+            ws.Cells["E1"].Value = "Fecha de Regreso";
+            ws.Cells["F1"].Value = "Retornado";
+            ws.Cells["G1"].Value = "Instrumento";
+
+            using (var headerRange = ws.Cells["A1:G1"])
+            {
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                headerRange.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+            }
+
+            // Datos
+            int row = 2;
+            foreach (var r in reportes)
+            {
+                ws.Cells[row, 1].Value = r.id;
+                ws.Cells[row, 2].Value = r.usuario;
+                ws.Cells[row, 3].Value = string.IsNullOrEmpty(r.grupo) ? "—" : r.grupo;
+                ws.Cells[row, 4].Value = r.fecha_dado;
+                ws.Cells[row, 5].Value = r.fecha_regreso;
+                ws.Cells[row, 6].Value = r.retornado.ToLower() != "pendiente" ? "Sí" : "No";
+                ws.Cells[row, 7].Value = r.instrumento;
+                row++;
+            }
+
+            ws.Cells[ws.Dimension.Address].AutoFitColumns();
+
+            return package.GetAsByteArray(); // Devolver el archivo en memoria
+        }
     }
 
-
 }
+
+
+

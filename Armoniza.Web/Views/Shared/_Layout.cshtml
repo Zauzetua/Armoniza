@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="~/css/styleLayout.css" rel="stylesheet" />
-    <link href="~/css/cssDesplegar.css" rel="stylesheet"/>
-    
+    <link href="~/css/cssDesplegar.css" rel="stylesheet" />
+
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
-    <link href="~/css/EstilosDatepickr.css" rel="stylesheet"/>
+    <link href="~/css/EstilosDatepickr.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -28,6 +28,7 @@
 
 
                 <div class="container-fluid">
+                    <!-- Imagen de Home-->
                     <a style="border-radius:5px; transform: translateX(1%); " class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/house.png" alt="Alternate Text" /></a>
 
 
@@ -40,27 +41,28 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
 
+                            <!--Secciion de categorias e instrumentos-->
                             <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "categorias" ? "active" : "")">
                                 <div class="dropdown">
-
-                                    <span>Categorias</span>
-
+                                    <span>Inventario</span>
                                     <div class="dropdown-content">
-
                                         <a class="ancla nav-link text-dark" asp-area="" asp-controller="categorias" asp-action="Index">Categorias</a>
                                         <a class="ancla nav-link text-dark" asp-area="" asp-controller="instrumentos" asp-action="Index">Instrumentos</a>
                                     </div>
-
                                 </div>
-
                             </li>
 
+                            <!--Secciion de usuarios y grupos-->
                             <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "usuarios" ? "active" : "")">
-                                <a class="nav-link text-white" asp-area="" asp-controller="usuarios" asp-action="Index">Registrar usuarios</a>
+                                <div class="dropdown">
+                                    <span>Usuarios</span>
+                                    <div class="dropdown-content">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="usuarios" asp-action="Index">Registrar usuarios</a>
+                                        <a class="nav-link text-white" asp-area="" asp-controller="grupos" asp-action="Index">Gestionar Grupos Musicales</a>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "grupos" ? "active" : "")">
-                                <a class="nav-link text-white" asp-area="" asp-controller="grupos" asp-action="Index">Gestionar Grupos Musicales</a>
-                            </li>
+                            
                             <li class="nav-item cerrar">
                                 <a class="nav-link text-white" asp-area="" asp-controller="apartadoes" asp-action="Index">Apartados</a>
                             </li>
@@ -92,6 +94,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js" integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @await RenderSectionAsync("Scripts", required: false)

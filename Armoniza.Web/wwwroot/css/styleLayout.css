@@ -47,7 +47,7 @@ span {
     margin: auto;
     font-weight: 500;
     color:white;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     letter-spacing: 1px;
 /*    border-radius: 15px;*/
     padding-left: 20px;
@@ -60,7 +60,7 @@ span {
 
     .nav-item:hover {
         margin: auto;
-        font-weight: 500px;
+        font-weight:500;
         transform: scale(1.1);
         background-color: #539dc5;
         /*        border-radius: 30px;*/

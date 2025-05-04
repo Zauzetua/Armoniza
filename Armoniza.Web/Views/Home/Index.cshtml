@@ -1,7 +1,74 @@
-﻿@{
+﻿@model List<Armoniza.Domain.Entities.apartado>
+
+@{
     ViewData["Title"] = "Home Page";
+    var hoy = DateTime.Today;
+    var fechaLimite = ViewBag.FechaLimite ?? hoy.AddDays(7).ToString("yyyy-MM-dd");
 }
 
-<div class="text-center">
+<div class="text-center mb-4">
     <h1 class="display-4">Armoniza</h1>
+</div>
+
+<div class="container">
+    <h4>Próximos apartados a vencer</h4>
+
+    <!-- Filtro de fecha límite -->
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-4">
+            <label for="fechaLimite" class="form-label">Ver hasta fecha:</label>
+            <input type="date" class="form-control" id="fechaLimite" name="fechaLimite" value="@fechaLimite" />
+        </div>
+        <div class="col-md-4 d-flex align-items-end gap-2">
+            <button type="submit" class="btn btn-success">Filtrar</button>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </form>
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered table-hover mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Fecha de Regreso</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    var estado = a.activo
+                    ? (a.fecharegreso < hoy ? "Vencido" : "Pendiente")
+                    : "Completado";
+
+                    var colorClase = estado switch
+                    {
+                        "Vencido" => "text-danger fw-bold",
+                        "Pendiente" => "text-warning",
+                        _ => ""
+                    };
+
+                    <tr>
+                        <td>@a.idUsuarioNavigation.nombreCompleto</td>
+                        <td>@a.fecharegreso.ToString("dd/MM/yyyy")</td>
+                        <td class="@colorClase">@estado</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" asp-controller="apartadoes" asp-action="Details" asp-route-id="@a.id">
+                                Ver detalles
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-end">
+            <a class="btn btn-primary" asp-controller="apartadoes" asp-action="Index">Ver todos los apartados</a>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">No hay apartados próximos a vencer.</p>
+    }
 </div>

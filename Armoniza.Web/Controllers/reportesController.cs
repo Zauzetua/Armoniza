@@ -1,4 +1,5 @@
-﻿using Armoniza.Application.Common.Interfaces.Services;
+﻿using System.Globalization;
+using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
@@ -51,12 +52,24 @@ namespace Armoniza.Web.Controllers
             if (!string.IsNullOrWhiteSpace(filtroInstrumento))
                 reportes = reportes.Where(r => r.instrumento.Contains(filtroInstrumento, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            // Filtrar por rango de fechas (fecha_dado)
-            if (DateTime.TryParse(fechaDesde, out DateTime desde))
-                reportes = reportes.Where(r => DateTime.TryParse(r.fecha_dado, out var f) && f >= desde).ToList();
+            var formatoFiltro = "yyyy-MM-dd";
+            var formatoApartado = "dd/MM/yyyy"; // o "dd-MM-yyyy" si ese es el que usas
+            var cultura = CultureInfo.InvariantCulture;
 
-            if (DateTime.TryParse(fechaHasta, out DateTime hasta))
-                reportes = reportes.Where(r => DateTime.TryParse(r.fecha_dado, out var f) && f <= hasta).ToList();
+            // Filtrar por rango de fechas (fecha_dado)
+            if (DateTime.TryParseExact(fechaDesde, formatoFiltro, cultura, DateTimeStyles.None, out DateTime desde))
+            {
+                reportes = reportes
+                    .Where(r => DateTime.TryParseExact(r.fecha_dado, formatoApartado, cultura, DateTimeStyles.None, out var f) && f >= desde)
+                    .ToList();
+            }
+
+            if (DateTime.TryParseExact(fechaHasta, formatoFiltro, cultura, DateTimeStyles.None, out DateTime hasta))
+            {
+                reportes = reportes
+                    .Where(r => DateTime.TryParseExact(r.fecha_dado, formatoApartado, cultura, DateTimeStyles.None, out var f) && f <= hasta)
+                    .ToList();
+            }
 
             // Filtrar por devueltos o no
             if (!string.IsNullOrEmpty(filtroDevuelto))

@@ -1,74 +1,75 @@
-﻿@model List<Armoniza.Domain.Entities.apartado>
-
-@{
-    ViewData["Title"] = "Home Page";
-    var hoy = DateTime.Today;
-    var fechaLimite = ViewBag.FechaLimite ?? hoy.AddDays(7).ToString("yyyy-MM-dd");
+﻿@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center mb-4">
-    <h1 class="display-4">Armoniza</h1>
-</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="~/css/styleLayout.css" rel="stylesheet" />
 
-<div class="container">
-    <h4>Próximos apartados a vencer</h4>
 
-    <!-- Filtro de fecha límite -->
-    <form method="get" class="row g-3 mb-3">
-        <div class="col-md-4">
-            <label for="fechaLimite" class="form-label">Ver hasta fecha:</label>
-            <input type="date" class="form-control" id="fechaLimite" name="fechaLimite" value="@fechaLimite" />
-        </div>
-        <div class="col-md-4 d-flex align-items-end gap-2">
-            <button type="submit" class="btn btn-success">Filtrar</button>
-            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Limpiar</a>
-        </div>
-    </form>
+<h1 class="dashboard-title">Bienvenido a Armoniza</h1>
 
-    @if (Model.Any())
-    {
-        <table class="table table-bordered table-hover mt-3">
-            <thead class="table-light">
-                <tr>
-                    <th>Usuario</th>
-                    <th>Fecha de Regreso</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var a in Model)
-                {
-                    var estado = a.activo
-                    ? (a.fecharegreso < hoy ? "Vencido" : "Pendiente")
-                    : "Completado";
+<div class="row mt-4 justify-content-center">
 
-                    var colorClase = estado switch
-                    {
-                        "Vencido" => "text-danger fw-bold",
-                        "Pendiente" => "text-warning",
-                        _ => ""
-                    };
 
-                    <tr>
-                        <td>@a.idUsuarioNavigation.nombreCompleto</td>
-                        <td>@a.fecharegreso.ToString("dd/MM/yyyy")</td>
-                        <td class="@colorClase">@estado</td>
-                        <td>
-                            <a class="btn btn-sm btn-outline-primary" asp-controller="apartadoes" asp-action="Details" asp-route-id="@a.id">
-                                Ver detalles
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="text-end">
-            <a class="btn btn-primary" asp-controller="apartadoes" asp-action="Index">Ver todos los apartados</a>
-        </div>
-    }
-    else
-    {
-        <p class="text-muted">No hay apartados próximos a vencer.</p>
-    }
+    @*Para usuarios*@
+    <div class="col-md-4 col-sm-6 mb-4">
+        <a asp-controller="usuarios" asp-action="Index" class="text-decoration-none">
+            <div class="dashboard-card">
+                <i class="bi bi-person-plus"></i>
+                <h5 style="color: #3d87b9;">Usuarios</h5>
+            </div>
+        </a>
+    </div>
+
+    @*Para Instrumentos*@
+    <div class="col-md-4 col-sm-6 mb-4">
+        <a asp-controller="instrumentos" asp-action="Index" class="text-decoration-none">
+            <div class="dashboard-card">
+                <i class="bi bi-music-note"></i>
+                <h5 style="color: #3d87b9;">Instrumentos</h5>
+            </div>
+        </a>
+    </div>
+
+    @*Para Grupos*@
+    <div class="col-md-4 col-sm-6 mb-4">
+        <a asp-controller="grupos" asp-action="Index" class="text-decoration-none">
+            <div class="dashboard-card">
+                <i class="bi bi-music-note-list"></i>
+                <h5 style="color: #3d87b9;">Grupos Musicales</h5>
+            </div>
+        </a>
+    </div>
+
+    
+    @*Para Apartados*@
+    <div class="col-md-4 col-sm-6 mb-4">
+        <a asp-controller="apartadoes" asp-action="Index" class="text-decoration-none">
+            <div class="dashboard-card">
+                <i class="bi bi-calendar2-check"></i>
+                <h5 style="color: #3d87b9;">Apartados</h5>
+            </div>
+        </a>
+    </div>
+
+    @*Para Reportes*@
+    <div class="col-md-4 col-sm-6 mb-4">
+        <a asp-controller="reportes" asp-action="Index" class="text-decoration-none">
+            <div class="dashboard-card">
+                <i class="bi bi-bar-chart"></i>
+                <h5 style="color: #3d87b9;">Reportes</h5>
+            </div>
+        </a>
+    </div>
+
+    @*Para Categorias*@
+    <div class="col-md-4 col-sm-6 mb-4">
+        <a asp-controller="categorias" asp-action="Index" class="text-decoration-none">
+            <div class="dashboard-card">
+                <i class="bi bi-collection"></i>
+                <h5 style="color: #3d87b9;">Categorías</h5>
+            </div>
+        </a>
+    </div>
+
 </div>

@@ -100,7 +100,8 @@ namespace Armoniza.Web.Controllers
         {
             if (id != categoria.id)
             {
-                return NotFound();
+                TempData["error"] = "¡Error al obtener la categoria!";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
@@ -109,19 +110,23 @@ namespace Armoniza.Web.Controllers
                 {
                     await _categoriasService.Update(categoria);
                     TempData["success"] = "¡Categoria actualizada exitosamente!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!await _categoriasService.Any(e => e.id == id))
                     {
-                        return NotFound();
+                        TempData["error"] = "¡Error al obtener la categoria!";
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
-                        throw;
+                        TempData["error"] = "¡Error al actualizar la categoria!";
+                        return RedirectToAction(nameof(Index));
+
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
             TempData["error"] = "¡Error al actualizar la categoria!";
             return View(categoria);

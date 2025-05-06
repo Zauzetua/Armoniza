@@ -1,0 +1,229 @@
+﻿@using Armoniza.Application.Common.Models
+@model ReporteViewModel
+
+
+@{
+	ViewData["Title"] = "Reportes de Apartados";
+}
+
+<div class="container mt-4">
+	<h2 class="mb-4 text-primary">Reportes de Apartados</h2>
+
+	@if (TempData["error"] != null)
+	{
+		<div class="alert alert-danger">
+			@TempData["error"]
+		</div>
+	}
+
+	<button id="toggleFiltros" class="btn btn-outline-primary mb-3">
+		Mostrar/Ocultar Filtros y Ordenamiento
+	</button>
+
+
+
+	<!-- Filtros colapsables -->
+	<section id="seccionFiltros" class="mb-4 collapse-section">
+		<div class="card card-body mb-4">
+			<form method="get" class="row g-3">
+
+				<!-- Filtros por Fecha -->
+				<div class="col-12">
+					<h5 class="text-primary border-bottom pb-2 mb-3">Filtros por Fecha</h5>
+				</div>
+
+				<div class="col-md-3">
+					<label for="fechaDesde">Desde:</label>
+					<input type="date" class="form-control" name="fechaDesde" value="@Model.FechaDesde" />
+				</div>
+				<div class="col-md-3">
+					<label for="fechaHasta">Hasta:</label>
+					<input type="date" class="form-control" name="fechaHasta" value="@Model.FechaHasta" />
+				</div>
+				
+
+				<!-- Filtros Generales -->
+				<div class="col-12 mt-3">
+					<h5 class="text-primary border-bottom pb-2 mb-3">Filtros Generales</h5>
+				</div>
+				<div class="col-md-3">
+					<label class="form-label">Usuario</label>
+					<input type="text" class="form-control" name="filtroUsuario" value="@Model.FiltroUsuario" />
+				</div>
+				<div class="col-md-3">
+					<label class="form-label">Grupo</label>
+					<input type="text" class="form-control" name="filtroGrupo" value="@Model.FiltroGrupo" />
+				</div>
+				<div class="col-md-3">
+					<label class="form-label">Retornado</label>
+					<select class="form-select" name="filtroRetornado">
+						<option value="">Todos</option>
+						<option value="sí" selected="@(Model.FiltroRetornado == "sí")">Sí</option>
+						<option value="pendiente" selected="@(Model.FiltroRetornado == "pendiente")">Pendientes</option>
+					</select>
+				</div>
+				<div class="col-md-3">
+					<label class="form-label">Instrumento</label>
+					<input type="text" class="form-control" name="filtroInstrumento" value="@Model.FiltroInstrumento" />
+				</div>
+
+				<!-- Ordenamiento -->
+				<div class="col-12 mt-3">
+					<h5 class="text-primary border-bottom pb-2 mb-3">Ordenamiento</h5>
+				</div>
+				<div class="col-md-3">
+					<label class="form-label">Ordenar por</label>
+					<select class="form-select" name="ordenarPor">
+						<option value="usuario" selected="@(Model.OrdenarPor == "usuario")">Usuario</option>
+						<option value="fecha_dado" selected="@(Model.OrdenarPor == "fecha_dado")">Fecha de Apartado</option>
+						<option value="fecha_regreso" selected="@(Model.OrdenarPor == "fecha_regreso")">Fecha de Regreso</option>
+						<option value="retornado" selected="@(Model.OrdenarPor == "retornado")">Retornado</option>
+					</select>
+				</div>
+				<div class="col-md-3">
+					<label class="form-label">Dirección</label>
+					<select class="form-select" name="direccion">
+						<option value="asc" selected="@(Model.Direccion == "asc")">Ascendente</option>
+						<option value="desc" selected="@(Model.Direccion == "desc")">Descendente</option>
+					</select>
+				</div>
+
+				<!-- Botones -->
+				<div class="col-md-6 d-flex align-items-end justify-content-between mt-3">
+					<button type="submit" class="btn btn-success w-50 me-2">Aplicar</button>
+					<a href="@Url.Action("Index", "Reportes")" class="btn btn-secondary w-50">Limpiar</a>
+				</div>
+
+			</form>
+		</div>
+	</section>
+
+</div>
+<div class="container mt-4">
+	<h2 class="mb-4 text-primary">Reportes de Apartados</h2>
+
+	<div class="@(Model.TotalPaginas <= 1 ? "mb-4" : "")">
+		<!-- Botón para exportar a Excel -->
+		<a asp-controller="Reportes" asp-action="ExportarExcel"
+		   asp-route-filtroUsuario="@Model.FiltroUsuario"
+		   asp-route-filtroGrupo="@Model.FiltroGrupo"
+		   asp-route-filtroRetornado="@Model.FiltroRetornado"
+		   asp-route-filtroInstrumento="@Model.FiltroInstrumento"
+		   asp-route-fechaDesde="@Model.FechaDesde"
+		   asp-route-fechaHasta="@Model.FechaHasta"
+		   asp-route-ordenarpor="@Model.OrdenarPor"
+		   asp-route-direccion="@Model.Direccion"
+		   class="btn btn-success">
+			Exportar a Excel
+		</a>
+	</div>
+</div>
+
+
+@if (Model.TotalPaginas > 1)
+{
+	<nav aria-label="Paginación">
+		<ul class="pagination justify-content-center">
+			@for (int i = 1; i <= Model.TotalPaginas; i++)
+			{
+				<li class="page-item @(i == Model.PaginaActual ? "active" : "")">
+					<a class="page-link"
+					   href="@Url.Action("Index", "Reportes", new {
+                           pagina = i,
+                           ordenarPor = Model.OrdenarPor,
+                           direccion = Model.Direccion,
+                           filtroUsuario = Model.FiltroUsuario,
+                           filtroGrupo = Model.FiltroGrupo,
+                           filtroRetornado = Model.FiltroRetornado,
+                           filtroInstrumento = Model.FiltroInstrumento,
+                           fechaDesde = Model.FechaDesde,
+                           fechaHasta = Model.FechaHasta
+
+                       })">
+						@i
+					</a>
+				</li>
+			}
+		</ul>
+	</nav>
+}
+
+
+
+
+<table class="table table-striped table-bordered table-hover">
+	<thead class="table-dark">
+		<tr>
+
+			<th>Usuario</th>
+			<th>Grupo</th>
+			<th>Fecha de Apartado</th>
+			<th>Fecha de Regreso</th>
+			<th>Retornado</th>
+			<th>Instrumento</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var r in Model.Reportes)
+		{
+			<tr>
+
+				<td>@r.usuario</td>
+				<td>@(string.IsNullOrEmpty(r.grupo) ? "—" : r.grupo)</td>
+				<td>@r.fecha_dado</td>
+				<td>@r.fecha_regreso</td>
+				<td>@r.retornado</td>
+				<td>@r.instrumento</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+<style>
+	.collapse-section {
+		overflow: hidden;
+		height: 0;
+		transition: height 0.4s ease;
+	}
+
+		.collapse-section.expand {
+			height: auto;
+			transition: height 0.4s ease;
+		}
+</style>
+@section Scripts {
+	<script>
+		const toggleBtn = document.getElementById("toggleFiltros");
+		const section = document.getElementById("seccionFiltros");
+
+		let isExpanded = false;
+
+		toggleBtn.addEventListener("click", () => {
+			if (!isExpanded) {
+				// Expandir
+				section.style.display = "block";
+				const height = section.scrollHeight + "px";
+				section.style.height = "0px";
+				setTimeout(() => {
+					section.style.height = height;
+				}, 10);
+			} else {
+				// Contraer
+				section.style.height = section.scrollHeight + "px"; // set fixed height
+				setTimeout(() => {
+					section.style.height = "0px";
+				}, 10);
+			}
+
+			isExpanded = !isExpanded;
+		});
+
+		// Opcional: restaurar altura a 'auto' después de la animación de expansión
+		section.addEventListener("transitionend", () => {
+			if (isExpanded) {
+				section.style.height = "auto";
+			}
+		});
+	</script>
+}

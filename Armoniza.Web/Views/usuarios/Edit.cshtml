@@ -52,7 +52,9 @@
                             <label asp-for="idGrupo" class="form-label fw-bold">
                                 <i class="bi bi-people"></i> Grupo
                             </label>
-                            <select asp-for="idGrupo" class="form-select" asp-items="ViewBag.idGrupo"></select>
+                            <select asp-for="idGrupo" class="form-select" asp-items="@(new SelectList((IEnumerable<SelectListItem>)ViewBag.idGrupo, "Value", "Text", Model.idGrupo))">
+                                <option value="">Sin grupo</option>
+                            </select>
                             <span asp-validation-for="idGrupo" class="text-danger"></span>
                         </div>
 
@@ -76,28 +78,5 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script>
-        $(document).ready(function () {
-            const directorId = 14;
-
-            function handleTipoChange() {
-                const selectedTipo = $('#idTipo').val();
-
-                if (selectedTipo == directorId) {
-                    $('#idGrupo').val('');
-                    $('#idGrupo').prop('disabled', true);
-                } else {
-                    $('#idGrupo').prop('disabled', false);
-                    if (!$('#idGrupo').val()) {
-                        const firstOption = $('#idGrupo option[value]:not([value=""])').first().val();
-                        $('#idGrupo').val(firstOption);
-                    }
-                }
-            }
-
-            $('#idTipo').change(handleTipoChange);
-            handleTipoChange();
-        });
-    </script>
 }
 ``

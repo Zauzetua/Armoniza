@@ -1,4 +1,5 @@
 ﻿using Armoniza.Domain.Entities;
+using Armoniza.Domain.Entities.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,10 @@ namespace Armoniza.Application.Common.Interfaces.Repositories
         Task Delete(int id);
         public  Task<int> CrearApartado(IEnumerable<int> idsInstrumentos, DateTime fechaRegreso, int idUsuario);
         public  Task<bool> LiberarApartadoAsync(int idApartado);
+        public  Task<List<InstrumentoUsuario>> GetInstrumentosPorUsuario(int id);
 
-    }
+
+	}
     
     
 }

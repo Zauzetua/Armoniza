@@ -1,92 +1,147 @@
 ﻿body {
-    color: black;
-    height: 100vh;
     margin: 0;
     padding: 0;
-    background: linear-gradient(160deg, #006db6, #3d87b9);
-    background-color: #3744a6;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    text-align: center;
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-weight: bolder;
-}
-
-h2 {
-/*    margin: auto;*/
-    color: white;
-    margin-top: 2%;
-    
-}
-
-form {
-    background: rgba(255, 255, 255, 0.7294117647058823);
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%,-20%);
-  
+    background: linear-gradient(to bottom right, #005792, #3d87b9);
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    height: 400px;
-    width: 400px;
-    flex-wrap: wrap;
-    border-radius: 10px;
-    box-shadow: 0px 5px 20px black;
-    letter-spacing: 2px;
+    align-items: center;
 }
 
-nav {
-
-    widht:100%;
-
+.login-container {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    animation: fadeIn 0.8s ease-in-out;
 }
 
-label {
-    color: black;
-    margin-bottom: 15px;
-}
-
-img {
+.login-logo {
     width: 200px;
-    height: 190px;
-    margin-top: 30px;
-    background-color: none;
-    border-radius: 60%;
-    box-shadow: 1px 1px 50px #539dc5;
+    height: auto;
+    margin: 0 auto 20px;
+    margin-top: -270px;
+    display: block;
+    animation: fadeIn 1s ease-in-out;
 }
 
+@keyframes fadeInLogo {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
 
-.container {
-    color: white;
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.username {
-    margin-bottom: 20px;
+@keyframes fadeIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-input {
-    width: 85%;
-    flex-wrap: wrap;
-    border: none;
-    height: 8%;
-    border-bottom: 2px solid black;
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
+.login-container {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    width: 350px;
+    text-align: center;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 45px;
+}
+
+    .input-group input {
+        width: 100%;
+        padding: 2px 2px;
+        font-size: 16px;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        background: transparent;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    .input-group label {
+        position: absolute;
+        top: 12px;
+        left: 10px;
+        color: #999;
+        font-size: 16px;
+        transition: all 0.3s;
+        pointer-events: none;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+        left: 1px;
+        top: 3px;
+        font-size: 13px;
+        color: #3d87b9;
+    }
+    .input-group input:focus ~ label,
+    .input-group input:valid ~ label {
+        top: -17px;
+    }
+    .input-group input:focus {
+        border-bottom-color: #3d87b9;
+    }
+
+.show-password {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 30px;
+    margin-top: -40px;
+}
+
+    .show-password input {
+        margin-right: 8px;
+       
+    }
 
 button {
-    height: 8%;
-    width: 30%;
-    box-shadow: 2px 2px 5px 1px black;
-    background: #09F;
+    width: 100%;
+    padding: 12px;
+    background: #3d87b9;
     color: white;
     border: none;
-    margin-top: 5%;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-    button:hover {
-        color: white;
-        background-color: orange;
+    button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
+button:hover {
+        background:#006db6;
+    }
+

@@ -1,41 +1,59 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Login";
-   
-    
+﻿@{
+    Layout = null;
 }
-<html>
 
-    <head>
-        <link href="~/css/styleLogin.css" rel="stylesheet" />
-        
-    </head>
-    
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/styleLogin.css">
+</head>
+
 
 <body>
+    
+    @*parte de arriba*@
+    <div class="logo-wrapper">
+        <img src="~/images/Logo Armoniza.png" alt="Logo" class="login-logo" />
 
-   
-    <img src="/images/Logo Armoniza.png" />
+        @*todo lo que tenga que ver con el form*@
+        <div class="login-container">
 
-    <h2>Iniciar Sesión</h2>
+            <h2>Iniciar Sesión</h2>
 
+            <form asp-action="Login" method="post" autocomplete="off">
 
-    <form method="post">
-        <label>Usuario:</label>
-        <input class="username" type="text" name="username" required placeholder="Usuario" maxlength="30" minlength="3" />
-        <br />
-        <label>Contraseña:</label>
-        <input class="password" type="password" name="password" required placeholder="Contraseña" maxlength="30" min="4" />
-        <br />
-        <button type="submit">Ingresar</button>
-    </form>
+                @*Los espacios para meter los datos, junto con sus datos*@
+                <div class="input-group">
+                    <input type="text" name="username" required />
+                    <label>Usuario</label>
+                </div>
 
+                <div class="input-group">
+                    <input type="password" name="password" id="password" required />
+                    <label>Contraseña</label>
+                </div>
+
+                <div class="show-password">
+                    <input type="checkbox" id="togglePassword" />
+                    <label for="togglePassword">Mostrar contraseña</label>
+                </div>
+            
+                @*Boton Entrar*@
+                <button type="submit" class="pulse-on-load">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    @*Para el mostrar contra*@
+    <script>
+        const toggle = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        toggle.addEventListener('change', () => {
+            password.type = toggle.checked ? 'text' : 'password';
+        });
+    </script>
 </body>
-
 </html>
-
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

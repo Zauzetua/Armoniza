@@ -1,5 +1,4 @@
 ﻿
-
 /* Aqui esta la logia de los recuadros desplegables de Categorias */
 
 .dropdown {
@@ -47,7 +46,7 @@ span {
     margin: auto;
     font-weight: 500;
     color:white;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     letter-spacing: 1px;
 /*    border-radius: 15px;*/
     padding-left: 20px;
@@ -60,9 +59,9 @@ span {
 
     .nav-item:hover {
         margin: auto;
-        font-weight: 500px;
+        font-weight: 500;
         transform: scale(1.1);
-        background-color: #539dc5;
+        background-color: #3d87b9;
         /*        border-radius: 30px;*/
         border-bottom: 1px solid white;
     }
@@ -103,4 +102,51 @@ img {
 .nav-item.active .dropdown span {
     font-weight: bold;
     color: white !important;
+}
+
+
+
+
+/*Todo lo que tiene que ver con los dashboard*/
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    text-align: center;
+    color: #3d87b9;
+}
+
+
+.dashboard-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    .dashboard-card i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #3d87b9;
+    }
+
+a.text-decoration-none:hover {
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .dashboard-card {
+        padding: 1.5rem;
+    }
+
+        .dashboard-card i {
+            font-size: 2.5rem;
+        }
 }

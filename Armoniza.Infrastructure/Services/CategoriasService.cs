@@ -33,7 +33,6 @@ namespace Armoniza.Infrastructure.Services
 
         public Task<bool> Delete(int id)
         {
-
             var categoria = _categoriasRepository.Get(x => x.id == id);
             var enUso = _instrumentoRepository.Any(x => x.idCategoria == id && x.eliminado == false);
             if (enUso)
@@ -67,6 +66,12 @@ namespace Armoniza.Infrastructure.Services
         public Task<categoria> Get(System.Linq.Expressions.Expression<Func<categoria, bool>> filter)
         {
             var categorias = _categoriasRepository.Get(filter);
+            return Task.FromResult(categorias);
+        }
+
+        public Task<categoria> GetConInstrumentos(System.Linq.Expressions.Expression<Func<categoria, bool>> filter)
+        {
+            var categorias = _categoriasRepository.Get(filter,"instrumento");
             return Task.FromResult(categorias);
         }
 

@@ -2,6 +2,7 @@
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Common.Models;
 using Armoniza.Domain.Entities;
+using Armoniza.Domain.Entities.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,7 +149,7 @@ namespace Armoniza.Infrastructure.Services
                     {
                         Data = null,
                         Success = false,
-                        Message = "El instrumento no existe"
+                        Message = "Un instrumento seleccionado no existe"
                     };
                 }
                 if (instrumento.ocupado == true)
@@ -157,7 +158,16 @@ namespace Armoniza.Infrastructure.Services
                     {
                         Data = null,
                         Success = false,
-                        Message = "El instrumento ya esta ocupado"
+                        Message = $"El instrumento  {instrumento.nombre} ya esta ocupado"
+                    };
+                }
+                if (instrumento.funcional == false)
+                {
+                    return new ServiceResponse<apartado>
+                    {
+                        Data = null,
+                        Success = false,
+                        Message = $"El instrumento {instrumento.nombre} esta roto."
                     };
                 }
             }
@@ -268,7 +278,49 @@ namespace Armoniza.Infrastructure.Services
                 Message = "Apartado liberado con exito"
             });
         }
-    }
+
+		public ServiceResponse<List<InstrumentoUsuario>> GetInstrumentosPorUsuario(int id)
+        {
+            var usuario = _usuarioService.Get(x => x.id == id);
+			if (usuario.Data is null)
+			{
+				return new ServiceResponse<List<InstrumentoUsuario>>
+				{
+					Data = null,
+					Success = false,
+					Message = "El usuario no existe"
+				};
+			}
+			if (usuario.Data.eliminado == true)
+			{
+				return new ServiceResponse<List<InstrumentoUsuario>>
+				{
+					Data = null,
+					Success = false,
+					Message = "El usuario no existe"
+				};
+			}
+
+			var result = _apartadosRepository.GetInstrumentosPorUsuario(id).Result;
+			if (result == null)
+			{
+				return new ServiceResponse<List<InstrumentoUsuario>>
+				{
+					Data = null,
+					Success = false,
+					Message = "No se encontraron instrumentos"
+				};
+			}
+			return new ServiceResponse<List<InstrumentoUsuario>>
+			{
+				Data = result,
+				Success = true
+			};
+
+
+		}
+
+	}
 
 
 }

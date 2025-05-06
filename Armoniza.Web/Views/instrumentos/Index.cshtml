@@ -2,131 +2,132 @@
 @model List<InstrumentosViewModel>
 
 @{
-    ViewData["Title"] = "Instrumentos por Categoría";
+	ViewData["Title"] = "Instrumentos por Categoría";
 }
 
 <style>
-    .icon-yes {
-        color: green;
-    }
+	.icon-yes {
+	color: green;
+	}
 
-    .icon-no {
-        color: red;
-    }
+	.icon-no {
+	color: red;
+	}
 
-    .search-bar {
-        margin-bottom: 10px;
-    }
+	.search-bar {
+	margin-bottom: 10px;
+	}
 </style>
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-primary"><i class="bi bi-music-note-list"></i> Instrumentos</h2>
-        <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Nuevo Instrumento</a>
-    </div>
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h2 class="text-primary"><i class="bi bi-music-note-list"></i> Instrumentos</h2>
+		<a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Nuevo Instrumento</a>
+	</div>
 
-    <div class="custom-accordion">
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            var categoria = Model[i];
-            string sectionId = $"section{i}";
-            string searchInputId = $"searchInput{i}";
-            string tableId = $"table{i}";
+	<div class="custom-accordion">
+		@for (int i = 0; i < Model.Count; i++)
+		{
+			var categoria = Model[i];
+			string sectionId = $"section{i}";
+			string searchInputId = $"searchInput{i}";
+			string tableId = $"table{i}";
+			
 
-            <div>
-                <div class="section-header" onclick="toggleSection('@sectionId')">
-                    <i class="bi bi-tags"></i> @categoria.NombreCategoria
-                </div>
-                <div id="@sectionId" class="section-content">
-                    <input type="text" id="@searchInputId" class="form-control search-bar" placeholder="Buscar por código o nombre..." onkeyup="filterTable('@tableId', '@searchInputId')" />
-                    @if (categoria.Instrumentos.Count == 0)
-                    {
-                        <p class="text-muted">No hay instrumentos disponibles.</p>
-                    }
-                    else
-                    {
-                        <table id="@tableId" class="table table-hover table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Codigo</th>
-                                    <th>Nombre</th>
-                                    <th>Estuche</th>
-                                    <th>Funcional</th>
-                                    <th>Ocupado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var inst in categoria.Instrumentos)
-                                {
-                                    <tr>
-                                        <td>@inst.codigo</td>
-                                        <td>@inst.nombre</td>
-                                        <td>
-                                            @if (inst.estuche)
-                                            {
-                                                <i class="bi bi-check-circle icon-yes"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="bi bi-x-circle icon-no"></i>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (inst.funcional)
-                                            {
-                                                <i class="bi bi-check-circle icon-yes"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="bi bi-x-circle icon-no"></i>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (inst.ocupado)
-                                            {
-                                                <i class="bi bi-check-circle icon-yes"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="bi bi-x-circle icon-no"></i>
-                                            }
-                                        </td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@inst.codigo" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
-                                            <a asp-action="Details" asp-route-id="@inst.codigo" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
-                                            <a asp-action="Delete" asp-route-id="@inst.codigo" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                </div>
-            </div>
-        }
-    </div>
+			<div>
+				<div class="section-header" onclick="toggleSection('@sectionId')">
+					<i class="bi bi-tags"></i> @categoria.NombreCategoria [@categoria.Instrumentos.Count]
+				</div>
+				<div id="@sectionId" class="section-content">
+					<input type="text" id="@searchInputId" class="form-control search-bar" placeholder="Buscar por código o nombre..." onkeyup="filterTable('@tableId', '@searchInputId')" />
+					@if (categoria.Instrumentos.Count == 0)
+					{
+						<p class="text-muted">No hay instrumentos disponibles.</p>
+					}
+					else
+					{
+						<table id="@tableId" class="table table-hover table-bordered">
+							<thead class="table-light">
+								<tr>
+									<th>Codigo</th>
+									<th>Nombre</th>
+									<th>Estuche</th>
+									<th>Funcional</th>
+									<th>Ocupado</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var inst in categoria.Instrumentos)
+								{
+									<tr>
+										<td>@inst.codigo</td>
+										<td>@inst.nombre</td>
+										<td>
+											@if (inst.estuche)
+											{
+												<i class="bi bi-check-circle icon-yes"></i>
+											}
+											else
+											{
+												<i class="bi bi-x-circle icon-no"></i>
+											}
+										</td>
+										<td>
+											@if (inst.funcional)
+											{
+												<i class="bi bi-check-circle icon-yes"></i>
+											}
+											else
+											{
+												<i class="bi bi-x-circle icon-no"></i>
+											}
+										</td>
+										<td>
+											@if (inst.ocupado)
+											{
+												<i class="bi bi-check-circle icon-yes"></i>
+											}
+											else
+											{
+												<i class="bi bi-x-circle icon-no"></i>
+											}
+										</td>
+										<td>
+											<a asp-action="Edit" asp-route-id="@inst.codigo" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+											<a asp-action="Details" asp-route-id="@inst.codigo" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
+											<a asp-action="Delete" asp-route-id="@inst.codigo" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					}
+				</div>
+			</div>
+		}
+	</div>
 </div>
 
 <script>
-    function toggleSection(sectionId) {
-        const section = document.getElementById(sectionId);
-        section.classList.toggle('active');
-    }
+	function toggleSection(sectionId) {
+		const section = document.getElementById(sectionId);
+		section.classList.toggle('active');
+	}
 
-    function filterTable(tableId, inputId) {
-        const input = document.getElementById(inputId).value.toLowerCase();
-        const table = document.getElementById(tableId);
-        const rows = table.getElementsByTagName('tr');
+	function filterTable(tableId, inputId) {
+		const input = document.getElementById(inputId).value.toLowerCase();
+		const table = document.getElementById(tableId);
+		const rows = table.getElementsByTagName('tr');
 
-        for (let i = 1; i < rows.length; i++) { // Start at 1 to skip the header row
-            const codigo = rows[i].getElementsByTagName('td')[0]?.textContent.toLowerCase() || '';
-            const nombre = rows[i].getElementsByTagName('td')[1]?.textContent.toLowerCase() || '';
-            if (codigo.includes(input) || nombre.includes(input)) {
-                rows[i].style.display = '';
-            } else {
-                rows[i].style.display = 'none';
-            }
-        }
-    }
+		for (let i = 1; i < rows.length; i++) {
+			const codigo = rows[i].getElementsByTagName('td')[0]?.textContent.toLowerCase() || '';
+			const nombre = rows[i].getElementsByTagName('td')[1]?.textContent.toLowerCase() || '';
+			if (codigo.includes(input) || nombre.includes(input)) {
+				rows[i].style.display = '';
+			} else {
+				rows[i].style.display = 'none';
+			}
+		}
+	}
 </script>

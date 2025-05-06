@@ -1,48 +1,52 @@
-﻿@model Armoniza.Domain.Entities.apartado
+﻿@using Armoniza.Application.Common.Models
+@model ApartadoViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Apartado";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-eye"></i> Detalles del Apartado</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-calendar-plus"></i> Fecha dado:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.apartado.fechadado)</dd>
 
-<div>
-    <h4>apartado</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fechadado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.fechadado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fecharegreso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.fecharegreso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.activo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.activo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fecharetornado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.fecharetornado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.idUsuarioNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.idUsuarioNavigation.correo)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-calendar-check"></i> Fecha de regreso:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.apartado.fecharegreso)</dd>
+
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-person-circle"></i> Usuario:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.apartado.idUsuarioNavigation.nombreCompleto)</dd>
+
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-music-note-list"></i> Instrumentos:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.instrumentos != null && Model.instrumentos.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var instrumento in Model.instrumentos)
+                                    {
+                                        <li class="list-group-item">@instrumento.nombre - <strong>Codigo:</strong> @instrumento.codigo</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No se encontraron instrumentos.</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    <a asp-action="Index" class="btn btn-secondary btn-animado">
+                        <i class="bi bi-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

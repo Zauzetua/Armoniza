@@ -16,6 +16,24 @@
                         <dt class="col-sm-4 fw-bold"><i class="bi bi-tag"></i> Nombre:</dt>
                         <dd class="col-sm-8">@Html.DisplayFor(model => model.categoria1)</dd>
                     </dl>
+
+                    <h5 class="mt-4"><i class="bi bi-people"></i> Instrumentos en esta categoria:</h5>
+                    @if (Model.instrumento != null && Model.instrumento.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var instrumento in Model.instrumento)
+                            {
+                                <li class="list-group-item">
+                                    <strong>Nombre:</strong> @instrumento.nombre - <strong>Codigo:</strong>: @instrumento.codigo
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay instruemntos en esta categoria.</p>
+                    }
+
                 </div>
                 <div class="card-footer d-flex gap-2">
                     <a asp-action="Edit" asp-route-id="@Model?.id" class="btn btn-warning btn-animado"><i class="bi bi-pencil"></i> Editar</a>

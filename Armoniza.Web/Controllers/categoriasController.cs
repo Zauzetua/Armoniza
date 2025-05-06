@@ -34,12 +34,15 @@ namespace Armoniza.Web.Controllers
         // GET: categorias/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
-                return NotFound();
+                TempData["error"] = "¡Error al obtener la categoria!";
+                return RedirectToAction(nameof(Index));
             }
 
-            var categoria =  await _categoriasService.Get(u => u.id == id);
+            var categoria =  await _categoriasService.GetConInstrumentos(u => u.id == id);
+            //Quitar instrumentos borrados
+            categoria.instrumento = categoria.instrumento.Where(i => i.eliminado == false).ToList();
             if (categoria == null)
             {
                 //Redirige al index si no encuentra la categoria

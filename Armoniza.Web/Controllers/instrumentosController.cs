@@ -159,7 +159,7 @@ namespace Armoniza.Web.Controllers
                 else
                 {
                     TempData["error"] = response.Message;
-                    return RedirectToAction(nameof(Edit), new { id });
+                    return RedirectToAction(nameof(Index));
                 }
             }
             TempData["error"] = "¡Error al editar el instrumento!";

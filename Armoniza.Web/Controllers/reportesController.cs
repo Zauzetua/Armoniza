@@ -132,6 +132,7 @@ namespace Armoniza.Web.Controllers
                 ordenarPor, direccion, filtroUsuario, filtroGrupo, filtroRetornado, filtroInstrumento, fechaDesde, fechaHasta);
 
             return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reportes.xlsx");
+        
         }
 
     }

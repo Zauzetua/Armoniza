@@ -26,7 +26,7 @@ namespace Armoniza.Application.Common.Models
         public int TotalPaginas { get; set; }
         public string? FechaDesde { get; set; }
         public string? FechaHasta { get; set; }
-        public string? FiltroDevuelto { get; set; }
+        
 
     }
 

@@ -18,7 +18,6 @@ namespace Armoniza.Application.Common.Interfaces.Services
          string? filtroRetornado,
          string? filtroInstrumento,
          string? fechaDesde,
-          string? fechaHasta,
-          string? filtroDevuelto);
+          string? fechaHasta);
     }
 }

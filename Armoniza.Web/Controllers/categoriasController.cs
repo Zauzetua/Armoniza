@@ -41,6 +41,8 @@ namespace Armoniza.Web.Controllers
             }
 
             var categoria =  await _categoriasService.GetConInstrumentos(u => u.id == id);
+            //Quitar instrumentos borrados
+            categoria.instrumento = categoria.instrumento.Where(i => i.eliminado == false).ToList();
             if (categoria == null)
             {
                 //Redirige al index si no encuentra la categoria

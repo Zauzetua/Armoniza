@@ -1,4 +1,5 @@
-﻿@model Armoniza.Domain.Entities.apartado
+﻿@using Armoniza.Application.Common.Models
+@model ApartadoViewModel
 
 @{
     ViewData["Title"] = "Detalles del Apartado";
@@ -14,15 +15,30 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-4 fw-bold"><i class="bi bi-calendar-plus"></i> Fecha dado:</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.fechadado)</dd>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.apartado.fechadado)</dd>
 
                         <dt class="col-sm-4 fw-bold"><i class="bi bi-calendar-check"></i> Fecha de regreso:</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.fecharegreso)</dd>
-
-
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.apartado.fecharegreso)</dd>
 
                         <dt class="col-sm-4 fw-bold"><i class="bi bi-person-circle"></i> Usuario:</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.idUsuarioNavigation.nombreCompleto)</dd>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.apartado.idUsuarioNavigation.nombreCompleto)</dd>
+
+                        <dt class="col-sm-4 fw-bold"><i class="bi bi-music-note-list"></i> Instrumentos:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.instrumentos != null && Model.instrumentos.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var instrumento in Model.instrumentos)
+                                    {
+                                        <li class="list-group-item">@instrumento.nombre - <strong>Codigo:</strong> @instrumento.codigo</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No se encontraron instrumentos.</span>
+                            }
+                        </dd>
                     </dl>
                 </div>
                 <div class="card-footer d-flex gap-2">

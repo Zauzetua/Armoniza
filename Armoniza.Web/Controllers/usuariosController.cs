@@ -61,7 +61,7 @@ namespace Armoniza.Web.Controllers
         public IActionResult Create()
         {
             var grupos = _grupoService.GetAll(g => g.eliminado == false).Data
-    .Select(g => new { g.id, g.grupo1 });
+            .Select(g => new { g.id, g.grupo1 });
 
 
 
@@ -159,6 +159,7 @@ namespace Armoniza.Web.Controllers
             if (usuario.Data == null)
             {
                 TempData["Error"] = "¡Usuario no encontrado!";
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -187,6 +188,8 @@ namespace Armoniza.Web.Controllers
             else
             {
                 TempData["Error"] = response.Message;
+                return RedirectToAction(nameof(Index));
+
             }
             return View(usuario.Data);
 

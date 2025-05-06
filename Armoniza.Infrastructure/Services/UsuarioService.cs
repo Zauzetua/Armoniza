@@ -15,12 +15,14 @@ namespace Armoniza.Infrastructure.Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ITipoUsuarioService _tipoUsuarioService;
+        private readonly IApartadosRepository _apartadosRepository;
 
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, ITipoUsuarioService tipoUsuarioService)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ITipoUsuarioService tipoUsuarioService, IApartadosRepository apartadosRepository)
         {
             _usuarioRepository = usuarioRepository;
             _tipoUsuarioService = tipoUsuarioService;
+            _apartadosRepository = apartadosRepository;
         }
 
         public async Task<ServiceResponse<int>> ObtenerMaximoInstrumentos(int id)
@@ -43,6 +45,11 @@ namespace Armoniza.Infrastructure.Services
         }
         public async Task<ServiceResponse<usuario>> Delete(int id)
         {
+            var activo = _apartadosRepository.Any(a => a.idusuario == id && a.activo == true);
+            if (activo)
+            {
+                return ServiceResponse<usuario>.Fail("¡No se puede eliminar el usuario porque tiene apartados activos!");
+            }
             var usuario = _usuarioRepository.Get(u => u.id == id);
             if (usuario == null)
             {

@@ -40,14 +40,7 @@
 					<label for="fechaHasta">Hasta:</label>
 					<input type="date" class="form-control" name="fechaHasta" value="@Model.FechaHasta" />
 				</div>
-				<div class="col-md-3">
-					<label for="filtroDevuelto">¿Devuelto?</label>
-					<select name="filtroDevuelto" class="form-control">
-						<option value="">Todos</option>
-						<option value="Sí" selected="@(Model.FiltroDevuelto == "Sí")">Sí</option>
-						<option value="No" selected="@(Model.FiltroDevuelto == "No")">No</option>
-					</select>
-				</div>
+				
 
 				<!-- Filtros Generales -->
 				<div class="col-12 mt-3">
@@ -66,7 +59,7 @@
 					<select class="form-select" name="filtroRetornado">
 						<option value="">Todos</option>
 						<option value="sí" selected="@(Model.FiltroRetornado == "sí")">Sí</option>
-						<option value="pendiente" selected="@(Model.FiltroRetornado == "pendiente")">No</option>
+						<option value="pendiente" selected="@(Model.FiltroRetornado == "pendiente")">Pendientes</option>
 					</select>
 				</div>
 				<div class="col-md-3">
@@ -118,7 +111,6 @@
 		   asp-route-filtroInstrumento="@Model.FiltroInstrumento"
 		   asp-route-fechaDesde="@Model.FechaDesde"
 		   asp-route-fechaHasta="@Model.FechaHasta"
-		   asp-route-filtroDevuelto="@Model.FiltroDevuelto"
 		   asp-route-ordenarpor="@Model.OrdenarPor"
 		   asp-route-direccion="@Model.Direccion"
 		   class="btn btn-success">
@@ -144,7 +136,6 @@
                            filtroGrupo = Model.FiltroGrupo,
                            filtroRetornado = Model.FiltroRetornado,
                            filtroInstrumento = Model.FiltroInstrumento,
-                           filtroDevuelto = Model.FiltroDevuelto,
                            fechaDesde = Model.FechaDesde,
                            fechaHasta = Model.FechaHasta
 
@@ -181,16 +172,7 @@
 				<td>@(string.IsNullOrEmpty(r.grupo) ? "—" : r.grupo)</td>
 				<td>@r.fecha_dado</td>
 				<td>@r.fecha_regreso</td>
-				<td>
-					@if (r.retornado.ToLower() != "pendiente")
-					{
-						<span class="badge bg-success">Sí</span>
-					}
-					else
-					{
-						<span class="badge bg-danger">No</span>
-					}
-				</td>
+				<td>@r.retornado</td>
 				<td>@r.instrumento</td>
 			</tr>
 		}

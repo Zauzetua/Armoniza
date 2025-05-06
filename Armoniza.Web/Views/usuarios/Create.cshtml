@@ -51,7 +51,9 @@
                             <label asp-for="idGrupo" class="form-label fw-bold">
                                 <i class="bi bi-people"></i> Grupo
                             </label>
-                            <select asp-for="idGrupo" class="form-select" asp-items="ViewBag.idGrupo"></select>
+                            <select asp-for="idGrupo" class="form-select" asp-items="ViewBag.idGrupo">
+                                <option value="" selected>Sin grupo</option> <!-- Opción por defecto -->
+                            </select>
                             <span asp-validation-for="idGrupo" class="text-danger"></span>
                         </div>
 

@@ -1,6 +1,7 @@
 ﻿using Armoniza.Application.Common.Interfaces.Repositories;
 using Armoniza.Application.Common.Models;
 using Armoniza.Domain.Entities;
+using Armoniza.Domain.Entities.Vistas;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -65,5 +66,23 @@ namespace Armoniza.Infrastructure.Repository
 
             return result?.crear_apartado ?? 0;
         }
-    }
+
+		public async Task<List<InstrumentoUsuario>> GetInstrumentosPorUsuario(int id)
+		{
+            var result = await _context.Set<InstrumentoUsuario>()
+				.FromSqlRaw("SELECT * FROM obtener_instrumentos_por_usuario(@id)", new NpgsqlParameter("id", id))
+				.AsNoTracking()
+				.ToListAsync();
+
+			if (result == null)
+			{
+				return new List<InstrumentoUsuario>();
+			}
+			return result;
+		}
+
+
+	}
+
 }
+

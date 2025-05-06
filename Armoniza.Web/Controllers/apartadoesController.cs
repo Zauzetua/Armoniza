@@ -50,9 +50,33 @@ namespace Armoniza.Web.Controllers
                 TempData["Error"] = "El apartado no existe.";
                 return RedirectToAction("Index");
             }
+
             var usuarios = _usuarioService.GetAll(x => x.eliminado == false);
-            ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto");
-            return View(apartado.Data);
+
+            //Cargar instrumentos que pidio
+            if (apartado.Data.idusuario == 0)
+            {
+                TempData["Error"] = "El apartado no existe.";
+                return RedirectToAction("Index");
+            }
+            // Cargar instrumentos que pidio
+            var instrumentos = _instrumentoService.GetAll(x => !x.eliminado && x.ocupado == true);
+            // Filtrar los instrumentos ocupados por el usuario
+            var instrumentosids = _apartadoService.GetInstrumentosPorUsuario(apartado.Data.idusuario);
+            if (instrumentosids.Data != null)
+            {
+                instrumentos.Data = instrumentos.Data.Where(i => instrumentosids.Data.Any(x => x.id_instrumento == i.codigo)).ToList();
+            }
+
+            var ApartadoViewodel = new ApartadoViewModel
+            {
+                apartado = apartado.Data,
+                instrumentos = instrumentos.Data,
+            };
+
+
+            ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto", apartado.Data.idusuario);
+            return View(ApartadoViewodel);
         }
 
         public IActionResult Create()

@@ -37,14 +37,23 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<usuario> usuarios { get; set; }
     public virtual DbSet<Reporte> Reportes { get; set; }
+    public virtual DbSet<InstrumentoUsuario> ObtenerInstrumentosPorUsuario { get; set; }
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Reporte>(entity =>
         {
             entity.HasNoKey();
             entity.ToView("reportes");
+
+        });
+
+        modelBuilder.Entity<InstrumentoUsuario>(entity =>
+        {
+            entity.HasNoKey();
+            entity.ToFunction("obtener_instrumentos_por_usuario");
+
 
         });
 

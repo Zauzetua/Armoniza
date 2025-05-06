@@ -57,8 +57,7 @@ namespace Armoniza.Infrastructure.Services
            string? filtroRetornado,
            string? filtroInstrumento, 
            string? fechaDesde,
-            string? fechaHasta,
-            string? filtroDevuelto)
+            string? fechaHasta)
         {
             var reportes = await ObtenerRegistros();
 
@@ -93,14 +92,8 @@ namespace Armoniza.Infrastructure.Services
                     .Where(r => DateTime.TryParseExact(r.fecha_dado, formatoApartado, cultura, DateTimeStyles.None, out var f) && f <= hasta)
                     .ToList();
             }
-            // Filtrar por devueltos o no
-            if (!string.IsNullOrEmpty(filtroDevuelto))
-            {
-                if (filtroDevuelto == "Sí")
-                    reportes = reportes.Where(r => !r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
-                else if (filtroDevuelto == "No")
-                    reportes = reportes.Where(r => r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
-            }
+            
+           
 
             // Aplicar ordenamiento
             reportes = ordenarPor switch
@@ -119,7 +112,6 @@ namespace Armoniza.Infrastructure.Services
             var ws = package.Workbook.Worksheets.Add("Reportes");
 
             // Cabeceras
-            ws.Cells["A1"].Value = "ID";
             ws.Cells["B1"].Value = "Usuario";
             ws.Cells["C1"].Value = "Grupo";
             ws.Cells["D1"].Value = "Fecha de Apartado";
@@ -127,7 +119,7 @@ namespace Armoniza.Infrastructure.Services
             ws.Cells["F1"].Value = "Retornado";
             ws.Cells["G1"].Value = "Instrumento";
 
-            using (var headerRange = ws.Cells["A1:G1"])
+            using (var headerRange = ws.Cells["B1:G1"])
             {
                 headerRange.Style.Font.Bold = true;
                 headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -138,12 +130,11 @@ namespace Armoniza.Infrastructure.Services
             int row = 2;
             foreach (var r in reportes)
             {
-                ws.Cells[row, 1].Value = r.id;
                 ws.Cells[row, 2].Value = r.usuario;
                 ws.Cells[row, 3].Value = string.IsNullOrEmpty(r.grupo) ? "—" : r.grupo;
                 ws.Cells[row, 4].Value = r.fecha_dado;
                 ws.Cells[row, 5].Value = r.fecha_regreso;
-                ws.Cells[row, 6].Value = r.retornado.ToLower() != "pendiente" ? "Sí" : "No";
+                ws.Cells[row, 6].Value = r.retornado.ToLower() != "pendiente" ? r.retornado.ToLower() : "Pendiente";
                 ws.Cells[row, 7].Value = r.instrumento;
                 row++;
             }

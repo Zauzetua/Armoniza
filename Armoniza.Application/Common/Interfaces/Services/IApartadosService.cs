@@ -1,5 +1,6 @@
 ﻿using Armoniza.Application.Common.Models;
 using Armoniza.Domain.Entities;
+using Armoniza.Domain.Entities.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace Armoniza.Application.Common.Interfaces.Services
         
         ServiceResponse<bool> Any(Expression<Func<apartado, bool>> filter, string? includePropierties = null);
 
+        public ServiceResponse<List<InstrumentoUsuario>> GetInstrumentosPorUsuario(int id);
 
-    }
+
+
+	}
 }

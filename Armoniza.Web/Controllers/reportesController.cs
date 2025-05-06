@@ -24,7 +24,7 @@ namespace Armoniza.Web.Controllers
         string? filtroInstrumento = null,
         string? fechaDesde = null,
         string? fechaHasta = null,
-        string? filtroDevuelto = null,
+        
         int pagina = 1,
         int tamanoPagina = 10)
         {
@@ -45,11 +45,21 @@ namespace Armoniza.Web.Controllers
 
             if (!string.IsNullOrWhiteSpace(filtroGrupo))
                 reportes = reportes.Where(r => r.grupo != null && r.grupo.Contains(filtroGrupo, StringComparison.OrdinalIgnoreCase)).ToList();
+			//Si hay una fecha, traerlo, si es pendiente, ignorarlo
+			if (!string.IsNullOrWhiteSpace(filtroRetornado))
+            {
+				if (filtroRetornado.ToLower() == "pendiente")
+				{
+					reportes = reportes.Where(r => r.retornado.ToLower() == "pendiente").ToList();
+				}
+				else
+				{
+					reportes = reportes.Where(r => r.retornado.ToLower() != "pendiente").ToList();
+				}
+			}
+				
 
-            if (!string.IsNullOrWhiteSpace(filtroRetornado))
-                reportes = reportes.Where(r => r.retornado.Equals(filtroRetornado, StringComparison.OrdinalIgnoreCase)).ToList();
-
-            if (!string.IsNullOrWhiteSpace(filtroInstrumento))
+			if (!string.IsNullOrWhiteSpace(filtroInstrumento))
                 reportes = reportes.Where(r => r.instrumento.Contains(filtroInstrumento, StringComparison.OrdinalIgnoreCase)).ToList();
 
             var formatoFiltro = "yyyy-MM-dd";
@@ -71,14 +81,7 @@ namespace Armoniza.Web.Controllers
                     .ToList();
             }
 
-            // Filtrar por devueltos o no
-            if (!string.IsNullOrEmpty(filtroDevuelto))
-            {
-                if (filtroDevuelto == "Sí")
-                    reportes = reportes.Where(r => !r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
-                else if (filtroDevuelto == "No")
-                    reportes = reportes.Where(r => r.retornado.Equals("Pendiente", StringComparison.OrdinalIgnoreCase)).ToList();
-            }
+           
             // Ordenar
             reportes = ordenarPor switch
             {
@@ -109,8 +112,7 @@ namespace Armoniza.Web.Controllers
                 PaginaActual = pagina,
                 TotalPaginas = totalPaginas,
                 FechaDesde = fechaDesde,
-                FechaHasta = fechaHasta,
-                FiltroDevuelto = filtroDevuelto
+                FechaHasta = fechaHasta
             };
 
             return View(vm);
@@ -124,11 +126,10 @@ namespace Armoniza.Web.Controllers
         string? filtroRetornado = null,
         string? filtroInstrumento = null,
         string? fechaDesde = null,
-        string? fechaHasta = null,
-        string? filtroDevuelto = null)
+        string? fechaHasta = null)
         {
             var excelFile = await _reportesService.GenerarExcel(
-                ordenarPor, direccion, filtroUsuario, filtroGrupo, filtroRetornado, filtroInstrumento, fechaDesde, fechaHasta, filtroDevuelto);
+                ordenarPor, direccion, filtroUsuario, filtroGrupo, filtroRetornado, filtroInstrumento, fechaDesde, fechaHasta);
 
             return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reportes.xlsx");
         }

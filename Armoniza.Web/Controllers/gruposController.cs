@@ -44,9 +44,7 @@ namespace Armoniza.Web.Controllers
             return View();
         }
 
-        // POST: grupoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("id,grupo1,eliminado")] grupo grupo)
@@ -80,9 +78,7 @@ namespace Armoniza.Web.Controllers
             return View(grupo.Data);
         }
 
-        // POST: grupoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,grupo1,eliminado")] grupo grupo)

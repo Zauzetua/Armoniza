@@ -24,12 +24,12 @@ namespace Armoniza.Web.Controllers
         string? filtroInstrumento = null,
         string? fechaDesde = null,
         string? fechaHasta = null,
-        
+
         int pagina = 1,
         int tamanoPagina = 10)
         {
+            //Poner el tipo de uso
             ExcelPackage.License.SetNonCommercialPersonal("Armoniza");
-            // O LicenseContext.NonCommercial si es una versión no comercial
 
             var reportes = _reportesService.ObtenerRegistros().Result;
 
@@ -45,25 +45,25 @@ namespace Armoniza.Web.Controllers
 
             if (!string.IsNullOrWhiteSpace(filtroGrupo))
                 reportes = reportes.Where(r => r.grupo != null && r.grupo.Contains(filtroGrupo, StringComparison.OrdinalIgnoreCase)).ToList();
-			//Si hay una fecha, traerlo, si es pendiente, ignorarlo
-			if (!string.IsNullOrWhiteSpace(filtroRetornado))
+            //Si hay una fecha, traerlo, si es pendiente, ignorarlo
+            if (!string.IsNullOrWhiteSpace(filtroRetornado))
             {
-				if (filtroRetornado.ToLower() == "pendiente")
-				{
-					reportes = reportes.Where(r => r.retornado.ToLower() == "pendiente").ToList();
-				}
-				else
-				{
-					reportes = reportes.Where(r => r.retornado.ToLower() != "pendiente").ToList();
-				}
-			}
-				
+                if (filtroRetornado.ToLower() == "pendiente")
+                {
+                    reportes = reportes.Where(r => r.retornado.ToLower() == "pendiente").ToList();
+                }
+                else
+                {
+                    reportes = reportes.Where(r => r.retornado.ToLower() != "pendiente").ToList();
+                }
+            }
 
-			if (!string.IsNullOrWhiteSpace(filtroInstrumento))
+
+            if (!string.IsNullOrWhiteSpace(filtroInstrumento))
                 reportes = reportes.Where(r => r.instrumento.Contains(filtroInstrumento, StringComparison.OrdinalIgnoreCase)).ToList();
 
             var formatoFiltro = "yyyy-MM-dd";
-            var formatoApartado = "dd/MM/yyyy"; // o "dd-MM-yyyy" si ese es el que usas
+            var formatoApartado = "dd/MM/yyyy";
             var cultura = CultureInfo.InvariantCulture;
 
             // Filtrar por rango de fechas (fecha_dado)
@@ -81,7 +81,7 @@ namespace Armoniza.Web.Controllers
                     .ToList();
             }
 
-           
+
             // Ordenar
             reportes = ordenarPor switch
             {
@@ -128,11 +128,26 @@ namespace Armoniza.Web.Controllers
         string? fechaDesde = null,
         string? fechaHasta = null)
         {
-            var excelFile = await _reportesService.GenerarExcel(
-                ordenarPor, direccion, filtroUsuario, filtroGrupo, filtroRetornado, filtroInstrumento, fechaDesde, fechaHasta);
+            try
+            {
+                var excelFile = await _reportesService.GenerarExcel(
+                    ordenarPor, direccion, filtroUsuario, filtroGrupo, filtroRetornado, filtroInstrumento, fechaDesde, fechaHasta);
+                if (excelFile == null)
+                {
+                    TempData["error"] = "¡Error al generar el archivo Excel!";
+                    return RedirectToAction("Index");
+                }
+                return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reportes.xlsx");
+            }
+            catch (Exception ex)
+            {
 
-            return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reportes.xlsx");
-        
+                TempData["error"] = "¡Error al generar el archivo Excel!";
+                return RedirectToAction("Index");
+            }
+
+
+
         }
 
     }

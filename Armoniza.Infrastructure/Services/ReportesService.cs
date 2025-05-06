@@ -75,7 +75,7 @@ namespace Armoniza.Infrastructure.Services
                 reportes = reportes.Where(r => r.instrumento.Contains(filtroInstrumento, StringComparison.OrdinalIgnoreCase)).ToList();
 
             var formatoFiltro = "yyyy-MM-dd";
-            var formatoApartado = "dd/MM/yyyy"; // o "dd-MM-yyyy" si ese es el que usas
+            var formatoApartado = "dd/MM/yyyy"; 
             var cultura = CultureInfo.InvariantCulture;
 
             // Filtrar por rango de fechas (fecha_dado)

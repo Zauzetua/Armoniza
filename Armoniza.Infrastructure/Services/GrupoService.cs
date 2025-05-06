@@ -28,7 +28,7 @@ namespace Armoniza.Infrastructure.Services
 
             if (grupo == null) return ServiceResponse<grupo>.Fail("El grupo no existe");
 
-            //Actualizar cuando tenga el servicio de usuarios
+            
             var hayUsuarios = _usuarioRepository.Any(u => u.idGrupo == grupo.id && u.eliminado == false);
             if (hayUsuarios)
             {
@@ -91,7 +91,7 @@ namespace Armoniza.Infrastructure.Services
         {
             var grupoExistente = _grupoRepository.Get(g => g.id == grupo.id);
             if (grupoExistente == null) return ServiceResponse<bool>.Fail("El grupo no existe");
-            //Actualizar cuando tenga el servicio de usuarios
+            
             grupoExistente.grupo1 = grupo.grupo1;
             var grupoActualizar = _grupoRepository.Update(grupoExistente);
             if (grupoActualizar == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el grupo");

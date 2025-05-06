@@ -191,7 +191,6 @@ namespace Armoniza.Web.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            return View(usuario.Data);
 
         }
 

@@ -96,7 +96,7 @@ namespace Armoniza.Infrastructure.Services
 
 		public async Task<ServiceResponse<bool>> Delete(int codigo)
 		{
-			//Actualizar cuando tenga el servicio de apartados
+			
 			var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
 			if (instrumento.ocupado)
 			{

@@ -87,8 +87,7 @@ namespace Armoniza.Web.Controllers
             return View(new ApartadoViewModel());
         }
 
-        // GET: apartadoes/Create
-        // GET: Create?idUsuario=…
+
         [HttpGet]
         public IActionResult Create(int idUsuario)
         {
@@ -108,9 +107,6 @@ namespace Armoniza.Web.Controllers
             return View(vm);
         }
 
-        // POST: apartadoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
 

@@ -10,13 +10,10 @@ namespace Armoniza.Web.Controllers
 {
     public class AccountController : Controller
     {
-        // Se inyecta el contexto de la base de datos
-        private readonly ApplicationDbContext _context;
         private readonly IAccountService<Admin> _accountService;
 
-        public AccountController(ApplicationDbContext context, IAccountService<Admin> accountService)
+        public AccountController(IAccountService<Admin> accountService)
         {
-            _context = context;
             _accountService = accountService;
         }
 

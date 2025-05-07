@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Armoniza.Application.Common.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Armoniza.Web.Controllers
 {
-    public class usuariosController : Controller
+	
+	public class usuariosController : Controller
     {
         private readonly IUsuarioService _usuarioService;
         private readonly IGrupoService _grupoService;

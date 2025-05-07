@@ -1,12 +1,14 @@
 ﻿using System.Globalization;
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 
 namespace Armoniza.Web.Controllers
 {
-    public class reportesController : Controller
+	
+	public class reportesController : Controller
     {
         private readonly IReportesService _reportesService;
         public reportesController(IReportesService reportesService)
@@ -117,7 +119,7 @@ namespace Armoniza.Web.Controllers
 
             return View(vm);
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> ExportarExcel(
         string ordenarPor = "fecha_dado",
         string direccion = "asc",

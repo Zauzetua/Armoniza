@@ -3,13 +3,15 @@ using Armoniza.Application.Common.Interfaces.Repositories;
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Domain.Entities;
 using Armoniza.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Armoniza.Web.Controllers
 {
-    public class HomeController : Controller
+	
+	public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IApartadosService _apartadosService;

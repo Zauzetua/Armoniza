@@ -13,8 +13,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Armoniza.Web.Controllers
 {
-    
-    public class instrumentosController : Controller
+
+	
+	public class instrumentosController : Controller
     {
         private readonly IInstrumentoService _instrumentoService;
         private readonly ICategoriasService<categoria> _categoriasService;

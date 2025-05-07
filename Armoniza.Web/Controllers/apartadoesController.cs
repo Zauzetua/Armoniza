@@ -9,10 +9,12 @@ using Armoniza.Domain.Entities;
 using Armoniza.Infrastructure.Infrastructure.Data;
 using Armoniza.Application.Common.Interfaces.Services;
 using Armoniza.Application.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Armoniza.Web.Controllers
 {
-    public class apartadoesController : Controller
+	
+	public class apartadoesController : Controller
     {
         private readonly IApartadosService _apartadoService;
         private readonly IUsuarioService _usuarioService;

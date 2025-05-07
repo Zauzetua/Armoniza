@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Armoniza.Domain.Entities;
 using Armoniza.Application.Common.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Armoniza.Web.Controllers
 {
-    public class gruposController : Controller
+	
+	public class gruposController : Controller
     {
         private readonly IGrupoService _grupoService;
 

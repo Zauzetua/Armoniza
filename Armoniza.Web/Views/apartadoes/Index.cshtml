@@ -33,9 +33,9 @@
             <table class="table table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
+                        <th><i class="bi bi-person-circle"></i> Usuario</th>
                         <th><i class="bi bi-calendar-check"></i> Fecha Dado</th>
                         <th><i class="bi bi-calendar-event"></i> Fecha Regreso</th>
-                        <th><i class="bi bi-person-circle"></i> Usuario</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -43,9 +43,11 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.fechadado)</td>
-                            <td>@Html.DisplayFor(modelItem => item.fecharegreso)</td>
                             <td>@Html.DisplayFor(modelItem => item.idUsuarioNavigation.nombreCompleto)</td>
+                            <td>@Html.DisplayFor(modelItem => item.fechadado)</td>
+                            <td class="@(item.fecharegreso < DateTime.Now ? "text-danger" : "")">
+                                @item.fecharegreso.ToString("dd/MM/yyyy")
+                            </td>
                             <td class="text-center">
                                 @if (item.activo)
                                 {

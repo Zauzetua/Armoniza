@@ -20,6 +20,13 @@
     <link rel="stylesheet" href="~/css/cssDesplegar.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <link rel="stylesheet" href="~/css/EstilosDatepickr.css" />
+    <style>
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,46 +47,51 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
 
-                            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "categorias" ? "active" : "")">
-                                <div class="dropdown text-white">
-                                    <span class="d-flex align-items-center gap-2">
-                                        <i class="bi bi-collection"></i> Categorías
-                                    </span>
-                                    <div class="dropdown-content">
-                                        <a class="ancla nav-link text-dark" asp-controller="categorias" asp-action="Index">Categorías</a>
-                                        <a class="ancla nav-link text-dark" asp-controller="instrumentos" asp-action="Index">
-                                            <i class="bi bi-music-note me-1"></i> Instrumentos
-                                        </a>
-                                    </div>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "categorias" ? "active" : "")"
+                                   asp-controller="categorias" asp-action="Index">
+                                    <i class="bi bi-collection"></i> Categorias
+                                </a>
                             </li>
 
-                            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "usuarios" ? "active" : "")">
-                                <a class="nav-link text-white d-flex align-items-center gap-2" asp-controller="usuarios" asp-action="Index">
+                            <li class="nav-item">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "instrumentos" ? "active" : "")"
+                                   asp-controller="instrumentos" asp-action="Index">
+                                    <i class="bi bi-music-note"></i> Instrumentos
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "usuarios" ? "active" : "")"
+                                   asp-controller="usuarios" asp-action="Index">
                                     <i class="bi bi-person-plus"></i> Registrar usuarios
                                 </a>
                             </li>
 
-                            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "grupos" ? "active" : "")">
-                                <a class="nav-link text-white d-flex align-items-center gap-2" asp-controller="grupos" asp-action="Index">
+                            <li class="nav-item">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "grupos" ? "active" : "")"
+                                   asp-controller="grupos" asp-action="Index">
                                     <i class="bi bi-music-note-list"></i> Grupos Musicales
                                 </a>
                             </li>
 
-                            <li class="nav-item cerrar @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "apartadoes" ? "active" : "")">
-                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "apartadoes" ? "active" : "")" asp-controller="apartadoes" asp-action="Index">
+                            <li class="nav-item cerrar">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "apartadoes" ? "active" : "")"
+                                   asp-controller="apartadoes" asp-action="Index">
                                     <i class="bi bi-calendar2-check"></i> Apartados
                                 </a>
                             </li>
 
-                            <li class="nav-item cerrar @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "reportes" ? "active" : "")">
-                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "reportes" ? "active" : "")" asp-controller="reportes" asp-action="Index">
+                            <li class="nav-item cerrar">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "reportes" ? "active" : "")"
+                                   asp-controller="reportes" asp-action="Index">
                                     <i class="bi bi-bar-chart-line"></i> Reportes
                                 </a>
                             </li>
 
-                            <li class="nav-item cerrar @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "account" ? "active" : "")">
-                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "account" ? "active" : "")" asp-controller="Account" asp-action="LogOut">
+                            <li class="nav-item cerrar">
+                                <a class="nav-link text-white d-flex align-items-center gap-2 @(ViewContext.RouteData.Values["Controller"]?.ToString()?.ToLower() == "account" ? "active" : "")"
+                                   asp-controller="Account" asp-action="LogOut">
                                     <i class="bi bi-box-arrow-right"></i> Cerrar sesión
                                 </a>
                             </li>
@@ -111,5 +123,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
 

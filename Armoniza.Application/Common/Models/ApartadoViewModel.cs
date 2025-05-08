@@ -13,5 +13,6 @@ namespace Armoniza.Application.Common.Models
         public IEnumerable<instrumento>? instrumentos{ get; set; }
         public List<int> instrumentosSeleccionados { get; set; } = new();
         public int MaxInstrumentos { get; set; } = 0;
+        public int? SelectedUserId { get; set; } // Ensure this is used to capture the selected user ID
     }
 }

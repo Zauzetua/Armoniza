@@ -86,7 +86,7 @@
             const renderTable = () => {
                 const searchTerm = searchInput.value.toLowerCase();
                 const filteredRows = rows.filter(row =>
-                    row.querySelector('td:nth-child(3)').textContent.toLowerCase().includes(searchTerm)
+                    row.querySelector('td:nth-child(1)').textContent.toLowerCase().includes(searchTerm)
                 );
 
                 const totalPages = Math.ceil(filteredRows.length / itemsPerPage);

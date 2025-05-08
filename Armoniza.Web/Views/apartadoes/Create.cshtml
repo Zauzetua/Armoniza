@@ -7,66 +7,81 @@
 <h1 class="mb-4"><i class="bi bi-calendar-plus me-2"></i>Crear Apartado</h1>
 <hr />
 
-<form asp-action="Create" class="needs-validation" novalidate>
-
-
-	<div class="mb-3">
-		<label asp-for="apartado.idusuario" class="form-label"></label>
-		<select asp-for="apartado.idusuario"
-				class="form-select"
-				asp-items="ViewBag.idUsuario"
-				onchange="if(this.value) window.location='?idUsuario='+this.value;">
-			<option value="">-- Selecciona un usuario --</option>
-		</select>
-		<span asp-validation-for="apartado.idusuario" class="text-danger"></span>
-	</div>
-
-	<div class="mb-3">
-		<label asp-for="apartado.fecharegreso" class="form-label"></label>
-		<input asp-for="apartado.fecharegreso" class="form-control w-100" />
-		<span asp-validation-for="apartado.fecharegreso" class="text-danger"></span>
-	</div>
-
-	@if (Model.MaxInstrumentos > 0)
-	{
-		<div class="mb-4">
-			<label class="form-label">Instrumentos (máx. @Model.MaxInstrumentos):</label>
-			<div class="d-flex flex-wrap gap-3" id="instrument-slots">
-				@for (int i = 0; i < Model.MaxInstrumentos; i++)
-				{
-					<div class="text-center">
-						<div id="slot-name-@i" class="mb-1 text-truncate text-muted" style="width:150px;">
-							<em>Ninguno</em>
-						</div>
-						<input type="hidden" name="instrumentosSeleccionados" id="slot-input-@i" value="0" />
-						<div class="btn-group">
-							<button type="button"
-									class="btn btn-outline-primary slot-btn"
-									data-index="@i">
-								<i class="bi bi-plus-lg"></i>
-							</button>
-							<button type="button"
-									class="btn btn-outline-danger clear-slot-btn"
-									data-index="@i"
-									title="Quitar instrumento">
-								<i class="bi bi-x-lg"></i>
-							</button>
-						</div>
-					</div>
+<div class="row">
+	<div class="col-md-4">
+		<!-- Formulario para seleccionar usuario -->
+		<form asp-action="Create" method="get" id="userForm">
+			<label for="userSelect" class="form-label">Selecciona un usuario</label>
+			<select id="userSelect"
+					name="idUsuario"
+					class="form-select form-select-sm select2-user"
+					style="max-width: 100%;">
+				<option value="">-- Selecciona un usuario --</option>
+				@{
+					var usuarios = (SelectList)ViewData["idUsuario"];
+					foreach (var user in usuarios)
+					{
+						var selected = user.Value?.ToString() == (Model.apartado?.idusuario.ToString() ?? "0") ? "selected" : "";
+						@:<option value="@user.Value" @selected>@user.Text</option>
+					}
 				}
-			</div>
-		</div>
-	}
-
-	<div class="d-flex gap-3">
-		<button type="submit" class="btn btn-success">
-			<i class="bi bi-check-circle me-1"></i> Crear
-		</button>
-		<a asp-action="Index" class="btn btn-secondary">
-			<i class="bi bi-arrow-left-circle me-1"></i> Cancelar
-		</a>
+			</select>
+		</form>
 	</div>
-</form>
+
+	<div class="col-md-8">
+		<form asp-action="Create" class="needs-validation" novalidate>
+			<!-- Hidden field to pass the selected user ID -->
+			<input type="hidden" name="apartado.idusuario" value="@Model.apartado?.idusuario" />
+
+			<div class="mb-3">
+				<label asp-for="apartado.fecharegreso" class="form-label">Fecha de Regreso</label>
+				<input asp-for="apartado.fecharegreso" class="form-control" />
+				<span asp-validation-for="apartado.fecharegreso" class="text-danger"></span>
+			</div>
+
+			@if (Model.MaxInstrumentos > 0)
+			{
+				<div class="mb-4">
+					<label class="form-label">Instrumentos (máx. @Model.MaxInstrumentos):</label>
+					<div class="d-flex flex-wrap gap-3" id="instrument-slots">
+						@for (int i = 0; i < Model.MaxInstrumentos; i++)
+						{
+							<div class="text-center">
+								<div id="slot-name-@i" class="mb-1 text-truncate text-muted" style="width:150px;">
+									<em>Ninguno</em>
+								</div>
+								<input type="hidden" name="instrumentosSeleccionados" id="slot-input-@i" value="0" />
+								<div class="btn-group">
+									<button type="button"
+											class="btn btn-outline-primary slot-btn"
+											data-index="@i">
+										<i class="bi bi-plus-lg"></i>
+									</button>
+									<button type="button"
+											class="btn btn-outline-danger clear-slot-btn"
+											data-index="@i"
+											title="Quitar instrumento">
+										<i class="bi bi-x-lg"></i>
+									</button>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			}
+
+			<div class="d-flex gap-3">
+				<button type="submit" class="btn btn-success">
+					<i class="bi bi-check-circle me-1"></i> Crear
+				</button>
+				<a asp-action="Index" class="btn btn-secondary">
+					<i class="bi bi-arrow-left-circle me-1"></i> Cancelar
+				</a>
+			</div>
+		</form>
+	</div>
+</div>
 
 <!-- Modal de selección -->
 <div class="modal fade" id="instrumentModal" tabindex="-1">
@@ -114,7 +129,6 @@
 	@await Html.PartialAsync("_ValidationScriptsPartial")
 
 	<script src="~/js/ApartadosModal.js"></script>
-	
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
@@ -126,15 +140,18 @@
 				defaultDate: 'today',
 				locale: 'es'
 			});
+
+			$('.select2-user').select2({
+				placeholder: 'Buscar usuario por nombre...',
+				allowClear: true,
+				width: '100%',
+				language: 'es'
+			});
+
+			$('#userSelect').on('change', function () {
+				$('#userForm').submit();
+			});
 		});
-
-	</script>
-
-	<script>
-		
-
-
-
 	</script>
 }
 

@@ -92,19 +92,16 @@ namespace Armoniza.Web.Controllers
         // GET: apartadoes/Create
         // GET: Create?idUsuario=…
         [HttpGet]
-        public IActionResult Create(int idUsuario)
+        public IActionResult Create(int? idUsuario)
         {
-            // 1) Cargo usuarios para el dropdown (el modal volverá a usar ViewData)
             var usuarios = _usuarioService.GetAll(x => x.eliminado == false);
             ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto", idUsuario);
 
-            // 2) Creo el VM y precargo:
             var vm = new ApartadoViewModel
             {
-                apartado = new apartado { idusuario = idUsuario },
+                apartado = new apartado { idusuario = idUsuario ?? 0 }, // Ensure idUsuario is assigned
                 instrumentos = _instrumentoService.GetAll(x => !x.eliminado && !x.ocupado).Data,
-                MaxInstrumentos = _usuarioService.ObtenerMaximoInstrumentos(idUsuario).Result.Data
-
+                MaxInstrumentos = idUsuario.HasValue ? _usuarioService.ObtenerMaximoInstrumentos(idUsuario.Value).Result.Data : 0
             };
 
             return View(vm);
@@ -115,9 +112,16 @@ namespace Armoniza.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Create(ApartadoViewModel vm)
         {
+            if (vm.apartado == null)
+            {
+                vm.apartado = new apartado();
+            }
+
+            // Ensure idusuario is correctly assigned
+            vm.apartado.idusuario = vm.apartado.idusuario > 0 ? vm.apartado.idusuario : vm.SelectedUserId ?? 0;
+
             // re-subimos instrumentos completo para redisplay si falla
             vm.instrumentos = _instrumentoService.GetAll(x => !x.eliminado).Data;
             // y re-calculamos el límite

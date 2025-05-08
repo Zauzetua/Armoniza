@@ -65,9 +65,6 @@ namespace Armoniza.Web.Controllers
             var grupos = _grupoService.GetAll(g => g.eliminado == false).Data
             .Select(g => new { g.id, g.grupo1 });
 
-
-
-
             ViewData["idGrupo"] = new SelectList(grupos, "id", "grupo1");
             ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
             return View();
@@ -89,7 +86,9 @@ namespace Armoniza.Web.Controllers
                 else
                 {
                     TempData["Error"] = response.Message;
-                    return View(usuario);
+					ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+					ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
+					return View(usuario);
                 }
             }
             TempData["Error"] = "Error: ¡Datos no validos!";
@@ -138,8 +137,10 @@ namespace Armoniza.Web.Controllers
                 }
                 else
                 {
-                    TempData["Error"] = "Error: ¡Datos incorrectos!";
-                    return View(usuario);
+                    TempData["Error"] = response.Message;
+					ViewData["idGrupo"] = new SelectList(_grupoService.GetAll(g => g.eliminado == false).Data, "id", "grupo1");
+					ViewData["idTipo"] = new SelectList(_tipoUsuarioService.GetAll(t => t.eliminado == false).Data, "id", "tipo");
+					return View(usuario);
                 }
             }
             TempData["Error"] = "Error: ¡Datos incorrectos!";

@@ -67,9 +67,31 @@ namespace Armoniza.Infrastructure.Services
             {
                 return ServiceResponse<usuario>.Fail("¡Usuario no encontrado!");
             }
+			//Verificar si el correo ya existe
+			var usuarioExistente = _usuarioRepository.Get(u => u.correo == usuario.correo);
+			if (usuarioExistente != null)
+			{
+				return ServiceResponse<usuario>.Fail("¡El correo ya está registrado!");
+			}
+			//Verificar si el telefono ya existe
+			var usuarioConTelefonoExistente = _usuarioRepository.Get(u => u.telefono == usuario.telefono);
+			if (usuarioConTelefonoExistente != null && usuarioConTelefonoExistente.telefono is not null)
+			{
+				return ServiceResponse<usuario>.Fail("¡El telefono ya está registrado!");
+			}
 
+            if (usuario.telefono is not null)
+            {
+				//Verificar numero es numerico y de 10 digitos
+				if (usuario.telefono.Length != 10 || !usuario.telefono.All(char.IsDigit))
+				{
+					return ServiceResponse<usuario>.Fail("¡El telefono debe ser un numero de 10 digitos!");
+				}
+
+			}
             
-            usuario.eliminado = false;
+
+			usuario.eliminado = false;
             _usuarioRepository.Add(usuario);
             return ServiceResponse<usuario>.Ok(usuario, "¡Usuario agregado exitosamente!");
 
@@ -113,8 +135,28 @@ namespace Armoniza.Infrastructure.Services
             {
                 return ServiceResponse<bool>.Fail("¡Usuario no encontrado!");
             }
-            //Actualizar cuando tenga el servicio de usuarios
-            usuarioExistente.correo = usuario.correo;
+			var usuarioConCorreoExistente = _usuarioRepository.Get(u => u.correo == usuario.correo && u.id != usuario.id);
+			var usuarioConTelefonoExistente = _usuarioRepository.Get(u => u.telefono == usuario.telefono && u.id != usuario.id);
+			if (usuarioConCorreoExistente != null)
+			{
+				return ServiceResponse<bool>.Fail("¡El correo ya está registrado!");
+			}
+			if (usuarioConTelefonoExistente != null && usuarioConTelefonoExistente.telefono is not null)
+			{
+				return ServiceResponse<bool>.Fail("¡El telefono ya está registrado!");
+			}
+			//Verificar numero es numerico y de 10 digitos
+			if (usuario.telefono is not null)
+			{
+				if (usuario.telefono.Length != 10 || !usuario.telefono.All(char.IsDigit))
+				{
+					return ServiceResponse<bool>.Fail("¡El telefono debe ser un numero de 10 digitos!");
+				}
+			}
+
+
+			//Actualizar cuando tenga el servicio de usuarios
+			usuarioExistente.correo = usuario.correo;
             usuarioExistente.telefono = usuario.telefono;
             usuarioExistente.nombreCompleto = usuario.nombreCompleto;
             usuarioExistente.idGrupo = usuario.idGrupo;

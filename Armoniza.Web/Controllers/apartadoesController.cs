@@ -81,13 +81,6 @@ namespace Armoniza.Web.Controllers
             return View(ApartadoViewodel);
         }
 
-        public IActionResult Create()
-        {
-            var usuarios = _usuarioService.GetAll(x => x.eliminado == false);
-            ViewData["idUsuario"] = new SelectList(usuarios.Data, "id", "nombreCompleto");
-            // VM vacío: sin sección de instrumentos aún
-            return View(new ApartadoViewModel());
-        }
 
         // GET: apartadoes/Create
         // GET: Create?idUsuario=…
@@ -119,11 +112,11 @@ namespace Armoniza.Web.Controllers
                 vm.apartado = new apartado();
             }
 
-            // Ensure idusuario is correctly assigned
+            
             vm.apartado.idusuario = vm.apartado.idusuario > 0 ? vm.apartado.idusuario : vm.SelectedUserId ?? 0;
 
             // re-subimos instrumentos completo para redisplay si falla
-            vm.instrumentos = _instrumentoService.GetAll(x => !x.eliminado).Data;
+            vm.instrumentos = _instrumentoService.GetAll(x => !x.eliminado && !x.ocupado).Data;
             // y re-calculamos el límite
             vm.MaxInstrumentos = _usuarioService.ObtenerMaximoInstrumentos(vm.apartado.idusuario).Result.Data;
 

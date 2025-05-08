@@ -137,7 +137,9 @@
 				time_24hr: true,
 				dateFormat: 'Y-m-d H:i',
 				minDate: 'today',
-				defaultDate: 'today',
+				defaultDate: new Date(), // para que no sea medianoche
+				defaultHour: 18,         // <-- Aquí defines la hora predeterminada
+				defaultMinute: 0,
 				locale: 'es'
 			});
 

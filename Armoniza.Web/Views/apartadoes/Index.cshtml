@@ -44,9 +44,9 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.idUsuarioNavigation.nombreCompleto)</td>
-                            <td>@Html.DisplayFor(modelItem => item.fechadado)</td>
+                            <td>@item.fechadado.ToString("dd/MM/yyyy HH:mm")</td>
                             <td class="@(item.fecharegreso < DateTime.Now ? "text-danger" : "")">
-                                @item.fecharegreso.ToString("dd/MM/yyyy")
+                                @item.fecharegreso.ToString("dd/MM/yyyy HH:mm")
                             </td>
                             <td class="text-center">
                                 @if (item.activo)

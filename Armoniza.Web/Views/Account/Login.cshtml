@@ -1,30 +1,19 @@
 ﻿@{
-    Layout = null;
+    ViewData["Title"] = "Login";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="~/css/styleLogin.css">
-</head>
+<link rel="stylesheet" href="~/css/styleLogin.css" />
 
+<div class="login-wrapper">
+    <div class="flex-container">
+        <div class="logo-wrapper">
+            <img src="~/images/Logo Armoniza.png" alt="Logo" class="login-logo" />
+        </div>
 
-<body>
-    
-    @*parte de arriba*@
-    <div class="logo-wrapper">
-        <img src="~/images/Logo Armoniza.png" alt="Logo" class="login-logo" />
-
-        @*todo lo que tenga que ver con el form*@
         <div class="login-container">
-
             <h2>Iniciar Sesión</h2>
 
             <form asp-action="Login" method="post" autocomplete="off">
-
-                @*Los espacios para meter los datos, junto con sus datos*@
                 <div class="input-group">
                     <input type="text" name="username" required />
                     <label>Usuario</label>
@@ -39,14 +28,14 @@
                     <input type="checkbox" id="togglePassword" />
                     <label for="togglePassword">Mostrar contraseña</label>
                 </div>
-            
-                @*Boton Entrar*@
+
                 <button type="submit" class="pulse-on-load">Entrar</button>
             </form>
         </div>
     </div>
+</div>
 
-    @*Para el mostrar contra*@
+@section Scripts {
     <script>
         const toggle = document.getElementById('togglePassword');
         const password = document.getElementById('password');
@@ -55,5 +44,4 @@
             password.type = toggle.checked ? 'text' : 'password';
         });
     </script>
-</body>
-</html>
+}

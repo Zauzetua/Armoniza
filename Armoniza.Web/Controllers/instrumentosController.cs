@@ -213,6 +213,33 @@ namespace Armoniza.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CambiarEstado(int id)
+        {
+            var response = _instrumentoService.CambiarEstado(id);
+            TempData[response.Success ? "success" : "error"] = response.Message;
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Prestar(int id)
+        {
+            var response = _instrumentoService.Ocupar(id);
+            TempData[response.Success ? "success" : "error"] = response.Message;
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Desocupar(int id)
+        {
+            var response = _instrumentoService.Desocupar(id);
+            TempData[response.Success ? "success" : "error"] = response.Message;
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
 
 
 

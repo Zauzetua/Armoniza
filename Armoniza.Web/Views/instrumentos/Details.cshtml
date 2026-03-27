@@ -59,6 +59,33 @@
                         <a asp-action="Edit" asp-route-id="@Model?.codigo" class="btn btn-warning">
                             <i class="bi bi-pencil-square"></i> Editar
                         </a>
+                        <form asp-action="CambiarEstado" asp-route-id="@Model?.codigo" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-outline-secondary">
+                                <i class="bi bi-tools"></i>
+                                @(Model.funcional ? "Marcar como roto" : "Marcar como funcional")
+                            </button>
+                        </form>
+
+                        @if (Model.ocupado)
+                        {
+                            <form asp-action="Desocupar" asp-route-id="@Model?.codigo" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <i class="bi bi-arrow-return-left"></i> Desocupar
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="Prestar" asp-route-id="@Model?.codigo" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <i class="bi bi-box-arrow-up-right"></i> Prestar
+                                </button>
+                            </form>
+                        }
+
                         <a asp-action="Index" class="btn btn-secondary">
                             <i class="bi bi-arrow-left"></i> Volver
                         </a>

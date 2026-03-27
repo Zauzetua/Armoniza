@@ -48,6 +48,53 @@ public partial class instrumento
     public virtual ICollection<detalleApartado> detalleApartado { get; set; } = new List<detalleApartado>();
 
     [DisplayName("Categoria:")]
-    
+
     public virtual categoria? idCategoriaNavigation { get; set; }
+
+    public void CambiarEstado()
+    {
+        if (ocupado)
+        {
+            throw new InvalidOperationException("No se puede cambiar el estado de un instrumento ocupado.");
+        }
+
+        if (funcional)
+        {
+            funcional = false;
+        }
+        else
+        {
+            funcional = true;
+        }
+    }
+
+    public void Prestar()
+    {
+        if (!ocupado)
+        {
+            ocupado = true;
+        }
+        else
+        {
+            throw new InvalidOperationException("No se puede prestar un instrumento que ya esta ocupado.");
+        }
+
+        if (!funcional)
+        {
+            throw new InvalidOperationException("No se puede prestar un instrumento que no es funcional.");
+        }
+
+    }
+
+    public void Devolver()
+    {
+        if (ocupado)
+        {
+            ocupado = false;
+        }
+        else
+        {
+            throw new InvalidOperationException("No se puede devolver un instrumento que no esta ocupado.");
+        }
+    }
 }

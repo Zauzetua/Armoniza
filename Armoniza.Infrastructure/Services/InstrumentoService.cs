@@ -121,8 +121,8 @@ namespace Armoniza.Infrastructure.Services
 			var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
 			if (instrumento == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
 			if (instrumento.ocupado == false) return ServiceResponse<bool>.Fail("El instrumento ya esta desocupado");
-			instrumento.ocupado = false;
-			var resultado = _instrumentoRepository.Update(instrumento);
+			instrumento.Devolver();
+            var resultado = _instrumentoRepository.Update(instrumento);
 			if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
 			return ServiceResponse<bool>.Ok(true, "Instrumento desocupado correctamente");
 		}
@@ -153,8 +153,16 @@ namespace Armoniza.Infrastructure.Services
 		{
 			var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
 			if (instrumento == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
-			if (instrumento.ocupado == true) return ServiceResponse<bool>.Fail("El instrumento ya esta ocupado");
-			instrumento.ocupado = true;
+
+			try
+			{
+				instrumento.Prestar();
+			}
+			catch (InvalidOperationException ex)
+			{
+				return ServiceResponse<bool>.Fail(ex.Message);
+			}
+
 			var resultado = _instrumentoRepository.Update(instrumento);
 			if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
 			return ServiceResponse<bool>.Ok(true, "Instrumento apartado correctamente");
@@ -205,21 +213,25 @@ namespace Armoniza.Infrastructure.Services
 		public ServiceResponse<bool> CambiarEstado(int codigo)
 		{
 			var instrumento = _instrumentoRepository.Get(i => i.codigo == codigo);
+			if (instrumento == null) return ServiceResponse<bool>.Fail("El instrumento no existe");
 
-			if (instrumento.funcional)
+			try
 			{
-				instrumento.funcional = false;
-				var resultado = _instrumentoRepository.Update(instrumento);
-				if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
-				return ServiceResponse<bool>.Ok(true, "Instrumento configurado como roto correctamente");
+				instrumento.CambiarEstado();
 			}
-			else
+			catch (InvalidOperationException ex)
 			{
-				instrumento.funcional = true;
-				var resultado = _instrumentoRepository.Update(instrumento);
-				if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
-				return ServiceResponse<bool>.Ok(true, "Instrumento configurado como arreglado correctamente");
+				return ServiceResponse<bool>.Fail(ex.Message);
 			}
+
+			var resultado = _instrumentoRepository.Update(instrumento);
+			if (resultado == false) return ServiceResponse<bool>.Fail("No se pudo actualizar el instrumento");
+
+			var mensaje = instrumento.funcional
+				? "Instrumento configurado como arreglado correctamente"
+				: "Instrumento configurado como roto correctamente";
+
+			return ServiceResponse<bool>.Ok(true, mensaje);
 		}
 
 	}

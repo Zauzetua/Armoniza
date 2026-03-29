@@ -6,7 +6,7 @@ using Armoniza.Infrastructure.Services;
 using Moq;
 using Xunit;
 
-namespace Armoniza.Tests.Domain
+namespace Armoniza.Tests.Services
 {
     public class PrestamoTests
     {
@@ -41,7 +41,7 @@ namespace Armoniza.Tests.Domain
                 instrumentosSeleccionados = new List<int> { codigoInstrumento }
             };
 
-            _usuarioServiceMock.Setup(s => s.Get(It.IsAny<System.Linq.Expressions.Expression<Func<usuario, bool>>>() ))
+            _usuarioServiceMock.Setup(s => s.Get(It.IsAny<System.Linq.Expressions.Expression<Func<usuario, bool>>>()))
                 .Returns(new ServiceResponse<usuario>
                 {
                     Data = new usuario { id = usuarioId, eliminado = false },
@@ -97,7 +97,7 @@ namespace Armoniza.Tests.Domain
                 instrumentosSeleccionados = new List<int> { 1 }
             };
 
-            _usuarioServiceMock.Setup(s => s.Get(It.IsAny<System.Linq.Expressions.Expression<Func<usuario, bool>>>() ))
+            _usuarioServiceMock.Setup(s => s.Get(It.IsAny<System.Linq.Expressions.Expression<Func<usuario, bool>>>()))
                 .Returns(new ServiceResponse<usuario>
                 {
                     Data = null,

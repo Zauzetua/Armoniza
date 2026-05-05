@@ -94,7 +94,9 @@ namespace Armoniza.Tests.Services
             var celdaCodigo = modalBody.FindElement(By.CssSelector("button.select-inst-btn[data-inst-id='66']"));
 
             celdaCodigo.Click();
-            
+
+            System.Threading.Thread.Sleep(500);
+
             WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
 
 
@@ -253,9 +255,12 @@ namespace Armoniza.Tests.Services
             inputPassword.SendKeys(Keys.Enter);
 
 
+            System.Threading.Thread.Sleep(500);
+
+
             _webDriver.Navigate().GoToUrl("https://localhost:44392/reportes");
 
-            WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(2));
 
             bool encontrado = false;
 

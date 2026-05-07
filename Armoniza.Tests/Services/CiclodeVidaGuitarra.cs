@@ -43,7 +43,7 @@ namespace Armoniza.Tests.Services
         public void CicloDeVidaCompleto()
         {
 
-            _webDriver.Navigate().GoToUrl("https://localhost:44392/");
+            _webDriver.Navigate().GoToUrl("http://localhost:5258");
 
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
 
@@ -139,7 +139,7 @@ namespace Armoniza.Tests.Services
             wait.Until(driver => driver.Url.Contains("apartadoes"));
 
             
-            _webDriver.Navigate().GoToUrl("https://localhost:44392/reportes");
+            _webDriver.Navigate().GoToUrl("http://localhost:5258/reportes");
 
             bool encontrado = false;
 
@@ -187,7 +187,7 @@ namespace Armoniza.Tests.Services
         public void ValidarInstrumentoNoDisponible()
         {
 
-            _webDriver.Navigate().GoToUrl("https://localhost:44392/");
+            _webDriver.Navigate().GoToUrl("http://localhost:5258");
 
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
 
@@ -242,7 +242,7 @@ namespace Armoniza.Tests.Services
         [Fact]
         public void DevolverInstrumento()
         {
-            _webDriver.Navigate().GoToUrl("https://localhost:44392/");
+            _webDriver.Navigate().GoToUrl("http://localhost:5258");
 
             _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
 
@@ -258,7 +258,7 @@ namespace Armoniza.Tests.Services
             System.Threading.Thread.Sleep(500);
 
 
-            _webDriver.Navigate().GoToUrl("https://localhost:44392/reportes");
+            _webDriver.Navigate().GoToUrl("http://localhost:5258/reportes");
 
             WebDriverWait wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(2));
 
@@ -316,7 +316,7 @@ namespace Armoniza.Tests.Services
 
             wait.Until(driver => driver.Url.Contains("apartadoes"));
 
-            _webDriver.Navigate().GoToUrl("https://localhost:44392/reportes");
+            _webDriver.Navigate().GoToUrl("http://localhost:5258/reportes");
 
             bool siguePendiente = false;
 
